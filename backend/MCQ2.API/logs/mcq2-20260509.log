@@ -1,0 +1,816 @@
+2026-05-09 23:36:17.189 +06:00 [INF] Executed DbCommand (158ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [MCQ2];
+2026-05-09 23:36:17.270 +06:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [MCQ2] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2026-05-09 23:36:17.284 +06:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:36:17.335 +06:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2026-05-09 23:36:17.336 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:36:17.348 +06:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-05-09 23:36:17.352 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-05-09 23:36:17.362 +06:00 [INF] Applying migration '20260509173607_InitialCreate'.
+2026-05-09 23:36:17.435 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Users] (
+    [Id] uniqueidentifier NOT NULL,
+    [FullName] nvarchar(max) NOT NULL,
+    [Email] nvarchar(450) NOT NULL,
+    [PasswordHash] nvarchar(max) NOT NULL,
+    [Role] nvarchar(max) NOT NULL,
+    [IsActive] bit NOT NULL,
+    [TempPassword] bit NOT NULL,
+    [CreatedById] uniqueidentifier NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Users_Users_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:36:17.437 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AuditLogs] (
+    [Id] uniqueidentifier NOT NULL,
+    [ActorId] uniqueidentifier NOT NULL,
+    [Action] nvarchar(max) NOT NULL,
+    [TargetType] nvarchar(max) NOT NULL,
+    [TargetId] uniqueidentifier NOT NULL,
+    [Metadata] nvarchar(max) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_AuditLogs] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AuditLogs_Users_ActorId] FOREIGN KEY ([ActorId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:36:17.439 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [EmailVerifications] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Token] nvarchar(max) NOT NULL,
+    [ExpiresAt] datetime2 NOT NULL,
+    [UsedAt] datetime2 NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_EmailVerifications] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_EmailVerifications_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:36:17.440 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Notifications] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Type] nvarchar(max) NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Body] nvarchar(max) NOT NULL,
+    [IsRead] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Notifications] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Notifications_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:36:17.442 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [PasswordResets] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Token] nvarchar(max) NOT NULL,
+    [ExpiresAt] datetime2 NOT NULL,
+    [UsedAt] datetime2 NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_PasswordResets] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_PasswordResets_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:36:17.444 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [RefreshTokens] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Token] nvarchar(max) NOT NULL,
+    [ExpiresAt] datetime2 NOT NULL,
+    [IsRevoked] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_RefreshTokens] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_RefreshTokens_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:36:17.447 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Subjects] (
+    [Id] uniqueidentifier NOT NULL,
+    [TeacherId] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [IsArchived] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Subjects] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Subjects_Users_TeacherId] FOREIGN KEY ([TeacherId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:36:17.449 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Chapters] (
+    [Id] uniqueidentifier NOT NULL,
+    [SubjectId] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [OrderIndex] int NOT NULL,
+    [IsArchived] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Chapters] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Chapters_Subjects_SubjectId] FOREIGN KEY ([SubjectId]) REFERENCES [Subjects] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:36:17.451 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Enrolments] (
+    [Id] uniqueidentifier NOT NULL,
+    [StudentId] uniqueidentifier NOT NULL,
+    [ChapterId] uniqueidentifier NOT NULL,
+    [EnrolledById] uniqueidentifier NOT NULL,
+    [EnrolledAt] datetime2 NOT NULL,
+    [ExpiresAt] datetime2 NULL,
+    [RemovedAt] datetime2 NULL,
+    [TransferredFromChapterId] uniqueidentifier NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Enrolments] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Enrolments_Chapters_ChapterId] FOREIGN KEY ([ChapterId]) REFERENCES [Chapters] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Enrolments_Users_EnrolledById] FOREIGN KEY ([EnrolledById]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Enrolments_Users_StudentId] FOREIGN KEY ([StudentId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:36:17.454 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Exams] (
+    [Id] uniqueidentifier NOT NULL,
+    [ChapterId] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [TotalMarks] decimal(7,2) NOT NULL,
+    [PassingScore] decimal(7,2) NOT NULL,
+    [TimeLimitSeconds] int NULL,
+    [AvailableFrom] datetime2 NULL,
+    [AvailableUntil] datetime2 NULL,
+    [MaxAttempts] int NULL,
+    [NegativeMarking] bit NOT NULL,
+    [ShuffleQuestions] bit NOT NULL,
+    [ShuffleOptions] bit NOT NULL,
+    [ShowAnswersAfter] bit NOT NULL,
+    [AutoReleaseResults] bit NOT NULL,
+    [Status] nvarchar(max) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Exams] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Exams_Chapters_ChapterId] FOREIGN KEY ([ChapterId]) REFERENCES [Chapters] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:36:17.462 +06:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Questions] (
+    [Id] uniqueidentifier NOT NULL,
+    [ChapterId] uniqueidentifier NOT NULL,
+    [SourceQuestionId] uniqueidentifier NULL,
+    [StemText] nvarchar(max) NULL,
+    [StemImagePath] nvarchar(max) NULL,
+    [StemAudioPath] nvarchar(max) NULL,
+    [StemVideoUrl] nvarchar(max) NULL,
+    [Explanation] nvarchar(max) NULL,
+    [PositiveMarks] decimal(5,2) NOT NULL,
+    [NegativeMarks] decimal(5,2) NOT NULL,
+    [Difficulty] nvarchar(max) NULL,
+    [Tags] nvarchar(max) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Questions] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Questions_Chapters_ChapterId] FOREIGN KEY ([ChapterId]) REFERENCES [Chapters] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Questions_Questions_SourceQuestionId] FOREIGN KEY ([SourceQuestionId]) REFERENCES [Questions] ([Id]) ON DELETE SET NULL
+);
+2026-05-09 23:36:34.472 +06:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:36:34.519 +06:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-05-09 23:36:34.527 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-05-09 23:36:52.462 +06:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:36:52.520 +06:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [MCQ2] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+END;
+2026-05-09 23:36:52.540 +06:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+DROP DATABASE [MCQ2];
+2026-05-09 23:37:01.047 +06:00 [INF] Executed DbCommand (195ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [MCQ2];
+2026-05-09 23:37:01.150 +06:00 [INF] Executed DbCommand (63ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [MCQ2] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2026-05-09 23:37:01.165 +06:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:37:01.220 +06:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2026-05-09 23:37:01.222 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:37:01.238 +06:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-05-09 23:37:01.244 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-05-09 23:37:01.259 +06:00 [INF] Applying migration '20260509173643_InitialCreate'.
+2026-05-09 23:37:01.347 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Users] (
+    [Id] uniqueidentifier NOT NULL,
+    [FullName] nvarchar(max) NOT NULL,
+    [Email] nvarchar(450) NOT NULL,
+    [PasswordHash] nvarchar(max) NOT NULL,
+    [Role] nvarchar(max) NOT NULL,
+    [IsActive] bit NOT NULL,
+    [TempPassword] bit NOT NULL,
+    [CreatedById] uniqueidentifier NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Users_Users_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.351 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AuditLogs] (
+    [Id] uniqueidentifier NOT NULL,
+    [ActorId] uniqueidentifier NOT NULL,
+    [Action] nvarchar(max) NOT NULL,
+    [TargetType] nvarchar(max) NOT NULL,
+    [TargetId] uniqueidentifier NOT NULL,
+    [Metadata] nvarchar(max) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_AuditLogs] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AuditLogs_Users_ActorId] FOREIGN KEY ([ActorId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.353 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [EmailVerifications] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Token] nvarchar(max) NOT NULL,
+    [ExpiresAt] datetime2 NOT NULL,
+    [UsedAt] datetime2 NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_EmailVerifications] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_EmailVerifications_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.354 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Notifications] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Type] nvarchar(max) NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Body] nvarchar(max) NOT NULL,
+    [IsRead] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Notifications] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Notifications_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.356 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [PasswordResets] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Token] nvarchar(max) NOT NULL,
+    [ExpiresAt] datetime2 NOT NULL,
+    [UsedAt] datetime2 NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_PasswordResets] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_PasswordResets_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.359 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [RefreshTokens] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [Token] nvarchar(max) NOT NULL,
+    [ExpiresAt] datetime2 NOT NULL,
+    [IsRevoked] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_RefreshTokens] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_RefreshTokens_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.362 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Subjects] (
+    [Id] uniqueidentifier NOT NULL,
+    [TeacherId] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [IsArchived] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Subjects] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Subjects_Users_TeacherId] FOREIGN KEY ([TeacherId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.364 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Chapters] (
+    [Id] uniqueidentifier NOT NULL,
+    [SubjectId] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [OrderIndex] int NOT NULL,
+    [IsArchived] bit NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Chapters] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Chapters_Subjects_SubjectId] FOREIGN KEY ([SubjectId]) REFERENCES [Subjects] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.367 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Enrolments] (
+    [Id] uniqueidentifier NOT NULL,
+    [StudentId] uniqueidentifier NOT NULL,
+    [ChapterId] uniqueidentifier NOT NULL,
+    [EnrolledById] uniqueidentifier NOT NULL,
+    [EnrolledAt] datetime2 NOT NULL,
+    [ExpiresAt] datetime2 NULL,
+    [RemovedAt] datetime2 NULL,
+    [TransferredFromChapterId] uniqueidentifier NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Enrolments] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Enrolments_Chapters_ChapterId] FOREIGN KEY ([ChapterId]) REFERENCES [Chapters] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Enrolments_Users_EnrolledById] FOREIGN KEY ([EnrolledById]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Enrolments_Users_StudentId] FOREIGN KEY ([StudentId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.369 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Exams] (
+    [Id] uniqueidentifier NOT NULL,
+    [ChapterId] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [TotalMarks] decimal(7,2) NOT NULL,
+    [PassingScore] decimal(7,2) NOT NULL,
+    [TimeLimitSeconds] int NULL,
+    [AvailableFrom] datetime2 NULL,
+    [AvailableUntil] datetime2 NULL,
+    [MaxAttempts] int NULL,
+    [NegativeMarking] bit NOT NULL,
+    [ShuffleQuestions] bit NOT NULL,
+    [ShuffleOptions] bit NOT NULL,
+    [ShowAnswersAfter] bit NOT NULL,
+    [AutoReleaseResults] bit NOT NULL,
+    [Status] nvarchar(max) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Exams] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Exams_Chapters_ChapterId] FOREIGN KEY ([ChapterId]) REFERENCES [Chapters] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.371 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Questions] (
+    [Id] uniqueidentifier NOT NULL,
+    [ChapterId] uniqueidentifier NOT NULL,
+    [SourceQuestionId] uniqueidentifier NULL,
+    [StemText] nvarchar(max) NULL,
+    [StemImagePath] nvarchar(max) NULL,
+    [StemAudioPath] nvarchar(max) NULL,
+    [StemVideoUrl] nvarchar(max) NULL,
+    [Explanation] nvarchar(max) NULL,
+    [PositiveMarks] decimal(5,2) NOT NULL,
+    [NegativeMarks] decimal(5,2) NOT NULL,
+    [Difficulty] nvarchar(max) NULL,
+    [Tags] nvarchar(max) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Questions] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Questions_Chapters_ChapterId] FOREIGN KEY ([ChapterId]) REFERENCES [Chapters] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Questions_Questions_SourceQuestionId] FOREIGN KEY ([SourceQuestionId]) REFERENCES [Questions] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.375 +06:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Attempts] (
+    [Id] uniqueidentifier NOT NULL,
+    [ExamId] uniqueidentifier NOT NULL,
+    [StudentId] uniqueidentifier NOT NULL,
+    [AttemptNumber] int NOT NULL,
+    [StartedAt] datetime2 NOT NULL,
+    [SubmittedAt] datetime2 NULL,
+    [TimeSpentSecs] int NULL,
+    [Score] decimal(7,2) NULL,
+    [IsPassed] bit NULL,
+    [IsReleased] bit NOT NULL,
+    [AutoSubmitted] bit NOT NULL,
+    [ResumeData] nvarchar(max) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Attempts] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Attempts_Exams_ExamId] FOREIGN KEY ([ExamId]) REFERENCES [Exams] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Attempts_Users_StudentId] FOREIGN KEY ([StudentId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.378 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AnswerOptions] (
+    [Id] uniqueidentifier NOT NULL,
+    [QuestionId] uniqueidentifier NOT NULL,
+    [OptionText] nvarchar(max) NULL,
+    [ImagePath] nvarchar(max) NULL,
+    [AudioPath] nvarchar(max) NULL,
+    [IsCorrect] bit NOT NULL,
+    [OrderIndex] int NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_AnswerOptions] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AnswerOptions_Questions_QuestionId] FOREIGN KEY ([QuestionId]) REFERENCES [Questions] ([Id]) ON DELETE CASCADE
+);
+2026-05-09 23:37:01.380 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [ExamQuestions] (
+    [Id] uniqueidentifier NOT NULL,
+    [ExamId] uniqueidentifier NOT NULL,
+    [QuestionId] uniqueidentifier NOT NULL,
+    [OrderIndex] int NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_ExamQuestions] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_ExamQuestions_Exams_ExamId] FOREIGN KEY ([ExamId]) REFERENCES [Exams] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ExamQuestions_Questions_QuestionId] FOREIGN KEY ([QuestionId]) REFERENCES [Questions] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.383 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AttemptAnswers] (
+    [Id] uniqueidentifier NOT NULL,
+    [AttemptId] uniqueidentifier NOT NULL,
+    [QuestionId] uniqueidentifier NOT NULL,
+    [SelectedOptionId] uniqueidentifier NULL,
+    [IsCorrect] bit NULL,
+    [MarksAwarded] decimal(5,2) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_AttemptAnswers] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AttemptAnswers_AnswerOptions_SelectedOptionId] FOREIGN KEY ([SelectedOptionId]) REFERENCES [AnswerOptions] ([Id]) ON DELETE SET NULL,
+    CONSTRAINT [FK_AttemptAnswers_Attempts_AttemptId] FOREIGN KEY ([AttemptId]) REFERENCES [Attempts] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_AttemptAnswers_Questions_QuestionId] FOREIGN KEY ([QuestionId]) REFERENCES [Questions] ([Id]) ON DELETE NO ACTION
+);
+2026-05-09 23:37:01.385 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AnswerOptions_QuestionId] ON [AnswerOptions] ([QuestionId]);
+2026-05-09 23:37:01.386 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AttemptAnswers_AttemptId] ON [AttemptAnswers] ([AttemptId]);
+2026-05-09 23:37:01.387 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AttemptAnswers_QuestionId] ON [AttemptAnswers] ([QuestionId]);
+2026-05-09 23:37:01.388 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AttemptAnswers_SelectedOptionId] ON [AttemptAnswers] ([SelectedOptionId]);
+2026-05-09 23:37:01.389 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_Attempts_ExamId_StudentId_AttemptNumber] ON [Attempts] ([ExamId], [StudentId], [AttemptNumber]);
+2026-05-09 23:37:01.390 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Attempts_StudentId] ON [Attempts] ([StudentId]);
+2026-05-09 23:37:01.392 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AuditLogs_ActorId] ON [AuditLogs] ([ActorId]);
+2026-05-09 23:37:01.393 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Chapters_SubjectId] ON [Chapters] ([SubjectId]);
+2026-05-09 23:37:01.394 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_EmailVerifications_UserId] ON [EmailVerifications] ([UserId]);
+2026-05-09 23:37:01.395 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Enrolments_ChapterId] ON [Enrolments] ([ChapterId]);
+2026-05-09 23:37:01.396 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Enrolments_EnrolledById] ON [Enrolments] ([EnrolledById]);
+2026-05-09 23:37:01.398 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_Enrolments_StudentId_ChapterId] ON [Enrolments] ([StudentId], [ChapterId]);
+2026-05-09 23:37:01.399 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_ExamQuestions_ExamId] ON [ExamQuestions] ([ExamId]);
+2026-05-09 23:37:01.400 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_ExamQuestions_QuestionId] ON [ExamQuestions] ([QuestionId]);
+2026-05-09 23:37:01.401 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Exams_ChapterId] ON [Exams] ([ChapterId]);
+2026-05-09 23:37:01.402 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Notifications_UserId] ON [Notifications] ([UserId]);
+2026-05-09 23:37:01.404 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_PasswordResets_UserId] ON [PasswordResets] ([UserId]);
+2026-05-09 23:37:01.405 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Questions_ChapterId] ON [Questions] ([ChapterId]);
+2026-05-09 23:37:01.407 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Questions_SourceQuestionId] ON [Questions] ([SourceQuestionId]);
+2026-05-09 23:37:01.408 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_RefreshTokens_UserId] ON [RefreshTokens] ([UserId]);
+2026-05-09 23:37:01.409 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Subjects_TeacherId] ON [Subjects] ([TeacherId]);
+2026-05-09 23:37:01.410 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Users_CreatedById] ON [Users] ([CreatedById]);
+2026-05-09 23:37:01.411 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_Users_Email] ON [Users] ([Email]);
+2026-05-09 23:37:01.413 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260509173643_InitialCreate', N'8.0.0');
+2026-05-09 23:37:18.276 +06:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:37:18.334 +06:00 [INF] Executed DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-05-09 23:37:18.552 +06:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-05-09 23:37:18.712 +06:00 [INF] Now listening on: http://localhost:5000
+2026-05-09 23:37:18.714 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-09 23:37:18.715 +06:00 [INF] Hosting environment: Development
+2026-05-09 23:37:18.715 +06:00 [INF] Content root path: D:\MCQ\backend\MCQ2.API
+2026-05-09 23:40:27.888 +06:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:40:27.942 +06:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-05-09 23:40:28.112 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Users] AS [u]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-05-09 23:40:29.379 +06:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Guid), @p3='?' (Size = 450), @p4='?' (Size = 4000), @p5='?' (DbType = Boolean), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (DbType = Boolean), @p9='?' (DbType = DateTime2), @p10='?' (DbType = Guid), @p11='?' (DbType = DateTime2), @p12='?' (DbType = Guid), @p13='?' (Size = 450), @p14='?' (Size = 4000), @p15='?' (DbType = Boolean), @p16='?' (Size = 4000), @p17='?' (Size = 4000), @p18='?' (DbType = Boolean), @p19='?' (DbType = DateTime2), @p20='?' (DbType = Guid), @p21='?' (DbType = DateTime2), @p22='?' (DbType = Guid), @p23='?' (Size = 450), @p24='?' (Size = 4000), @p25='?' (DbType = Boolean), @p26='?' (Size = 4000), @p27='?' (Size = 4000), @p28='?' (DbType = Boolean), @p29='?' (DbType = DateTime2), @p30='?' (DbType = Guid), @p31='?' (DbType = DateTime2), @p32='?' (Size = 4000), @p33='?' (DbType = Boolean), @p34='?' (DbType = Guid), @p35='?' (Size = 4000), @p36='?' (DbType = DateTime2), @p37='?' (DbType = Guid), @p38='?' (DbType = DateTime2), @p39='?' (Size = 4000), @p40='?' (DbType = Boolean), @p41='?' (DbType = Int32), @p42='?' (DbType = Guid), @p43='?' (Size = 4000), @p44='?' (DbType = DateTime2), @p45='?' (DbType = Guid), @p46='?' (DbType = Guid), @p47='?' (DbType = DateTime2), @p48='?' (DbType = DateTime2), @p49='?' (DbType = Guid), @p50='?' (DbType = DateTime2), @p51='?' (DbType = DateTime2), @p52='?' (DbType = Guid), @p53='?' (DbType = Guid), @p54='?' (DbType = DateTime2), @p55='?' (DbType = Guid), @p56='?' (DbType = Boolean), @p57='?' (DbType = DateTime2), @p58='?' (DbType = DateTime2), @p59='?' (DbType = Guid), @p60='?' (DbType = DateTime2), @p61='?' (DbType = Int32), @p62='?' (DbType = Boolean), @p63='?' (Precision = 7) (Scale = 2) (DbType = Decimal), @p64='?' (DbType = Boolean), @p65='?' (DbType = Boolean), @p66='?' (DbType = Boolean), @p67='?' (Size = 4000), @p68='?' (DbType = Int32), @p69='?' (Size = 4000), @p70='?' (Precision = 7) (Scale = 2) (DbType = Decimal), @p71='?' (DbType = DateTime2), @p72='?' (DbType = Guid), @p73='?' (DbType = Guid), @p74='?' (DbType = DateTime2), @p75='?' (Size = 4000), @p76='?' (Size = 4000), @p77='?' (Precision = 5) (Scale = 2) (DbType = Decimal), @p78='?' (Precision = 5) (Scale = 2) (DbType = Decimal), @p79='?' (DbType = Guid), @p80='?' (Size = 4000), @p81='?' (Size = 4000), @p82='?' (Size = 4000), @p83='?' (Size = 4000), @p84='?' (Size = 4000), @p85='?' (DbType = DateTime2), @p86='?' (DbType = Guid), @p87='?' (Size = 4000), @p88='?' (DbType = DateTime2), @p89='?' (Size = 4000), @p90='?' (DbType = Boolean), @p91='?' (Size = 4000), @p92='?' (DbType = Int32), @p93='?' (DbType = Guid), @p94='?' (DbType = DateTime2), @p95='?' (DbType = Guid), @p96='?' (Size = 4000), @p97='?' (DbType = DateTime2), @p98='?' (Size = 4000), @p99='?' (DbType = Boolean), @p100='?' (Size = 4000), @p101='?' (DbType = Int32), @p102='?' (DbType = Guid), @p103='?' (DbType = DateTime2), @p104='?' (DbType = Guid), @p105='?' (Size = 4000), @p106='?' (DbType = DateTime2), @p107='?' (Size = 4000), @p108='?' (DbType = Boolean), @p109='?' (Size = 4000), @p110='?' (DbType = Int32), @p111='?' (DbType = Guid), @p112='?' (DbType = DateTime2), @p113='?' (DbType = Guid), @p114='?' (Size = 4000), @p115='?' (DbType = DateTime2), @p116='?' (Size = 4000), @p117='?' (DbType = Boolean), @p118='?' (Size = 4000), @p119='?' (DbType = Int32), @p120='?' (DbType = Guid), @p121='?' (DbType = DateTime2), @p122='?' (DbType = Guid), @p123='?' (DbType = DateTime2), @p124='?' (DbType = Guid), @p125='?' (DbType = Int32), @p126='?' (DbType = Guid), @p127='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Users] ([Id], [CreatedAt], [CreatedById], [Email], [FullName], [IsActive], [PasswordHash], [Role], [TempPassword], [UpdatedAt])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9),
+(@p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19),
+(@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29);
+INSERT INTO [Subjects] ([Id], [CreatedAt], [Description], [IsArchived], [TeacherId], [Title], [UpdatedAt])
+VALUES (@p30, @p31, @p32, @p33, @p34, @p35, @p36);
+INSERT INTO [Chapters] ([Id], [CreatedAt], [Description], [IsArchived], [OrderIndex], [SubjectId], [Title], [UpdatedAt])
+VALUES (@p37, @p38, @p39, @p40, @p41, @p42, @p43, @p44);
+INSERT INTO [Enrolments] ([Id], [ChapterId], [CreatedAt], [EnrolledAt], [EnrolledById], [ExpiresAt], [RemovedAt], [StudentId], [TransferredFromChapterId], [UpdatedAt])
+VALUES (@p45, @p46, @p47, @p48, @p49, @p50, @p51, @p52, @p53, @p54);
+INSERT INTO [Exams] ([Id], [AutoReleaseResults], [AvailableFrom], [AvailableUntil], [ChapterId], [CreatedAt], [MaxAttempts], [NegativeMarking], [PassingScore], [ShowAnswersAfter], [ShuffleOptions], [ShuffleQuestions], [Status], [TimeLimitSeconds], [Title], [TotalMarks], [UpdatedAt])
+VALUES (@p55, @p56, @p57, @p58, @p59, @p60, @p61, @p62, @p63, @p64, @p65, @p66, @p67, @p68, @p69, @p70, @p71);
+INSERT INTO [Questions] ([Id], [ChapterId], [CreatedAt], [Difficulty], [Explanation], [NegativeMarks], [PositiveMarks], [SourceQuestionId], [StemAudioPath], [StemImagePath], [StemText], [StemVideoUrl], [Tags], [UpdatedAt])
+VALUES (@p72, @p73, @p74, @p75, @p76, @p77, @p78, @p79, @p80, @p81, @p82, @p83, @p84, @p85);
+INSERT INTO [AnswerOptions] ([Id], [AudioPath], [CreatedAt], [ImagePath], [IsCorrect], [OptionText], [OrderIndex], [QuestionId], [UpdatedAt])
+VALUES (@p86, @p87, @p88, @p89, @p90, @p91, @p92, @p93, @p94),
+(@p95, @p96, @p97, @p98, @p99, @p100, @p101, @p102, @p103),
+(@p104, @p105, @p106, @p107, @p108, @p109, @p110, @p111, @p112),
+(@p113, @p114, @p115, @p116, @p117, @p118, @p119, @p120, @p121);
+INSERT INTO [ExamQuestions] ([Id], [CreatedAt], [ExamId], [OrderIndex], [QuestionId], [UpdatedAt])
+VALUES (@p122, @p123, @p124, @p125, @p126, @p127);
+2026-05-09 23:40:29.478 +06:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-05-09 23:40:29.524 +06:00 [INF] Now listening on: http://localhost:5000
+2026-05-09 23:40:29.525 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-09 23:40:29.525 +06:00 [INF] Hosting environment: Development
+2026-05-09 23:40:29.525 +06:00 [INF] Content root path: D:\MCQ\backend\MCQ2.API
+2026-05-09 23:40:58.465 +06:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-05-09 23:40:58.527 +06:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-05-09 23:40:58.695 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Users] AS [u]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-05-09 23:40:58.800 +06:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-05-09 23:40:58.846 +06:00 [INF] Now listening on: http://localhost:5000
+2026-05-09 23:40:58.848 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-05-09 23:40:58.849 +06:00 [INF] Hosting environment: Development
+2026-05-09 23:40:58.850 +06:00 [INF] Content root path: D:\MCQ\backend\MCQ2.API
+2026-05-09 23:40:59.816 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - null null
+2026-05-09 23:40:59.911 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - 200 null text/html;charset=utf-8 96.0874ms
+2026-05-09 23:41:04.846 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 61
+2026-05-09 23:41:04.877 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:41:04.893 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:41:05.012 +06:00 [INF] Executed DbCommand (18ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:41:05.848 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:41:05.861 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:41:05.872 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 975.7617ms
+2026-05-09 23:41:05.874 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:41:05.878 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 1031.8915ms
+2026-05-09 23:45:01.463 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:45:01.470 +06:00 [INF] CORS policy execution failed.
+2026-05-09 23:45:01.471 +06:00 [INF] Request origin http://localhost:5174 does not have permission to access the resource.
+2026-05-09 23:45:01.473 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:01.474 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:45:01.526 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:45:01.787 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:45:01.790 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:45:01.792 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 316.5277ms
+2026-05-09 23:45:01.793 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:01.794 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 331.0634ms
+2026-05-09 23:45:31.675 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 50
+2026-05-09 23:45:31.677 +06:00 [INF] CORS policy execution failed.
+2026-05-09 23:45:31.678 +06:00 [INF] Request origin http://localhost:5174 does not have permission to access the resource.
+2026-05-09 23:45:31.681 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:31.681 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:45:31.687 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:45:31.949 +06:00 [INF] Executing UnauthorizedObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-05-09 23:45:31.952 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 268.9813ms
+2026-05-09 23:45:31.953 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:31.954 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 279.3228ms
+2026-05-09 23:45:31.962 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/refresh - application/json 21
+2026-05-09 23:45:31.964 +06:00 [INF] CORS policy execution failed.
+2026-05-09 23:45:31.964 +06:00 [INF] Request origin http://localhost:5174 does not have permission to access the resource.
+2026-05-09 23:45:31.965 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Refresh (MCQ2.API)'
+2026-05-09 23:45:31.969 +06:00 [INF] Route matched with {action = "Refresh", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Refresh(MCQ2.DataConnect.Requests.RefreshRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:45:31.974 +06:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-05-09 23:45:31.986 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Refresh (MCQ2.API) in 15.2689ms
+2026-05-09 23:45:31.987 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Refresh (MCQ2.API)'
+2026-05-09 23:45:31.988 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/refresh - 400 null application/problem+json; charset=utf-8 26.5566ms
+2026-05-09 23:45:35.965 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:45:35.967 +06:00 [INF] CORS policy execution failed.
+2026-05-09 23:45:35.968 +06:00 [INF] Request origin http://localhost:5174 does not have permission to access the resource.
+2026-05-09 23:45:35.969 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:35.970 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:45:35.973 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:45:36.239 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:45:36.241 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:45:36.242 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 270.0422ms
+2026-05-09 23:45:36.243 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:36.244 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 278.6201ms
+2026-05-09 23:45:41.143 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 55
+2026-05-09 23:45:41.144 +06:00 [INF] CORS policy execution failed.
+2026-05-09 23:45:41.145 +06:00 [INF] Request origin http://localhost:5174 does not have permission to access the resource.
+2026-05-09 23:45:41.146 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:41.146 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:45:41.150 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:45:41.409 +06:00 [INF] Executing UnauthorizedObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-05-09 23:45:41.411 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 262.7818ms
+2026-05-09 23:45:41.412 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:45:41.413 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 270.6714ms
+2026-05-09 23:45:41.419 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/refresh - application/json 21
+2026-05-09 23:45:41.421 +06:00 [INF] CORS policy execution failed.
+2026-05-09 23:45:41.422 +06:00 [INF] Request origin http://localhost:5174 does not have permission to access the resource.
+2026-05-09 23:45:41.423 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Refresh (MCQ2.API)'
+2026-05-09 23:45:41.424 +06:00 [INF] Route matched with {action = "Refresh", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Refresh(MCQ2.DataConnect.Requests.RefreshRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:45:41.427 +06:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-05-09 23:45:41.428 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Refresh (MCQ2.API) in 1.9908ms
+2026-05-09 23:45:41.429 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Refresh (MCQ2.API)'
+2026-05-09 23:45:41.430 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/refresh - 400 null application/problem+json; charset=utf-8 10.3982ms
+2026-05-09 23:56:17.471 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:56:17.474 +06:00 [INF] CORS policy execution successful.
+2026-05-09 23:56:17.475 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:56:17.476 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:56:17.486 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:56:17.784 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:56:17.786 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:56:17.788 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 310.3038ms
+2026-05-09 23:56:17.789 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:56:17.790 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 318.8035ms
+2026-05-09 23:56:17.838 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:56:17.885 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 47.0728ms
+2026-05-09 23:56:17.888 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:56:17.889 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:56:17.894 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 6.1309ms
+2026-05-09 23:56:17.902 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:56:24.656 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:56:24.658 +06:00 [INF] CORS policy execution successful.
+2026-05-09 23:56:24.659 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:56:24.660 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:56:24.664 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:56:24.931 +06:00 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:56:24.933 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:56:24.934 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 273.2668ms
+2026-05-09 23:56:24.935 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:56:24.936 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 279.874ms
+2026-05-09 23:56:24.967 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:56:24.970 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 2.7606ms
+2026-05-09 23:56:24.973 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:56:24.974 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:56:24.977 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 3.1343ms
+2026-05-09 23:56:24.979 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:56:27.843 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:56:27.845 +06:00 [INF] CORS policy execution successful.
+2026-05-09 23:56:27.846 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:56:27.846 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:56:27.849 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:56:28.113 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:56:28.116 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:56:28.117 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 269.286ms
+2026-05-09 23:56:28.118 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:56:28.119 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 276.1795ms
+2026-05-09 23:56:28.150 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:56:28.154 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 3.6616ms
+2026-05-09 23:56:28.158 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:56:28.160 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:56:28.165 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 4.6834ms
+2026-05-09 23:56:28.170 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:59:38.549 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:59:38.551 +06:00 [INF] CORS policy execution successful.
+2026-05-09 23:59:38.552 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:59:38.553 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:59:38.560 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:59:38.824 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:59:38.826 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:59:38.827 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 271.8372ms
+2026-05-09 23:59:38.828 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:59:38.829 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 279.7439ms
+2026-05-09 23:59:38.860 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:59:38.862 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 2.3205ms
+2026-05-09 23:59:38.865 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:59:38.865 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:59:38.868 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 3.1207ms
+2026-05-09 23:59:38.871 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:59:41.461 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 49
+2026-05-09 23:59:41.463 +06:00 [INF] CORS policy execution successful.
+2026-05-09 23:59:41.464 +06:00 [INF] Executing endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:59:41.465 +06:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(MCQ2.DataConnect.Requests.LoginRequest) on controller MCQ2.API.Controllers.AuthController (MCQ2.API).
+2026-05-09 23:59:41.470 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__request_Email_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[CreatedById], [u].[Email], [u].[FullName], [u].[IsActive], [u].[PasswordHash], [u].[Role], [u].[TempPassword], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0 AND [u].[IsActive] = CAST(1 AS bit)
+2026-05-09 23:59:41.737 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([Id], [CreatedAt], [ExpiresAt], [IsRevoked], [Token], [UpdatedAt], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2026-05-09 23:59:41.739 +06:00 [INF] Executing OkObjectResult, writing value of type 'MCQ2.DataConnect.Responses.ApiResponse`1[[MCQ2.DataConnect.Responses.LoginResponse, MCQ2.DataConnect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-05-09 23:59:41.740 +06:00 [INF] Executed action MCQ2.API.Controllers.AuthController.Login (MCQ2.API) in 273.4855ms
+2026-05-09 23:59:41.741 +06:00 [INF] Executed endpoint 'MCQ2.API.Controllers.AuthController.Login (MCQ2.API)'
+2026-05-09 23:59:41.742 +06:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 280.8157ms
+2026-05-09 23:59:41.770 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:59:41.774 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 3.9176ms
+2026-05-09 23:59:41.778 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/users - null null
+2026-05-09 23:59:41.778 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
+2026-05-09 23:59:41.780 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/users - 404 0 null 2.5851ms
+2026-05-09 23:59:41.784 +06:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/api/users, Response status code: 404
