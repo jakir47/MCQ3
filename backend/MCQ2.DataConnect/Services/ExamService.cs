@@ -40,13 +40,17 @@ public class ExamService(AppDbContext dbContext)
     {
         var now = DateTime.UtcNow;
         
+        var enrolledExamIds = await dbContext.Enrolments
+            .Where(en => en.StudentId == studentId && en.ExamId != null && en.RemovedAt == null && (en.ExpiresAt == null || en.ExpiresAt > now))
+            .Select(en => en.ExamId)
+            .ToListAsync();
+
         var exams = await dbContext.Exams
-            .Where(e => e.Status == ExamStatus.Published)
+            .Where(e => e.Status == ExamStatus.Published && enrolledExamIds.Contains(e.Id))
             .Include(e => e.ExamQuestions)
             .Include(e => e.Attempts.Where(a => a.StudentId == studentId))
             .Include(e => e.Chapter)
                 .ThenInclude(c => c!.Subject)
-            .Include(e => e.Chapter!.Enrolments.Where(en => en.StudentId == studentId && en.RemovedAt == null && (en.ExpiresAt == null || en.ExpiresAt > now)))
             .OrderBy(e => e.CreatedAt)
             .ToListAsync();
 

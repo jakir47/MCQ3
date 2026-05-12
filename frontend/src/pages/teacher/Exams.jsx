@@ -3,6 +3,7 @@ import Layout from '../../components/Layout'
 import { getSubjects, getChapters } from '../../api/subjects'
 import { getExams, createExam, updateExam, deleteExam, publishExam, unpublishExam } from '../../api/exams'
 import { getQuestions } from '../../api/questions'
+import ExamEnrolmentModal from '../../components/ExamEnrolmentModal'
 
 export default function TeacherExamsPage() {
   const [subjects, setSubjects] = useState([])
@@ -17,6 +18,7 @@ export default function TeacherExamsPage() {
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)
   const [notification, setNotification] = useState(null)
+  const [examToPublish, setExamToPublish] = useState(null)
   const [formData, setFormData] = useState({
     title: '',
     totalMarks: 10,
@@ -170,7 +172,12 @@ export default function TeacherExamsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button onClick={() => handlePublish(exam.id, exam.status)} className={`px-3 py-1.5 text-sm rounded-lg ${exam.status === 'Published' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'}`}>
+                    {exam.status === 'Published' && (
+                      <button onClick={() => setEnrolModalExam(exam)} className="px-3 py-1.5 text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg">
+                        Enroll Students
+                      </button>
+                    )}
+                    <button onClick={() => exam.status === 'Published' ? handlePublish(exam.id, exam.status) : setExamToPublish(exam)} className={`px-3 py-1.5 text-sm rounded-lg ${exam.status === 'Published' ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'}`}>
                       {exam.status === 'Published' ? 'Unpublish' : 'Publish'}
                     </button>
                     <button onClick={() => openEdit(exam)} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
@@ -265,6 +272,24 @@ export default function TeacherExamsPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {examToPublish && (
+        <ExamEnrolmentModal
+          examId={examToPublish.id}
+          examTitle={examToPublish.title}
+          onClose={() => setExamToPublish(null)}
+          onSuccess={async (count) => {
+            try {
+              await publishExam(examToPublish.id)
+              setNotification({ type: 'success', message: `Exam published with ${count} enrolled student(s)` })
+            } catch (err) {
+              setNotification({ type: 'error', message: 'Students enrolled but failed to publish exam' })
+            }
+            setTimeout(() => setNotification(null), 3000)
+            loadExams(selectedChapter)
+          }}
+        />
       )}
     </Layout>
   )

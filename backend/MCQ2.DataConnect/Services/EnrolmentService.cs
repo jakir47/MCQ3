@@ -16,13 +16,120 @@ public class EnrolmentService(AppDbContext dbContext, IEmailService emailService
 
     public async Task<IEnumerable<EnrolmentViewModel>> GetByChapterAsync(Guid chapterId)
     {
-return await dbContext.Enrolments
-             .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
-             .Select(e => new EnrolmentViewModel(
-                 e.Id, e.StudentId!.Value, e.Student!.FullName, e.Student.Email,
-                 e.ChapterId, e.Chapter.Title, e.EnrolledById, e.EnrolledBy!.FullName,
-                 e.EnrolledAt, e.ExpiresAt, e.RemovedAt
-             )).ToListAsync();
+        return await dbContext.Enrolments
+            .Where(e => e.ChapterId == chapterId && e.RemovedAt == null && e.ExamId == null)
+            .Select(e => new EnrolmentViewModel(
+                e.Id, e.StudentId!.Value, e.Student!.FullName, e.Student.Email,
+                e.ChapterId, e.Chapter.Title, e.ExamId, e.Exam == null ? null : e.Exam.Title,
+                e.EnrolledById, e.EnrolledBy!.FullName,
+                e.EnrolledAt, e.ExpiresAt, e.RemovedAt
+            )).ToListAsync();
+    }
+
+    public async Task<IEnumerable<EnrolmentViewModel>> GetByExamAsync(Guid examId)
+    {
+        return await dbContext.Enrolments
+            .Where(e => e.ExamId == examId && e.RemovedAt == null)
+            .Select(e => new EnrolmentViewModel(
+                e.Id, e.StudentId!.Value, e.Student!.FullName, e.Student.Email,
+                e.ChapterId, e.Chapter!.Title, e.ExamId, e.Exam == null ? null : e.Exam.Title,
+                e.EnrolledById, e.EnrolledBy!.FullName,
+                e.EnrolledAt, e.ExpiresAt, e.RemovedAt
+            )).ToListAsync();
+    }
+
+    public async Task<IEnumerable<EnrolmentViewModel>> GetMyEnrolmentsAsync(Guid studentId)
+    {
+        var now = DateTime.UtcNow;
+        return await dbContext.Enrolments
+            .Include(e => e.Chapter)
+                .ThenInclude(c => c!.Subject)
+            .Where(e => e.StudentId == studentId && e.RemovedAt == null && (e.ExpiresAt == null || e.ExpiresAt > now))
+            .Select(e => new EnrolmentViewModel(
+                e.Id, e.StudentId!.Value, e.Student!.FullName, e.Student.Email,
+                e.ChapterId, e.Chapter!.Title, e.ExamId, e.Exam == null ? null : e.Exam.Title,
+                e.EnrolledById, e.EnrolledBy!.FullName,
+                e.EnrolledAt, e.ExpiresAt, e.RemovedAt
+            )).ToListAsync();
+    }
+
+    public async Task<IEnumerable<object>> GetStudentsForExamEnrolmentAsync(Guid examId)
+    {
+        var exam = await dbContext.Exams
+            .Include(e => e.Chapter)
+            .FirstOrDefaultAsync(e => e.Id == examId);
+        
+        if (exam == null) return Enumerable.Empty<object>();
+
+        var now = DateTime.UtcNow;
+        var enrolledStudentIds = await dbContext.Enrolments
+            .Where(e => e.ExamId == examId && e.RemovedAt == null)
+            .Select(e => e.StudentId)
+            .ToListAsync();
+
+        var availableStudents = await dbContext.StudentChapters
+            .Include(sc => sc.Student)
+            .Where(sc => sc.ChapterId == exam.ChapterId && sc.IsActive == true && sc.Student != null && sc.Student.IsActive == true)
+            .Where(sc => !enrolledStudentIds.Contains(sc.StudentId))
+            .Select(sc => new
+            {
+                studentId = sc.StudentId,
+                studentName = sc.Student!.FullName,
+                studentEmail = sc.Student.Email
+            })
+            .ToListAsync();
+
+        return availableStudents;
+    }
+
+    public async Task<int> EnrolStudentsInExamAsync(Guid examId, List<Guid> studentIds, Guid teacherId, DateTime? expiresAt = null)
+    {
+        var exam = await dbContext.Exams
+            .Include(e => e.Chapter)
+                .ThenInclude(c => c!.Subject)
+            .FirstOrDefaultAsync(e => e.Id == examId);
+
+        if (exam == null) return 0;
+
+        var enrolledCount = 0;
+        foreach (var studentId in studentIds)
+        {
+            var existing = await dbContext.Enrolments
+                .FirstOrDefaultAsync(e => e.StudentId == studentId && e.ExamId == examId && e.RemovedAt == null);
+
+            if (existing != null) continue;
+
+            var student = await dbContext.Users.FindAsync(studentId);
+            if (student == null) continue;
+
+            var enrolment = new Enrolment
+            {
+                StudentId = studentId,
+                ChapterId = exam.ChapterId,
+                ExamId = examId,
+                EnrolledById = teacherId,
+                ExpiresAt = expiresAt
+            };
+
+            dbContext.Enrolments.Add(enrolment);
+            enrolledCount++;
+
+            try
+            {
+                await emailService.SendEnrolmentNotificationAsync(student.Email, student.FullName, exam.Title, exam.Chapter.Subject.Title);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Failed to send enrolment notification to {Email}", student.Email);
+            }
+        }
+
+        if (enrolledCount > 0)
+        {
+            await dbContext.SaveChangesAsync();
+        }
+
+        return enrolledCount;
     }
 
     public async Task<bool> EnrolAsync(Guid chapterId, Guid studentId, Guid teacherId, DateTime? expiresAt = null)
@@ -121,7 +228,7 @@ return await dbContext.Enrolments
 
         return new EnrolmentViewModel(
             enrolment.Id, student.Id, student.FullName, student.Email,
-            chapterId, chapter.Title, teacherId, "", enrolment.EnrolledAt, null, null
+            chapterId, chapter.Title, null, null, teacherId, "", enrolment.EnrolledAt, null, null
         );
     }
 

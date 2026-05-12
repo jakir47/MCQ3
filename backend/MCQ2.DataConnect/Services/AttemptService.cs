@@ -13,13 +13,13 @@ public class AttemptService(AppDbContext dbContext)
 {
     public async Task<IEnumerable<ChapterWithExamsViewModel>> GetMyChaptersAsync(Guid studentId)
     {
+        var now = DateTime.UtcNow;
         var enrolments = await dbContext.Enrolments
             .Include(e => e.Chapter)
                 .ThenInclude(c => c.Subject)
-            .Include(e => e.Chapter)
-                .ThenInclude(c => c.Exams)
+            .Include(e => e.Exam)
             .Where(e => e.StudentId == studentId && e.RemovedAt == null &&
-                (e.ExpiresAt == null || e.ExpiresAt > DateTime.UtcNow))
+                (e.ExpiresAt == null || e.ExpiresAt > now) && e.ExamId != null)
             .ToListAsync();
 
         return enrolments.Select(e => new ChapterWithExamsViewModel(
@@ -27,13 +27,13 @@ public class AttemptService(AppDbContext dbContext)
             e.Chapter.Title,
             e.Chapter.SubjectId,
             e.Chapter.Subject.Title,
-            e.Chapter.Exams
-                .Where(ex => ex.Status == ExamStatus.Published &&
-                    (ex.AvailableFrom == null || ex.AvailableFrom <= DateTime.UtcNow) &&
-                    (ex.AvailableUntil == null || ex.AvailableUntil >= DateTime.UtcNow))
-                .Select(ex => new ExamSummary(
-                    ex.Id, ex.Title, ex.TimeLimitSeconds ?? 0, true, ex.MaxAttempts, ex.Attempts.Count
-                )).ToList()
+            e.Exam != null && e.Exam.Status == ExamStatus.Published &&
+                (!e.Exam.AvailableFrom.HasValue || e.Exam.AvailableFrom <= now) &&
+                (!e.Exam.AvailableUntil.HasValue || e.Exam.AvailableUntil >= now)
+                ? new List<ExamSummary> { new ExamSummary(
+                    e.Exam.Id, e.Exam.Title, e.Exam.TimeLimitSeconds ?? 0, true, e.Exam.MaxAttempts, e.Exam.Attempts.Count
+                ) }
+                : new List<ExamSummary>()
         ));
     }
 
@@ -86,10 +86,10 @@ public class AttemptService(AppDbContext dbContext)
             return StartExamResult.Fail("EXAM_EXPIRED", "Exam has expired and is no longer available");
 
         var enrolment = await dbContext.Enrolments
-            .FirstOrDefaultAsync(en => en.StudentId == studentId && en.ChapterId == exam.ChapterId &&
+            .FirstOrDefaultAsync(en => en.StudentId == studentId && en.ExamId == examId &&
                 en.RemovedAt == null && (en.ExpiresAt == null || en.ExpiresAt > now));
         if (enrolment == null)
-            return StartExamResult.Fail("NOT_ENROLLED", "You are not enrolled in this exam's chapter. Please contact your teacher.");
+            return StartExamResult.Fail("NOT_ENROLLED", "You are not enrolled in this exam. Please contact your teacher.");
 
         if (exam.MaxAttempts.HasValue)
         {

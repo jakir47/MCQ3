@@ -6,6 +6,8 @@ public class Enrolment : BaseEntity
     public Student? Student { get; set; }
     public Guid ChapterId { get; set; }
     public Chapter Chapter { get; set; } = null!;
+    public Guid? ExamId { get; set; }
+    public Exam? Exam { get; set; }
     public Guid EnrolledById { get; set; }
     public UserAccount EnrolledBy { get; set; } = null!;
     public DateTime EnrolledAt { get; set; } = DateTime.UtcNow;
