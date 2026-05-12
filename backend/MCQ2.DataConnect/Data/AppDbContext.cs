@@ -25,6 +25,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<PlatformSetting> PlatformSettings => Set<PlatformSetting>();
     public DbSet<StudentChapter> StudentChapters => Set<StudentChapter>();
+    public DbSet<MediaFile> MediaFile => Set<MediaFile>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -35,6 +36,19 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         var seedConfiguration = new SeedConfiguration(builder);
         seedConfiguration.Configure();
+
+        builder.Entity<MediaFile>(e =>
+        {
+            e.HasQueryFilter(x => !x.IsDeleted);
+            e.HasOne(x => x.UploadedBy)
+                .WithMany()
+                .HasForeignKey(x => x.UploadedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(x => x.DeletedBy)
+                .WithMany()
+                .HasForeignKey(x => x.DeletedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
     }
    
 }

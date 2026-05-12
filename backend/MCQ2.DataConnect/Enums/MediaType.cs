@@ -5,5 +5,7 @@ public enum MediaType
     Text,
     Image,
     Audio,
-    Video
+    Video,
+    VideoLink,
+    Document
 }

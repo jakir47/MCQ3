@@ -4,6 +4,7 @@ using MCQ3.DataConnect.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MCQ3.DataConnect.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260512074741_MediaFileAdded")]
+    partial class MediaFileAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,16 +486,13 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<Guid>("UploadedByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("VideoLinkUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeletedByUserId");
 
                     b.HasIndex("UploadedByUserId");
 
-                    b.ToTable("MediaFile");
+                    b.ToTable("MediaFiles");
                 });
 
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Notification", b =>
@@ -719,7 +719,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2026, 5, 12, 7, 57, 21, 343, DateTimeKind.Utc).AddTicks(4539)
+                            UpdatedAt = new DateTime(2026, 5, 12, 7, 47, 39, 954, DateTimeKind.Utc).AddTicks(9341)
                         },
                         new
                         {
@@ -727,7 +727,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Teacher",
-                            UpdatedAt = new DateTime(2026, 5, 12, 7, 57, 21, 343, DateTimeKind.Utc).AddTicks(4558)
+                            UpdatedAt = new DateTime(2026, 5, 12, 7, 47, 39, 954, DateTimeKind.Utc).AddTicks(9373)
                         },
                         new
                         {
@@ -735,7 +735,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Student",
-                            UpdatedAt = new DateTime(2026, 5, 12, 7, 57, 21, 343, DateTimeKind.Utc).AddTicks(4561)
+                            UpdatedAt = new DateTime(2026, 5, 12, 7, 47, 39, 954, DateTimeKind.Utc).AddTicks(9377)
                         });
                 });
 
@@ -820,7 +820,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("30dd1f9d-ef11-4740-b2d5-6a028da0862c"),
+                            Id = new Guid("71747bf7-1032-47b8-8c85-5a4dc9f43b17"),
                             Address = "456 Student Ave",
                             Code = "STU001",
                             ContactNo = "555-5678",
@@ -1080,7 +1080,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "admin@mcq2.com",
                             FullName = "Admin User",
                             IsActive = true,
-                            PasswordHash = "$2a$11$KEJZE1dc0n6ddmLfVnshquTCbod38WZtQ/qZgURsCAXPZ2.bbd6K2",
+                            PasswordHash = "$2a$11$ADDb7QOrqcaHikGAVhnf/.KBSkm8DdYorNlXdCYB4hFr78JWgQuVK",
                             RoleId = new Guid("00000001-0000-0000-0000-000000000001"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1093,7 +1093,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "teacher@mcq2.com",
                             FullName = "John Smith",
                             IsActive = true,
-                            PasswordHash = "$2a$11$B2GpGs5bzo0VQqpazAIICe22yACDhxfR2nH7FdeXxPno0Vdn.z3lC",
+                            PasswordHash = "$2a$11$aEkAmErI8QgSfOwvZQaOueyeH2YZEsoytweXC3kAtqmbZuulHvSeO",
                             RoleId = new Guid("00000002-0000-0000-0000-000000000002"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1106,7 +1106,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "student@mcq2.com",
                             FullName = "Alice Johnson",
                             IsActive = true,
-                            PasswordHash = "$2a$11$OwQNCS2aTcYVbuy1hvsxr.qXXaCZxSRfGR/7Gfv9kDA4RXRy1e9VK",
+                            PasswordHash = "$2a$11$0Zrd12P28g3SrerGaABR/edLF5H2pV.Th/FO1kGkWGrcx3FF9Wdxa",
                             RoleId = new Guid("00000003-0000-0000-0000-000000000003"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),

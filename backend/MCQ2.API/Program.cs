@@ -75,6 +75,14 @@ builder.Services.AddSwaggerGen(option =>
 });
  
 builder.Services.AddSingleton(builder.Environment);
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
+builder.Services.AddScoped<MediaFileService>();
+builder.Services.Configure<FormOptions>(o =>
+{
+    o.MultipartBodyLengthLimit = 62_914_560;
+    o.ValueCountLimit = 20;
+});
+builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 62_914_560);
 
 var app = builder.Build();
 
