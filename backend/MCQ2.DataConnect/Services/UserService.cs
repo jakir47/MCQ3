@@ -315,10 +315,10 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
         var chapter = await dbContext.Chapters.FindAsync(chapterId);
         if (chapter == null) return false;
 
-        var teacher = await dbContext.Users
-            .Include(u => u.Subjects)
+        var teacher = await dbContext.Teachers
+            .Include(t => t.Subjects)
                 .ThenInclude(s => s.Chapters)
-            .FirstOrDefaultAsync(u => u.Id == assignedById && u.RoleId == TeacherRoleId);
+            .FirstOrDefaultAsync(t => t.UserId == assignedById);
 
         var isTeacherChapter = teacher?.Subjects
             .SelectMany(s => s.Chapters)
@@ -346,10 +346,10 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
 
     public async Task<bool> RemoveStudentFromChapterAsync(Guid studentId, Guid chapterId, Guid teacherId)
     {
-        var teacher = await dbContext.Users
-            .Include(u => u.Subjects)
+        var teacher = await dbContext.Teachers
+            .Include(t => t.Subjects)
                 .ThenInclude(s => s.Chapters)
-            .FirstOrDefaultAsync(u => u.Id == teacherId && u.RoleId == TeacherRoleId);
+            .FirstOrDefaultAsync(t => t.UserId == teacherId);
 
         var isTeacherChapter = teacher?.Subjects
             .SelectMany(s => s.Chapters)
@@ -385,10 +385,10 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
 
     public async Task<IEnumerable<StudentChapterViewModel>> GetStudentAssignmentsAsync(Guid chapterId, Guid teacherId)
     {
-        var teacher = await dbContext.Users
-            .Include(u => u.Subjects)
+        var teacher = await dbContext.Teachers
+            .Include(t => t.Subjects)
                 .ThenInclude(s => s.Chapters)
-            .FirstOrDefaultAsync(u => u.Id == teacherId && u.RoleId == TeacherRoleId);
+            .FirstOrDefaultAsync(t => t.UserId == teacherId);
 
         var isTeacherChapter = teacher?.Subjects
             .SelectMany(s => s.Chapters)
@@ -397,12 +397,12 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
         if (!isTeacherChapter) return Enumerable.Empty<StudentChapterViewModel>();
 
         return await dbContext.StudentChapters
-            .Where(sa => sa.ChapterId == chapterId && sa.IsActive)
+            .Where(sa => sa.ChapterId == chapterId && sa.IsActive && sa.StudentId != null)
             .Include(sa => sa.Student)
             .Select(sa => new StudentChapterViewModel(
                 sa.Id,
-                sa.StudentId,
-                sa.Student.FullName,
+                sa.StudentId!.Value,
+                sa.Student!.FullName,
                 sa.Student.Email,
                 sa.AssignedById,
                 sa.CreatedAt

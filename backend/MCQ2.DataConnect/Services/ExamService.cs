@@ -292,7 +292,7 @@ public class ExamService(AppDbContext dbContext)
 
         return attempts.Select(a => new AttemptSummary(
             a.Id,
-            a.StudentId,
+            a.StudentId!.Value,
             a.Student.FullName,
             a.AttemptNumber,
             a.StartedAt,

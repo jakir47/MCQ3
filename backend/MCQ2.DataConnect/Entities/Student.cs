@@ -1,7 +1,9 @@
 namespace MCQ3.DataConnect.Entities;
 
-public class Student : BaseEntity
+public class Student
 {
+    public Guid Id => UserId ?? Guid.Empty;
+
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string FullName => Name;
@@ -15,6 +17,8 @@ public class Student : BaseEntity
     public string MotherContact { get; set; } = string.Empty;
     public string? PhotoUrl { get; set; }
     public bool IsActive { get; set; } = true;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public Guid? UserId { get; set; }
     public UserAccount? User { get; set; }

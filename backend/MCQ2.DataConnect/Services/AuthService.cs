@@ -173,7 +173,9 @@ public class AuthService(
 
     public string GenerateAccessToken(UserAccount user)
     {
-        var foreignId = user.TeacherProfile?.Id ?? user.StudentProfile?.Id ?? user.Id;
+        var foreignId = user.RoleEntity?.Name == "Student"
+            ? user.StudentProfile?.UserId
+            : user.Id;
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

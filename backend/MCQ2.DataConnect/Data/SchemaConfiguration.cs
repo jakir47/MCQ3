@@ -15,9 +15,9 @@ public class SchemaConfiguration(ModelBuilder builder)
         builder.Entity<Teacher>(e =>
         {
             e.ToTable("Teacher");
+            e.HasKey(t => t.UserId);
             e.HasIndex(t => t.Email).IsUnique();
             e.HasIndex(t => t.NID).IsUnique();
-            e.HasIndex(t => t.UserId).IsUnique();
             e.HasOne(t => t.User).WithOne(u => u.TeacherProfile)
              .HasForeignKey<Teacher>(t => t.UserId).OnDelete(DeleteBehavior.Cascade);
         });
@@ -25,12 +25,12 @@ public class SchemaConfiguration(ModelBuilder builder)
         builder.Entity<Student>(e =>
         {
             e.ToTable("Student");
+            e.HasKey(s => s.UserId);
             e.HasIndex(s => s.Code).IsUnique();
             e.HasIndex(s => s.Email).IsUnique();
             e.HasIndex(s => s.NID).IsUnique();
-            e.HasIndex(s => s.UserId).IsUnique();
             e.HasOne(s => s.User).WithOne(u => u.StudentProfile)
-             .HasForeignKey<Student>(s => s.UserId).OnDelete(DeleteBehavior.SetNull);
+             .HasForeignKey<Student>(s => s.UserId).OnDelete(DeleteBehavior.Cascade);
         });
 
         builder.Entity<UserAccount>(e =>
@@ -82,7 +82,7 @@ public class SchemaConfiguration(ModelBuilder builder)
             e.ToTable("Enrolment");
             e.HasIndex(en => new { en.StudentId, en.ChapterId }).IsUnique();
             e.HasOne(en => en.Student).WithMany(u => u.Enrolments)
-             .HasForeignKey(en => en.StudentId).OnDelete(DeleteBehavior.Restrict);
+             .HasForeignKey(en => en.StudentId).OnDelete(DeleteBehavior.SetNull);
             e.HasOne(en => en.Chapter).WithMany(c => c.Enrolments)
              .HasForeignKey(en => en.ChapterId).OnDelete(DeleteBehavior.Restrict);
             e.HasOne(en => en.EnrolledBy).WithMany()
@@ -116,7 +116,7 @@ public class SchemaConfiguration(ModelBuilder builder)
             e.HasOne(a => a.Exam).WithMany(ex => ex.Attempts)
              .HasForeignKey(a => a.ExamId).OnDelete(DeleteBehavior.Restrict);
             e.HasOne(a => a.Student).WithMany(u => u.Attempts)
-             .HasForeignKey(a => a.StudentId).OnDelete(DeleteBehavior.Restrict);
+             .HasForeignKey(a => a.StudentId).OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<AttemptAnswer>(e =>

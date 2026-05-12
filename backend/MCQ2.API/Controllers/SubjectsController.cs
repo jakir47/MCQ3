@@ -39,11 +39,12 @@ public class SubjectsController([FromServices] SubjectService subjectService) : 
     }
 
     [HttpPost]
-    [Authorize(Roles = "Teacher,Admin")]
+    [Authorize(Roles = "Teacher")]
     public async Task<IActionResult> Create([FromBody] CreateSubjectRequest request)
     {
-        var userId = Guid.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
-        var subject = await subjectService.CreateAsync(userId, request);
+        var foreignClaim = User.FindFirst("ForeignId");
+        var teacherId = Guid.Parse(foreignClaim?.Value ?? Guid.Empty.ToString());
+        var subject = await subjectService.CreateAsync(teacherId, request);
         return CreatedAtAction(nameof(GetById), new { id = subject.Id }, new ApiResponse<SubjectViewModel>(true, subject));
     }
 

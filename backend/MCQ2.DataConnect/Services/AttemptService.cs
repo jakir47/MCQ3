@@ -185,7 +185,7 @@ public class AttemptService(AppDbContext dbContext)
         ) : null;
 
         return new AttemptViewModel(
-            attempt.Id, attempt.ExamId, attempt.Exam?.Title ?? "", attempt.StudentId,
+            attempt.Id, attempt.ExamId, attempt.Exam?.Title ?? "", attempt.StudentId!.Value,
             attempt.Student?.FullName ?? "", attempt.AttemptNumber, attempt.StartedAt,
             attempt.SubmittedAt, attempt.TimeSpentSecs, attempt.Score, attempt.IsPassed,
             attempt.IsReleased, attempt.AutoSubmitted,

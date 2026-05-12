@@ -122,7 +122,7 @@ public class AnalyticsService(AppDbContext dbContext)
                 .ThenInclude(s => s.Attempts)
             .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
             .Select(e => new StudentProgressResponse(
-                e.StudentId, e.Student.FullName, e.Student.Email,
+                e.StudentId!.Value, e.Student.FullName, e.Student.Email,
                 e.Student.Attempts.Count,
                 e.Student.Attempts.Max(a => a.Score) ?? 0,
                 e.Student.Attempts.Average(a => a.Score) ?? 0,

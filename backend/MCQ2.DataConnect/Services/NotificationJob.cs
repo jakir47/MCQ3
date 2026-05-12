@@ -83,7 +83,7 @@ public class NotificationJob(IServiceProvider serviceProvider, ILogger<Notificat
 
                 dbContext.Notifications.Add(new Notification
                 {
-                    UserId = enrolment.StudentId,
+                    UserId = enrolment.StudentId!.Value,
                     Type = "ExpiryReminder",
                     Title = "Enrolment Expiry Reminder",
                     Body = $"Your enrolment in '{enrolment.Chapter.Title}' expires on {enrolment.ExpiresAt:yyyy-MM-dd}",

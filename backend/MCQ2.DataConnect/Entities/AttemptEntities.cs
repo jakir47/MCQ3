@@ -4,8 +4,8 @@ public class Attempt : BaseEntity
 {
     public Guid ExamId { get; set; }
     public Exam Exam { get; set; } = null!;
-    public Guid StudentId { get; set; }
-    public Student Student { get; set; } = null!;
+    public Guid? StudentId { get; set; }
+    public Student? Student { get; set; }
     public int AttemptNumber { get; set; }
     public DateTime StartedAt { get; set; } = DateTime.UtcNow;
     public DateTime? SubmittedAt { get; set; }

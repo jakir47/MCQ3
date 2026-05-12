@@ -92,7 +92,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("StudentId")
+                    b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("SubmittedAt")
@@ -114,7 +114,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("UserAccountId");
 
                     b.HasIndex("ExamId", "StudentId", "AttemptNumber")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[StudentId] IS NOT NULL");
 
                     b.ToTable("Attempt", (string)null);
                 });
@@ -319,7 +320,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<DateTime?>("RemovedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("StudentId")
+                    b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TransferredFromChapterId")
@@ -340,7 +341,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("UserAccountId");
 
                     b.HasIndex("StudentId", "ChapterId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[StudentId] IS NOT NULL");
 
                     b.ToTable("Enrolment", (string)null);
                 });
@@ -719,7 +721,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2026, 5, 12, 7, 57, 21, 343, DateTimeKind.Utc).AddTicks(4539)
+                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1081)
                         },
                         new
                         {
@@ -727,7 +729,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Teacher",
-                            UpdatedAt = new DateTime(2026, 5, 12, 7, 57, 21, 343, DateTimeKind.Utc).AddTicks(4558)
+                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1099)
                         },
                         new
                         {
@@ -735,14 +737,13 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Student",
-                            UpdatedAt = new DateTime(2026, 5, 12, 7, 57, 21, 343, DateTimeKind.Utc).AddTicks(4561)
+                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1103)
                         });
                 });
 
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Student", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
@@ -797,10 +798,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("Code")
                         .IsUnique();
@@ -811,16 +809,12 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("NID")
                         .IsUnique();
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
                     b.ToTable("Student", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("30dd1f9d-ef11-4740-b2d5-6a028da0862c"),
+                            UserId = new Guid("33333333-3333-3333-3333-333333333333"),
                             Address = "456 Student Ave",
                             Code = "STU001",
                             ContactNo = "555-5678",
@@ -833,8 +827,7 @@ namespace MCQ3.DataConnect.Migrations
                             MotherName = "Mary Johnson",
                             NID = "STU001NID",
                             Name = "Alice Johnson",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = new Guid("33333333-3333-3333-3333-333333333333")
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
@@ -856,7 +849,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("StudentId")
+                    b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -869,7 +862,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("ChapterId");
 
                     b.HasIndex("StudentId", "ChapterId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[StudentId] IS NOT NULL");
 
                     b.ToTable("StudentChapter", (string)null);
                 });
@@ -917,7 +911,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Learn C# fundamentals",
                             IsArchived = false,
-                            TeacherId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
+                            TeacherId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Title = "C# Programming",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -927,7 +921,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Learn data structures",
                             IsArchived = false,
-                            TeacherId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
+                            TeacherId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Title = "Data Structures",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -937,7 +931,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Learn SQL fundamentals",
                             IsArchived = false,
-                            TeacherId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
+                            TeacherId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Title = "SQL Basics",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
@@ -945,8 +939,7 @@ namespace MCQ3.DataConnect.Migrations
 
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Teacher", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
@@ -985,10 +978,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -996,15 +986,12 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("NID")
                         .IsUnique();
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("Teacher", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
+                            UserId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Address = "123 Teacher St",
                             ContactNo = "555-1234",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1013,8 +1000,7 @@ namespace MCQ3.DataConnect.Migrations
                             NID = "TCH001",
                             Name = "John Smith",
                             Title = "Senior Instructor",
-                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = new Guid("22222222-2222-2222-2222-222222222222")
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
 
@@ -1080,7 +1066,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "admin@mcq2.com",
                             FullName = "Admin User",
                             IsActive = true,
-                            PasswordHash = "$2a$11$KEJZE1dc0n6ddmLfVnshquTCbod38WZtQ/qZgURsCAXPZ2.bbd6K2",
+                            PasswordHash = "$2a$11$hmP0AERvyby1mXRVtmG46u.GAhFfrd1U2r.ixm158GfIooAFXwR6S",
                             RoleId = new Guid("00000001-0000-0000-0000-000000000001"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1093,7 +1079,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "teacher@mcq2.com",
                             FullName = "John Smith",
                             IsActive = true,
-                            PasswordHash = "$2a$11$B2GpGs5bzo0VQqpazAIICe22yACDhxfR2nH7FdeXxPno0Vdn.z3lC",
+                            PasswordHash = "$2a$11$IxI498vBIlInRxEZ8zOd3.bFrp9f4KnusnzvfMJbJgcfnw97vgYTi",
                             RoleId = new Guid("00000002-0000-0000-0000-000000000002"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1106,7 +1092,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "student@mcq2.com",
                             FullName = "Alice Johnson",
                             IsActive = true,
-                            PasswordHash = "$2a$11$OwQNCS2aTcYVbuy1hvsxr.qXXaCZxSRfGR/7Gfv9kDA4RXRy1e9VK",
+                            PasswordHash = "$2a$11$nqLhFSZaBEF9Si4Qqm10E.l2sRFQJ6Lb1IBcxvQmUgXdX3EV3Q9Sa",
                             RoleId = new Guid("00000003-0000-0000-0000-000000000003"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1136,8 +1122,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasOne("MCQ3.DataConnect.Entities.Student", "Student")
                         .WithMany("Attempts")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", null)
                         .WithMany("Attempts")
@@ -1224,8 +1209,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasOne("MCQ3.DataConnect.Entities.Student", "Student")
                         .WithMany("Enrolments")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", null)
                         .WithMany("Enrolments")
@@ -1342,7 +1326,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", "User")
                         .WithOne("StudentProfile")
                         .HasForeignKey("MCQ3.DataConnect.Entities.Student", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -1363,8 +1348,7 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasOne("MCQ3.DataConnect.Entities.Student", "Student")
                         .WithMany("StudentChapters")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AssignedBy");
 

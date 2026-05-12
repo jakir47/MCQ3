@@ -19,7 +19,7 @@ public class EnrolmentService(AppDbContext dbContext, IEmailService emailService
         return await dbContext.Enrolments
             .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
             .Select(e => new EnrolmentViewModel(
-                e.Id, e.StudentId, e.Student.FullName, e.Student.Email,
+                e.Id, e.StudentId!.Value, e.Student.FullName, e.Student.Email,
                 e.ChapterId, e.Chapter.Title, e.EnrolledById, e.EnrolledBy.FullName,
                 e.EnrolledAt, e.ExpiresAt, e.RemovedAt
             )).ToListAsync();

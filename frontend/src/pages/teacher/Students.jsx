@@ -51,13 +51,13 @@ export default function TeacherStudentsPage() {
 
   const handleAssign = async (studentId) => {
     try {
-      await assignStudent({ studentId, chapterId: selectedChapter })
+      await assignStudent({ StudentId: studentId, ChapterId: selectedChapter })
       setShowAssignModal(false)
       loadAssignments(selectedChapter)
       setNotification({ type: 'success', message: 'Student assigned successfully' })
     } catch (err) { 
-      console.error(err)
-      setNotification({ type: 'error', message: 'Failed to assign student' })
+      const msg = err.response?.data?.error?.message || err.response?.data?.message || err.message || 'Failed to assign student'
+      setNotification({ type: 'error', message: msg })
     }
     setTimeout(() => setNotification(null), 3000)
   }
@@ -68,9 +68,9 @@ export default function TeacherStudentsPage() {
       await removeStudentAssignment(studentId, selectedChapter)
       loadAssignments(selectedChapter)
       setNotification({ type: 'success', message: 'Student removed successfully' })
-    } catch (err) { 
-      console.error(err)
-      setNotification({ type: 'error', message: 'Failed to remove student' })
+    } catch (err) {
+      const msg = err.response?.data?.error?.message || err.response?.data?.message || err.message || 'Failed to remove student'
+      setNotification({ type: 'error', message: msg })
     }
     setTimeout(() => setNotification(null), 3000)
   }

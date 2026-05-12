@@ -10,8 +10,6 @@ public   class SeedConfiguration (ModelBuilder builder)
     private static readonly Guid TeacherUserId = Guid.Parse("22222222-2222-2222-2222-222222222222");
     private static readonly Guid StudentUserId = Guid.Parse("33333333-3333-3333-3333-333333333333");
 
-    private static readonly Guid TeacherId = Guid.Parse("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee");
-
     private static readonly Guid Subject1Id = Guid.Parse("44444444-4444-4444-4444-444444444444");
     private static readonly Guid Chapter1Id = Guid.Parse("55555555-5555-5555-5555-555555555555");
     private static readonly Guid Exam1Id = Guid.Parse("77777777-7777-7777-7777-777777777777");
@@ -87,7 +85,6 @@ public   void Configure( )
 
         builder.Entity<Teacher>().HasData(
             new Teacher {
-                Id = TeacherId,
                 UserId = TeacherUserId,
                 Name = "John Smith",
                 Email = "teacher@mcq2.com",
@@ -103,7 +100,6 @@ public   void Configure( )
 
         builder.Entity<Student>().HasData(
             new Student {
-                Id = Guid.NewGuid(),
                 UserId = StudentUserId,
                 Code = "STU001",
                 Name = "Alice Johnson",
@@ -123,9 +119,9 @@ public   void Configure( )
 
         // Subject and Chapter seed data
         builder.Entity<Subject>().HasData(
-            new Subject { Id = Subject1Id, TeacherId = TeacherId, Title = "C# Programming", Description = "Learn C# fundamentals", IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt },
-            new Subject { Id = Subject2Id, TeacherId = TeacherId, Title = "Data Structures", Description = "Learn data structures", IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt },
-            new Subject { Id = Subject3Id, TeacherId = TeacherId, Title = "SQL Basics", Description = "Learn SQL fundamentals", IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt }
+            new Subject { Id = Subject1Id, TeacherId = TeacherUserId, Title = "C# Programming", Description = "Learn C# fundamentals", IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt },
+            new Subject { Id = Subject2Id, TeacherId = TeacherUserId, Title = "Data Structures", Description = "Learn data structures", IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt },
+            new Subject { Id = Subject3Id, TeacherId = TeacherUserId, Title = "SQL Basics", Description = "Learn SQL fundamentals", IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt }
         );
 
         builder.Entity<Chapter>().HasData(
