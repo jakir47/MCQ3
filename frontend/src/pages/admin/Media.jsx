@@ -486,7 +486,7 @@ export default function AdminMediaPage() {
             <button onClick={() => setShowVideoPanel(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-600 text-white rounded-xl hover:from-rose-600 hover:to-pink-700 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md active:scale-95">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
-              Video
+              Video Link
             </button>
             <button onClick={() => { setShowDeleted(!showDeleted); if (!showDeleted) loadDeleted() }}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 font-medium text-sm active:scale-95 ${
@@ -681,11 +681,11 @@ export default function AdminMediaPage() {
             <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
           <div className="max-w-6xl max-h-[90vh] w-full flex flex-col items-center" onClick={e => e.stopPropagation()}>
-            <img src={lightboxFile.fileUrl} alt={lightboxFile.altText || lightboxFile.originalFileName} className="max-w-full max-h-[75vh] rounded-2xl shadow-2xl object-contain" />
+            <img src={lightboxFile.url} alt={lightboxFile.altText || lightboxFile.originalFileName} className="max-w-full max-h-[75vh] rounded-2xl shadow-2xl object-contain" />
             <div className="mt-5 flex items-center gap-4 text-sm">
-              <span className="text-white font-semibold">{lightboxFile.title || lightboxFile.originalFileName}</span>
+              <span className="text-white font-semibold">{lightboxFile.originalFileName}</span>
               <span className="text-white/40">&middot;</span>
-              <span className="text-white/60">{formatBytes(lightboxFile.fileSize)}</span>
+              <span className="text-white/60">{formatBytes(lightboxFile.fileSizeBytes)}</span>
               <span className="text-white/40">&middot;</span>
               <span className="text-white/60">{lightboxFile.altText || 'No alt text'}</span>
             </div>
@@ -703,15 +703,15 @@ export default function AdminMediaPage() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>
                   </div>
                   <div>
-                    <p className="font-semibold truncate max-w-[180px]">{audioFile.title || audioFile.originalFileName}</p>
-                    <p className="text-xs text-white/70">{formatBytes(audioFile.fileSize)}</p>
+                    <p className="font-semibold truncate max-w-[180px]">{audioFile.originalFileName}</p>
+                    <p className="text-xs text-white/70">{formatBytes(audioFile.fileSizeBytes)}</p>
                   </div>
                 </div>
                 <button onClick={() => { setAudioFile(null); if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = '' } }} className="p-1.5 text-white/70 hover:text-white rounded-xl hover:bg-white/10 transition-colors">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
-              <audio ref={audioRef} src={audioFile.fileUrl} onTimeUpdate={handleAudioTimeUpdate} onLoadedMetadata={handleAudioTimeUpdate} onEnded={handleAudioEnded} className="hidden" />
+              <audio ref={audioRef} src={audioFile.url} onTimeUpdate={handleAudioTimeUpdate} onLoadedMetadata={handleAudioTimeUpdate} onEnded={handleAudioEnded} className="hidden" />
               <div className="space-y-2">
                 <div className="relative h-1.5 bg-white/20 rounded-full cursor-pointer group" onClick={seekAudio}>
                   <div className="absolute top-0 left-0 h-full bg-white rounded-full transition-all duration-150" style={{ width: `${progressPct}%` }} />
