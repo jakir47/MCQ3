@@ -107,7 +107,7 @@ public class MediaFileService(
         await db.SaveChangesAsync(ct);
 
         return (true, new MediaFileDto(
-            mediaFile.Id, mediaFile.OriginalFileName, videoUrl, mediaFile.MimeType,
+            mediaFile.Id, mediaFile.OriginalFileName, string.Empty, videoUrl, mediaFile.MimeType,
             mediaFile.MediaType, mediaFile.FileSizeBytes, mediaFile.AltText,
             mediaFile.VideoLinkUrl, mediaFile.CreatedAt, mediaFile.IsDeleted, mediaFile.DeletedAt
         ), null);
@@ -160,7 +160,7 @@ public class MediaFileService(
 
         var url = await storage.GetUrlAsync(storagePath, ct);
         return (true, new MediaFileDto(
-            mediaFile.Id, mediaFile.OriginalFileName, url, mediaFile.MimeType,
+            mediaFile.Id, mediaFile.OriginalFileName, Path.GetExtension(mediaFile.OriginalFileName), url, mediaFile.MimeType,
             mediaFile.MediaType, mediaFile.FileSizeBytes, mediaFile.AltText,
             mediaFile.VideoLinkUrl, mediaFile.CreatedAt, mediaFile.IsDeleted, mediaFile.DeletedAt
         ), null);
@@ -198,7 +198,7 @@ public class MediaFileService(
 
         var url = await storage.GetUrlAsync(file.StoragePath, ct);
         return new MediaFileDto(
-            file.Id, file.OriginalFileName, url, file.MimeType,
+            file.Id, file.OriginalFileName, Path.GetExtension(file.OriginalFileName), url, file.MimeType,
             file.MediaType, file.FileSizeBytes, file.AltText,
             file.VideoLinkUrl, file.CreatedAt, file.IsDeleted, file.DeletedAt
         );
@@ -207,7 +207,7 @@ public class MediaFileService(
     public async Task<PagedResult<MediaFileDto>> GetPagedAsync(
         MediaType? filterByType, int page, int pageSize, CancellationToken ct)
     {
-        pageSize = Math.Min(Math.Max(page, 1), 100);
+        pageSize = Math.Min(Math.Max(pageSize, 1), 100);
         var query = db.MediaFile.AsQueryable();
 
         if (filterByType.HasValue)
@@ -225,7 +225,7 @@ public class MediaFileService(
         {
             var url = await storage.GetUrlAsync(file.StoragePath, ct);
             dtos.Add(new MediaFileDto(
-                file.Id, file.OriginalFileName, url, file.MimeType,
+                file.Id, file.OriginalFileName, Path.GetExtension(file.OriginalFileName), url, file.MimeType,
                 file.MediaType, file.FileSizeBytes, file.AltText,
                 file.VideoLinkUrl, file.CreatedAt, file.IsDeleted, file.DeletedAt
             ));
@@ -263,7 +263,7 @@ public class MediaFileService(
 
         var url = await storage.GetUrlAsync(file.StoragePath, ct);
         return new MediaFileDto(
-            file.Id, file.OriginalFileName, url, file.MimeType,
+            file.Id, file.OriginalFileName, Path.GetExtension(file.OriginalFileName), url, file.MimeType,
             file.MediaType, file.FileSizeBytes, file.AltText,
             file.VideoLinkUrl, file.CreatedAt, file.IsDeleted, file.DeletedAt
         );
@@ -292,7 +292,7 @@ public class MediaFileService(
 
         var url = await storage.GetUrlAsync(file.StoragePath, ct);
         return new MediaFileDto(
-            file.Id, file.OriginalFileName, url, file.MimeType,
+            file.Id, file.OriginalFileName, Path.GetExtension(file.OriginalFileName), url, file.MimeType,
             file.MediaType, file.FileSizeBytes, file.AltText,
             file.VideoLinkUrl, file.CreatedAt, file.IsDeleted, file.DeletedAt
         );

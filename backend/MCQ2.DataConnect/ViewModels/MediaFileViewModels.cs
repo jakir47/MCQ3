@@ -5,6 +5,7 @@ namespace MCQ3.DataConnect.ViewModels;
 public record MediaFileDto(
     Guid Id,
     string OriginalFileName,
+    string? FileType,
     string Url,
     string MimeType,
     MediaType MediaType,

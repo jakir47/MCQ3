@@ -20,6 +20,7 @@ import AdminTeachers from './pages/admin/Teachers'
 import AdminStudents from './pages/admin/Students'
 import AdminAnalytics from './pages/admin/Analytics'
 import AdminSettings from './pages/admin/Settings'
+import AdminMedia from './pages/admin/Media'
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/admin/students" element={<AdminStudents />} />
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/admin/media" element={<AdminMedia />} />
           <Route path="/" element={<Navigate to="/admin" replace />} />
         </Route>
 
