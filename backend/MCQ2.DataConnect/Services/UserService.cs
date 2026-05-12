@@ -42,6 +42,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
         {
             FullName = request.FullName,
             Email = request.Email,
+            Username = request.Email.Split('@')[0] + Guid.NewGuid().ToString("N")[..6],
             PasswordHash = PasswordHelper.HashPassword(tempPassword),
             IsActive = true,
             TempPassword = true,
@@ -127,6 +128,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
         {
             FullName = request.FullName,
             Email = request.Email,
+            Username = request.Email.Split('@')[0] + Guid.NewGuid().ToString("N")[..6],
             PasswordHash = PasswordHelper.HashPassword(tempPassword),
             IsActive = true,
             TempPassword = true,
@@ -190,13 +192,119 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
     {
         return await dbContext.Users
             .Where(u => u.RoleId == StudentRoleId)
+            .Include(u => u.StudentProfile)
             .Select(u => new StudentViewModel(
                 u.Id,
                 u.FullName,
                 u.Email,
-                u.IsActive
+                u.IsActive,
+                u.CreatedAt,
+                u.StudentProfile != null ? u.StudentProfile.Code : null,
+                u.StudentProfile != null ? u.StudentProfile.NID : null,
+                u.StudentProfile != null ? u.StudentProfile.Address : null,
+                u.StudentProfile != null ? u.StudentProfile.ContactNo : null,
+                u.StudentProfile != null ? u.StudentProfile.FatherName : null,
+                u.StudentProfile != null ? u.StudentProfile.FatherContact : null,
+                u.StudentProfile != null ? u.StudentProfile.MotherName : null,
+                u.StudentProfile != null ? u.StudentProfile.MotherContact : null,
+                u.Username
             ))
             .ToListAsync();
+    }
+
+    public async Task<StudentViewModel?> CreateStudentAsync(CreateStudentRequest request, Guid createdById)
+    {
+        var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+        if (existingUser != null) return null;
+
+        var studentUsername = !string.IsNullOrWhiteSpace(request.Code) ? request.Code : $"STU{Guid.NewGuid().ToString("N")[..6]}";
+
+        var tempPassword = GenerateTempPassword();
+        var user = new UserAccount
+        {
+            FullName = request.FullName,
+            Email = request.Email,
+            Username = studentUsername,
+            PasswordHash = PasswordHelper.HashPassword(tempPassword),
+            IsActive = true,
+            TempPassword = true,
+            CreatedById = createdById,
+            RoleId = StudentRoleId
+        };
+
+        dbContext.Users.Add(user);
+        await dbContext.SaveChangesAsync();
+
+        var studentProfile = new Student
+        {
+            Name = request.FullName,
+            Email = request.Email,
+            Code = request.Code ?? string.Empty,
+            NID = request.NID ?? string.Empty,
+            Address = request.Address ?? string.Empty,
+            ContactNo = request.Phone ?? string.Empty,
+            FatherName = request.FatherName ?? string.Empty,
+            FatherContact = request.FatherContact ?? string.Empty,
+            MotherName = request.MotherName ?? string.Empty,
+            MotherContact = request.MotherContact ?? string.Empty,
+            UserId = user.Id,
+            IsActive = true
+        };
+
+        dbContext.Students.Add(studentProfile);
+        await dbContext.SaveChangesAsync();
+
+        try
+        {
+            await emailService.SendWelcomeEmailAsync(user.Email, user.FullName, tempPassword);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to send welcome email to {Email}", user.Email);
+        }
+
+        return new StudentViewModel(
+            user.Id, user.FullName, user.Email, user.IsActive, user.CreatedAt,
+            request.Code, request.NID, request.Address, request.Phone,
+            request.FatherName, request.FatherContact, request.MotherName, request.MotherContact,
+            studentUsername
+        );
+    }
+
+    public async Task<bool> UpdateStudentAsync(Guid id, UpdateStudentRequest request)
+    {
+        var user = await dbContext.Users.FindAsync(id);
+        if (user == null || user.RoleId != StudentRoleId) return false;
+
+        if (request.FullName != null) user.FullName = request.FullName;
+        if (request.IsActive.HasValue) user.IsActive = request.IsActive.Value;
+
+        var studentProfile = await dbContext.Students.FirstOrDefaultAsync(s => s.UserId == id);
+        if (studentProfile != null)
+        {
+            if (request.Code != null) studentProfile.Code = request.Code;
+            if (request.NID != null) studentProfile.NID = request.NID;
+            if (request.Address != null) studentProfile.Address = request.Address;
+            if (request.Phone != null) studentProfile.ContactNo = request.Phone;
+            if (request.FatherName != null) studentProfile.FatherName = request.FatherName;
+            if (request.FatherContact != null) studentProfile.FatherContact = request.FatherContact;
+            if (request.MotherName != null) studentProfile.MotherName = request.MotherName;
+            if (request.MotherContact != null) studentProfile.MotherContact = request.MotherContact;
+            if (request.FullName != null) studentProfile.Name = request.FullName;
+        }
+
+        await dbContext.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteStudentAsync(Guid id)
+    {
+        var user = await dbContext.Users.FindAsync(id);
+        if (user == null || user.RoleId != StudentRoleId) return false;
+
+        user.IsActive = false;
+        await dbContext.SaveChangesAsync();
+        return true;
     }
 
     public async Task<bool> AssignStudentToChapterAsync(Guid studentId, Guid chapterId, Guid assignedById)

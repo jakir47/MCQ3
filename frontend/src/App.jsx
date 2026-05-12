@@ -17,6 +17,7 @@ import TeacherStudents from './pages/teacher/Students'
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminUsers from './pages/admin/Users'
 import AdminTeachers from './pages/admin/Teachers'
+import AdminStudents from './pages/admin/Students'
 import AdminAnalytics from './pages/admin/Analytics'
 import AdminSettings from './pages/admin/Settings'
 
@@ -54,6 +55,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/teachers" element={<AdminTeachers />} />
+          <Route path="/admin/students" element={<AdminStudents />} />
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="/" element={<Navigate to="/admin" replace />} />

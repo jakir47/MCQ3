@@ -12,6 +12,9 @@ export const updateTeacher = (id, data) => api.put(`/v1/users/teachers/${id}`, d
 export const deleteTeacher = (id) => api.delete(`/v1/users/${id}`)
 
 export const getStudents = () => api.get('/v1/users/students')
+export const createStudent = (data) => api.post('/v1/users/students', data)
+export const updateStudent = (id, data) => api.put(`/v1/users/students/${id}`, data)
+export const deleteStudent = (id) => api.delete(`/v1/users/students/${id}`)
 
 export const assignStudent = (data) => api.post('/v1/student-assignments/assign', data)
 export const removeStudentAssignment = (studentId, chapterId) => api.delete(`/v1/student-assignments/${studentId}/chapter/${chapterId}`)

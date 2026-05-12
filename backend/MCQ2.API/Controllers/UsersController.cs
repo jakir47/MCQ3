@@ -95,4 +95,35 @@ public class UsersController([FromServices] UserService userService) : Controlle
         var students = await userService.GetStudentsAsync();
         return Ok(new ApiResponse<IEnumerable<StudentViewModel>>(true, students));
     }
+
+    [HttpPost("students")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> CreateStudent([FromBody] CreateStudentRequest request)
+    {
+        var userId = Guid.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
+        var student = await userService.CreateStudentAsync(request, userId);
+        if (student == null)
+            return BadRequest(new ApiResponse<object>(false, null, new ApiError("ALREADY_EXISTS", "Email already exists")));
+        return CreatedAtAction(nameof(GetById), new { id = student.Id }, new ApiResponse<StudentViewModel>(true, student));
+    }
+
+    [HttpPut("students/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateStudent(Guid id, [FromBody] UpdateStudentRequest request)
+    {
+        var result = await userService.UpdateStudentAsync(id, request);
+        if (!result)
+            return NotFound(new ApiResponse<object>(false, null, new ApiError("NOT_FOUND", "Student not found")));
+        return Ok(new ApiResponse<bool>(true, true));
+    }
+
+    [HttpDelete("students/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteStudent(Guid id)
+    {
+        var result = await userService.DeleteStudentAsync(id);
+        if (!result)
+            return NotFound(new ApiResponse<object>(false, null, new ApiError("NOT_FOUND", "Student not found")));
+        return Ok(new ApiResponse<bool>(true, true));
+    }
 }
