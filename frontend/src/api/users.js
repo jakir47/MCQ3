@@ -9,6 +9,7 @@ export const deleteUser = (id) => api.delete(`/v1/users/${id}`)
 export const getTeachers = () => api.get('/v1/users/teachers')
 export const createTeacher = (data) => api.post('/v1/users/teachers', data)
 export const updateTeacher = (id, data) => api.put(`/v1/users/teachers/${id}`, data)
+export const deleteTeacher = (id) => api.delete(`/v1/users/${id}`)
 
 export const getStudents = () => api.get('/v1/users/students')
 

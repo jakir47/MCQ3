@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { startExam, getAttempt, saveAttempt, submitAttempt } from '../../api/attempts'
+import { startExam, saveAttempt, submitAttempt } from '../../api/attempts'
 import Layout from '../../components/Layout'
 
 export default function ExamPage() {
@@ -15,12 +15,6 @@ export default function ExamPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const initialized = useRef(false)
-
-  useEffect(() => {
-    if (initialized.current) return
-    initialized.current = true
-    initExam()
-  }, [id])
 
   const initExam = async () => {
     try {
@@ -47,30 +41,12 @@ export default function ExamPage() {
   }
 
   useEffect(() => {
-    if (!exam?.exam?.timeLimitSeconds || remainingSecs <= 0) return
-    const timer = setInterval(() => {
-      setRemainingSecs(prev => {
-        if (prev <= 1) {
-          handleSubmit()
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [exam, attemptId])
+    if (initialized.current) return
+    initialized.current = true
+    initExam()
+  }, [id])
 
-  useEffect(() => {
-    if (!attemptId || submitting) return
-    const interval = setInterval(async () => {
-      try {
-        await saveAttempt(attemptId, { answers, timeSpentSecs: remainingSecs })
-      } catch (err) { console.error('Autosave failed') }
-    }, 30000)
-    return () => clearInterval(interval)
-  }, [attemptId, answers, remainingSecs, submitting])
-
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (submitting) return
     setSubmitting(true)
     try {
@@ -92,7 +68,31 @@ export default function ExamPage() {
       alert('Error submitting exam')
       setSubmitting(false)
     }
-  }
+  }, [submitting, exam, remainingSecs, attemptId, answers, navigate])
+
+  useEffect(() => {
+    if (!exam?.exam?.timeLimitSeconds || remainingSecs <= 0) return
+    const timer = setInterval(() => {
+      setRemainingSecs(prev => {
+        if (prev <= 1) {
+          handleSubmit()
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [exam, handleSubmit])
+
+  useEffect(() => {
+    if (!attemptId || submitting) return
+    const interval = setInterval(async () => {
+      try {
+        await saveAttempt(attemptId, { answers, timeSpentSecs: remainingSecs })
+      } catch { console.error('Autosave failed') }
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [attemptId, answers, remainingSecs, submitting])
 
   const handleAnswer = (questionId, optionId) => {
     setAnswers(prev => ({ ...prev, [questionId]: optionId }))

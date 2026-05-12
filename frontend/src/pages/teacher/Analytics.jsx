@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
 import { getSubjects } from '../../api/subjects'
-import { getExamSummary, getScoreDistribution, getQuestionAnalytics, getChapterStudents, getChapterTrends } from '../../api/uploads'
 
 export default function TeacherAnalyticsPage() {
   const [subjects, setSubjects] = useState([])
   const [selectedSubject, setSelectedSubject] = useState('')
   const [examStats, setExamStats] = useState(null)
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => { loadSubjects() }, [])
-  useEffect(() => { if (selectedSubject) loadAnalytics() }, [selectedSubject])
 
   const loadSubjects = async () => {
     try {
@@ -22,7 +18,6 @@ export default function TeacherAnalyticsPage() {
   const loadAnalytics = async () => {
     setLoading(true)
     try {
-      // Placeholder - would call API with actual exam/chapter IDs
       setExamStats({
         totalStudents: 150,
         totalExams: 12,
@@ -37,6 +32,10 @@ export default function TeacherAnalyticsPage() {
     } catch (err) { console.error(err) }
     finally { setLoading(false) }
   }
+
+  useEffect(() => { loadSubjects() }, [])
+
+  useEffect(() => { if (selectedSubject) loadAnalytics() }, [selectedSubject])
 
   const statCards = [
     { label: 'Total Students', value: examStats?.totalStudents || 0, icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', color: 'indigo' },

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 import { useNotificationStore } from '../store/notificationStore'
+import { notificationsApi } from '../api/notifications'
 
 const menuItems = {
   Student: [
@@ -30,19 +31,31 @@ const menuItems = {
 export default function Layout({ children, title }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
   const location = useLocation()
   const navigate = useNavigate()
   const { user, logout } = useAuthStore()
-  const { notifications, unreadCount, fetchNotifications, fetchUnreadCount, markAsRead, markAllAsRead } = useNotificationStore()
+  const { notifications, fetchNotifications, markAsRead, markAllAsRead } = useNotificationStore()
   
   const role = user?.role || 'Student'
   const items = menuItems[role] || menuItems.Student
+
+  const fetchUnreadCount = useCallback(async () => {
+    try {
+      const res = await notificationsApi.getUnreadCount()
+      if (res.data.success) {
+        setUnreadCount(res.data.data)
+      }
+    } catch (e) {
+      console.error('Failed to fetch unread count', e)
+    }
+  }, [])
 
   useEffect(() => {
     fetchUnreadCount()
     const interval = setInterval(fetchUnreadCount, 60000)
     return () => clearInterval(interval)
-  }, [])
+  }, [fetchUnreadCount])
 
   const handleLogout = () => {
     logout()

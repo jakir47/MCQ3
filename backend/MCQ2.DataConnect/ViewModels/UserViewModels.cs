@@ -6,7 +6,11 @@ public record TeacherViewModel(
     string Email,
     bool IsActive,
     int SubjectCount,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    string? Title = null,
+    string? Phone = null,
+    string? Address = null,
+    string? NID = null
 );
 
 public record StudentViewModel(

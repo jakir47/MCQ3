@@ -11,16 +11,6 @@ export default function TeacherChaptersPage() {
   const [editData, setEditData] = useState(null)
   const [formData, setFormData] = useState({ title: '', description: '', orderIndex: 0 })
 
-  useEffect(() => {
-    loadSubjects()
-  }, [])
-
-  useEffect(() => {
-    if (selectedSubject) {
-      loadChapters(selectedSubject)
-    }
-  }, [selectedSubject])
-
   const loadSubjects = async () => {
     try {
       const { data } = await getSubjects()
@@ -46,6 +36,16 @@ export default function TeacherChaptersPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
+
+  useEffect(() => {
+    if (selectedSubject) {
+      loadChapters(selectedSubject)
+    }
+  }, [selectedSubject])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

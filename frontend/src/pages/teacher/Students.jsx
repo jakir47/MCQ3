@@ -14,11 +14,6 @@ export default function TeacherStudentsPage() {
   const [showAssignModal, setShowAssignModal] = useState(false)
   const [notification, setNotification] = useState(null)
 
-  useEffect(() => { loadData() }, [])
-
-  useEffect(() => { if (selectedSubject) loadChapters(selectedSubject) }, [selectedSubject])
-  useEffect(() => { if (selectedChapter) loadAssignments(selectedChapter) }, [selectedChapter])
-
   const loadData = async () => {
     try {
       const [subjectsRes, studentsRes] = await Promise.all([getSubjects(), getStudents()])
@@ -48,6 +43,11 @@ export default function TeacherStudentsPage() {
       if (data.success) setAssignments(data.data)
     } catch (err) { console.error(err) }
   }
+
+  useEffect(() => { loadData() }, [])
+
+  useEffect(() => { if (selectedSubject) loadChapters(selectedSubject) }, [selectedSubject])
+  useEffect(() => { if (selectedChapter) loadAssignments(selectedChapter) }, [selectedChapter])
 
   const handleAssign = async (studentId) => {
     try {

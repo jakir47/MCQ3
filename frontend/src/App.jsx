@@ -17,7 +17,6 @@ import TeacherStudents from './pages/teacher/Students'
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminUsers from './pages/admin/Users'
 import AdminTeachers from './pages/admin/Teachers'
-import AdminSubjects from './pages/admin/Subjects'
 import AdminAnalytics from './pages/admin/Analytics'
 import AdminSettings from './pages/admin/Settings'
 

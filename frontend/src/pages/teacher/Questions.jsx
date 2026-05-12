@@ -26,22 +26,6 @@ export default function TeacherQuestionsPage() {
     ]
   })
 
-  useEffect(() => {
-    loadSubjects()
-  }, [])
-
-  useEffect(() => {
-    if (selectedSubject) {
-      loadChapters(selectedSubject)
-    }
-  }, [selectedSubject])
-
-  useEffect(() => {
-    if (selectedChapter) {
-      loadQuestions(selectedChapter)
-    }
-  }, [selectedChapter])
-
   const loadSubjects = async () => {
     try {
       const { data } = await getSubjects()
@@ -71,6 +55,22 @@ export default function TeacherQuestionsPage() {
     } catch (err) { console.error(err) }
     finally { setLoading(false) }
   }
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
+
+  useEffect(() => {
+    if (selectedSubject) {
+      loadChapters(selectedSubject)
+    }
+  }, [selectedSubject])
+
+  useEffect(() => {
+    if (selectedChapter) {
+      loadQuestions(selectedChapter)
+    }
+  }, [selectedChapter])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

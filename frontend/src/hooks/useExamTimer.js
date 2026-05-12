@@ -17,7 +17,7 @@ export function useExamTimer(initialSeconds, onExpire) {
       })
     }, 1000)
     return () => clearInterval(intervalRef.current)
-  }, [])
+  }, [onExpire])
 
   const format = useCallback(() => {
     const m = Math.floor(remaining / 60).toString().padStart(2, '0')

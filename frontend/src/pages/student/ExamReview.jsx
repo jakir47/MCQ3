@@ -10,10 +10,6 @@ export default function ExamReview() {
   const [error, setError] = useState('')
   const [filter, setFilter] = useState('all')
 
-  useEffect(() => {
-    fetchReview()
-  }, [id])
-
   const fetchReview = async () => {
     try {
       const res = await getReview(id)
@@ -34,6 +30,10 @@ export default function ExamReview() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchReview()
+  }, [id])
 
   const getFilteredQuestions = () => {
     if (!review) return []

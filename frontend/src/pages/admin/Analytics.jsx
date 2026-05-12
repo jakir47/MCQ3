@@ -1,18 +1,11 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
-import { getExamSummary, getScoreDistribution } from '../../api/uploads'
 
 export default function AdminAnalyticsPage() {
   const [stats, setStats] = useState({ totalUsers: 0, totalSubjects: 0, totalExams: 0, totalAttempts: 0 })
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    loadData()
-  }, [])
 
   const loadData = async () => {
     try {
-      // Placeholder stats for now
       setStats({
         totalUsers: 150,
         totalSubjects: 25,
@@ -21,10 +14,12 @@ export default function AdminAnalyticsPage() {
       })
     } catch (err) {
       console.error(err)
-    } finally {
-      setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const statCards = [
     { label: 'Total Users', value: stats.totalUsers, icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', color: 'indigo' },

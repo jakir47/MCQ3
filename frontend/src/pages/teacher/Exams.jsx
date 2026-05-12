@@ -31,10 +31,6 @@ export default function TeacherExamsPage() {
     questionIds: []
   })
 
-  useEffect(() => { loadSubjects() }, [])
-  useEffect(() => { if (selectedSubject) loadChapters(selectedSubject) }, [selectedSubject])
-  useEffect(() => { if (selectedChapter) loadExams(selectedChapter) }, [selectedChapter])
-
   const loadSubjects = async () => {
     try {
       const { data } = await getSubjects()
@@ -57,6 +53,10 @@ export default function TeacherExamsPage() {
     } catch (err) { console.error(err) }
     finally { setLoading(false) }
   }
+
+  useEffect(() => { loadSubjects() }, [])
+  useEffect(() => { if (selectedSubject) loadChapters(selectedSubject) }, [selectedSubject])
+  useEffect(() => { if (selectedChapter) loadExams(selectedChapter) }, [selectedChapter])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

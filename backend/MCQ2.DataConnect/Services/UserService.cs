@@ -100,6 +100,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
     {
         return await dbContext.Users
             .Where(u => u.RoleId == TeacherRoleId)
+            .Include(u => u.TeacherProfile)
             .Include(u => u.Subjects)
             .Select(u => new TeacherViewModel(
                 u.Id,
@@ -107,7 +108,11 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
                 u.Email,
                 u.IsActive,
                 u.Subjects.Count,
-                u.CreatedAt
+                u.CreatedAt,
+                u.TeacherProfile != null ? u.TeacherProfile.Title : null,
+                u.TeacherProfile != null ? u.TeacherProfile.ContactNo : null,
+                u.TeacherProfile != null ? u.TeacherProfile.Address : null,
+                u.TeacherProfile != null ? u.TeacherProfile.NID : null
             ))
             .ToListAsync();
     }
@@ -132,6 +137,21 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
 
+        var teacherProfile = new Teacher
+        {
+            Name = request.FullName,
+            Email = request.Email,
+            Title = request.Title,
+            ContactNo = request.Phone,
+            Address = request.Address,
+            NID = request.NID,
+            UserId = user.Id,
+            IsActive = true
+        };
+
+        dbContext.Teachers.Add(teacherProfile);
+        await dbContext.SaveChangesAsync();
+
         try
         {
             await emailService.SendWelcomeEmailAsync(user.Email, user.FullName, tempPassword);
@@ -141,7 +161,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
             logger.LogWarning(ex, "Failed to send welcome email to {Email}", user.Email);
         }
 
-        return new TeacherViewModel(user.Id, user.FullName, user.Email, user.IsActive, 0, user.CreatedAt);
+        return new TeacherViewModel(user.Id, user.FullName, user.Email, user.IsActive, 0, user.CreatedAt, request.Title, request.Phone, request.Address, request.NID);
     }
 
     public async Task<bool> UpdateTeacherAsync(Guid id, UpdateTeacherRequest request)
@@ -151,6 +171,16 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
 
         if (request.FullName != null) user.FullName = request.FullName;
         if (request.IsActive.HasValue) user.IsActive = request.IsActive.Value;
+
+        var teacherProfile = await dbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == id);
+        if (teacherProfile != null)
+        {
+            if (request.Title != null) teacherProfile.Title = request.Title;
+            if (request.Phone != null) teacherProfile.ContactNo = request.Phone;
+            if (request.Address != null) teacherProfile.Address = request.Address;
+            if (request.NID != null) teacherProfile.NID = request.NID;
+            if (request.FullName != null) teacherProfile.Name = request.FullName;
+        }
 
         await dbContext.SaveChangesAsync();
         return true;

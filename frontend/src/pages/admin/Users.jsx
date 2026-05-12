@@ -1,17 +1,11 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
-import { useAuthStore } from '../../store/authStore'
 import { getUsers, deleteUser } from '../../api/users'
 
 export default function UsersPage() {
-  const { user } = useAuthStore()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-
-  useEffect(() => {
-    loadData()
-  }, [])
 
   const loadData = async () => {
     try {
@@ -23,6 +17,10 @@ export default function UsersPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this user?')) return

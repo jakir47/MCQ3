@@ -8,10 +8,6 @@ export default function StudentResults() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    fetchResults()
-  }, [])
-
   const fetchResults = async () => {
     try {
       const res = await api.get('/v1/attempts/my-attempts')
@@ -19,12 +15,16 @@ export default function StudentResults() {
       if (res.data.success) {
         setResults(res.data.data)
       }
-    } catch (err) {
+    } catch {
       setError('Failed to load results')
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchResults()
+  }, [])
 
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-US', {

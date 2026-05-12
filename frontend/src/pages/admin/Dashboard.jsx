@@ -9,10 +9,6 @@ export default function AdminDashboard() {
   const [recentUsers, setRecentUsers] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
   const loadData = async () => {
     try {
       const [usersRes] = await Promise.all([
@@ -33,6 +29,10 @@ export default function AdminDashboard() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const statCards = [
     { label: 'Total Users', value: stats.users, icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', color: 'indigo' },
@@ -118,20 +118,20 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <div className="divide-y divide-gray-100">
-            {recentUsers.map((user) => (
-              <div key={user.id} className="p-6 hover:bg-gray-50 transition-colors">
+            {recentUsers.map((u) => (
+              <div key={u.id} className="p-6 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-medium">
-                      {user.fullName?.charAt(0) || 'U'}
+                      {u.fullName?.charAt(0) || 'U'}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">{user.fullName}</p>
-                      <p className="text-sm text-gray-500">{user.email}</p>
+                      <p className="font-medium text-gray-900">{u.fullName}</p>
+                      <p className="text-sm text-gray-500">{u.email}</p>
                     </div>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}>
-                    {user.role}
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(u.role)}`}>
+                    {u.role}
                   </span>
                 </div>
               </div>

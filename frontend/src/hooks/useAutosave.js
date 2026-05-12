@@ -11,5 +11,5 @@ export function useAutosave(attemptId, getPayload, intervalMs = 30000) {
       } catch { /* silent */ }
     }, intervalMs)
     return () => clearInterval(timerRef.current)
-  }, [attemptId, intervalMs])
+  }, [attemptId, intervalMs, getPayload])
 }

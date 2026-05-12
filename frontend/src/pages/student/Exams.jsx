@@ -8,22 +8,22 @@ export default function StudentExams() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    fetchExams()
-  }, [])
-
   const fetchExams = async () => {
     try {
       const res = await api.get('/v1/exams/published')
       if (res.data.success) {
         setExams(res.data.data)
       }
-    } catch (err) {
+    } catch {
       setError('Failed to load exams')
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchExams()
+  }, [])
 
   const getStatusBadge = (exam) => {
     if (exam.hasInProgressAttempt) {

@@ -6,10 +6,6 @@ export default function AdminSubjectsPage() {
   const [subjects, setSubjects] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
   const loadData = async () => {
     try {
       const { data } = await getSubjects()
@@ -20,6 +16,10 @@ export default function AdminSubjectsPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this subject?')) return

@@ -9,10 +9,6 @@ export default function TeacherSubjectsPage() {
   const [editData, setEditData] = useState(null)
   const [formData, setFormData] = useState({ title: '', description: '' })
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
   const loadData = async () => {
     try {
       const { data } = await getSubjects()
@@ -23,6 +19,10 @@ export default function TeacherSubjectsPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

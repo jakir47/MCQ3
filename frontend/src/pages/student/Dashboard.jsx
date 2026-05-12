@@ -9,10 +9,6 @@ export default function StudentDashboard() {
   const [chapters, setChapters] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
   const loadData = async () => {
     try {
       const { data } = await getMyChapters()
@@ -24,6 +20,10 @@ export default function StudentDashboard() {
     }
   }
 
+  useEffect(() => {
+    loadData()
+  }, [])
+
   const stats = [
     { label: 'Enrolled Chapters', value: chapters.length, icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', color: 'indigo' },
     { label: 'Available Exams', value: chapters.reduce((acc, c) => acc + (c.exams?.length || 0), 0), icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4', color: 'emerald' },
@@ -33,13 +33,11 @@ export default function StudentDashboard() {
 
   return (
     <Layout title="Student Dashboard">
-      {/* Welcome Section */}
       <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-8 mb-8 text-white">
         <h2 className="text-2xl font-bold mb-2">Welcome back, {user?.fullName?.split(' ')[0]}!</h2>
         <p className="text-indigo-100">Continue your learning journey and ace your exams.</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, idx) => (
           <div key={idx} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -56,7 +54,6 @@ export default function StudentDashboard() {
         ))}
       </div>
 
-      {/* Chapters & Exams */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
         <div className="p-6 border-b border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900">Your Chapters & Exams</h3>
