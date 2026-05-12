@@ -99,23 +99,23 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
 
     public async Task<IEnumerable<TeacherViewModel>> GetTeachersAsync()
     {
-        return await dbContext.Users
-            .Where(u => u.RoleId == TeacherRoleId)
-            .Include(u => u.TeacherProfile)
-            .Include(u => u.Subjects)
-            .Select(u => new TeacherViewModel(
-                u.Id,
-                u.FullName,
-                u.Email,
-                u.IsActive,
-                u.Subjects.Count,
-                u.CreatedAt,
-                u.TeacherProfile != null ? u.TeacherProfile.Title : null,
-                u.TeacherProfile != null ? u.TeacherProfile.ContactNo : null,
-                u.TeacherProfile != null ? u.TeacherProfile.Address : null,
-                u.TeacherProfile != null ? u.TeacherProfile.NID : null
-            ))
-            .ToListAsync();
+return await dbContext.Users
+             .Where(u => u.RoleId == TeacherRoleId)
+             .Include(u => u.TeacherProfile)
+             .Include(u => u.Subjects)
+             .Select(u => new TeacherViewModel(
+                 u.Id,
+                 u.FullName,
+                 u.Email,
+                 u.IsActive,
+                 u.Subjects.Count,
+                 u.CreatedAt,
+                 u.TeacherProfile != null ? u.TeacherProfile.Title : null,
+                 u.TeacherProfile != null ? u.TeacherProfile.ContactNo : null,
+                 u.TeacherProfile != null ? u.TeacherProfile.Address : null,
+                 u.TeacherProfile != null ? u.TeacherProfile.NID : null
+             ))
+             .ToListAsync();
     }
 
     public async Task<TeacherViewModel?> CreateTeacherAsync(CreateTeacherRequest request, Guid createdById)
@@ -139,17 +139,17 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
 
-        var teacherProfile = new Teacher
-        {
-            Name = request.FullName,
-            Email = request.Email,
-            Title = request.Title,
-            ContactNo = request.Phone,
-            Address = request.Address,
-            NID = request.NID,
-            UserId = user.Id,
-            IsActive = true
-        };
+var teacherProfile = new Teacher
+         {
+             Name = request.FullName,
+             Email = request.Email,
+             Title = request.Title ?? string.Empty,
+             ContactNo = request.Phone ?? string.Empty,
+             Address = request.Address ?? string.Empty,
+             NID = request.NID ?? string.Empty,
+             UserId = user.Id,
+             IsActive = true
+         };
 
         dbContext.Teachers.Add(teacherProfile);
         await dbContext.SaveChangesAsync();
@@ -190,26 +190,26 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
 
     public async Task<IEnumerable<StudentViewModel>> GetStudentsAsync()
     {
-        return await dbContext.Users
-            .Where(u => u.RoleId == StudentRoleId)
-            .Include(u => u.StudentProfile)
-            .Select(u => new StudentViewModel(
-                u.Id,
-                u.FullName,
-                u.Email,
-                u.IsActive,
-                u.CreatedAt,
-                u.StudentProfile != null ? u.StudentProfile.Code : null,
-                u.StudentProfile != null ? u.StudentProfile.NID : null,
-                u.StudentProfile != null ? u.StudentProfile.Address : null,
-                u.StudentProfile != null ? u.StudentProfile.ContactNo : null,
-                u.StudentProfile != null ? u.StudentProfile.FatherName : null,
-                u.StudentProfile != null ? u.StudentProfile.FatherContact : null,
-                u.StudentProfile != null ? u.StudentProfile.MotherName : null,
-                u.StudentProfile != null ? u.StudentProfile.MotherContact : null,
-                u.Username
-            ))
-            .ToListAsync();
+return await dbContext.Users
+             .Where(u => u.RoleId == StudentRoleId)
+             .Include(u => u.StudentProfile)
+             .Select(u => new StudentViewModel(
+                 u.Id,
+                 u.FullName,
+                 u.Email,
+                 u.IsActive,
+                 u.CreatedAt,
+                 u.StudentProfile != null ? u.StudentProfile.Code : null,
+                 u.StudentProfile != null ? u.StudentProfile.NID : null,
+                 u.StudentProfile != null ? u.StudentProfile.Address : null,
+                 u.StudentProfile != null ? u.StudentProfile.ContactNo : null,
+                 u.StudentProfile != null ? u.StudentProfile.FatherName : null,
+                 u.StudentProfile != null ? u.StudentProfile.FatherContact : null,
+                 u.StudentProfile != null ? u.StudentProfile.MotherName : null,
+                 u.StudentProfile != null ? u.StudentProfile.MotherContact : null,
+                 u.Username
+             ))
+             .ToListAsync();
     }
 
     public async Task<StudentViewModel?> CreateStudentAsync(CreateStudentRequest request, Guid createdById)

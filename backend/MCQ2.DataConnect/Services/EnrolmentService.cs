@@ -16,13 +16,13 @@ public class EnrolmentService(AppDbContext dbContext, IEmailService emailService
 
     public async Task<IEnumerable<EnrolmentViewModel>> GetByChapterAsync(Guid chapterId)
     {
-        return await dbContext.Enrolments
-            .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
-            .Select(e => new EnrolmentViewModel(
-                e.Id, e.StudentId!.Value, e.Student.FullName, e.Student.Email,
-                e.ChapterId, e.Chapter.Title, e.EnrolledById, e.EnrolledBy.FullName,
-                e.EnrolledAt, e.ExpiresAt, e.RemovedAt
-            )).ToListAsync();
+return await dbContext.Enrolments
+             .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
+             .Select(e => new EnrolmentViewModel(
+                 e.Id, e.StudentId!.Value, e.Student!.FullName, e.Student.Email,
+                 e.ChapterId, e.Chapter.Title, e.EnrolledById, e.EnrolledBy!.FullName,
+                 e.EnrolledAt, e.ExpiresAt, e.RemovedAt
+             )).ToListAsync();
     }
 
     public async Task<bool> EnrolAsync(Guid chapterId, Guid studentId, Guid teacherId, DateTime? expiresAt = null)

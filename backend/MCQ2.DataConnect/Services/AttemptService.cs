@@ -172,7 +172,7 @@ public class AttemptService(AppDbContext dbContext)
         var examQuestions = attempt.Exam?.ExamQuestions?.Select(eq => new ExamQuestionInfo(
             eq.QuestionId,
             eq.Question?.StemText ?? "",
-            eq.Question?.AnswerOptions?.Select(o => new AnswerOptionInfo(o.Id, o.OptionText)).ToList() ?? new List<AnswerOptionInfo>()
+            eq.Question?.AnswerOptions?.Select(o => new AnswerOptionInfo(o.Id, o.OptionText ?? "")).ToList() ?? new List<AnswerOptionInfo>()
         )).ToList() ?? new List<ExamQuestionInfo>();
 
         var examInfo = attempt.Exam != null ? new ExamInfo(
@@ -352,7 +352,7 @@ public class AttemptService(AppDbContext dbContext)
             var correctOption = aa.Question.AnswerOptions?.FirstOrDefault(o => o.IsCorrect);
             var options = (aa.Question.AnswerOptions ?? Enumerable.Empty<AnswerOption>()).Select(o => new OptionReviewItem(
                 o.Id,
-                o.OptionText,
+                o.OptionText ?? "",
                 o.IsCorrect,
                 aa.SelectedOptionId == o.Id
             )).ToList();

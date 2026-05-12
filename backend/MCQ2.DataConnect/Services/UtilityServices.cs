@@ -115,20 +115,25 @@ public class AnalyticsService(AppDbContext dbContext)
         return new ScoreDistributionResponse(ranges, counts.ToList());
     }
 
-    public async Task<IEnumerable<StudentProgressResponse>> GetChapterStudentsAsync(Guid chapterId)
-    {
-        return await dbContext.Enrolments
-            .Include(e => e.Student)
-                .ThenInclude(s => s.Attempts)
-            .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
-            .Select(e => new StudentProgressResponse(
-                e.StudentId!.Value, e.Student.FullName, e.Student.Email,
-                e.Student.Attempts.Count,
-                e.Student.Attempts.Max(a => a.Score) ?? 0,
-                e.Student.Attempts.Average(a => a.Score) ?? 0,
-                e.Student.Attempts.Max(a => a.StartedAt)
-            )).ToListAsync();
-    }
+public async Task<IEnumerable<StudentProgressResponse>> GetChapterStudentsAsync(Guid chapterId)
+     {
+         var enrolments = await dbContext.Enrolments
+             .Include(e => e.Student)
+             .Where(e => e.ChapterId == chapterId && e.RemovedAt == null)
+             .ToListAsync();
+
+         return enrolments.Where(e => e.Student != null).Select(e =>
+         {
+             var student = e.Student!;
+             return new StudentProgressResponse(
+                 e.StudentId!.Value, student.FullName, student.Email,
+                 student.Attempts.Count,
+                 student.Attempts.Max(a => a.Score) ?? 0,
+                 student.Attempts.Average(a => a.Score) ?? 0,
+                 student.Attempts.Max(a => a.StartedAt)
+             );
+         });
+     }
 
     public async Task<IEnumerable<TrendResponse>> GetChapterTrendsAsync(Guid chapterId)
     {

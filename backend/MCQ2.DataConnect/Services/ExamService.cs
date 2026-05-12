@@ -293,7 +293,7 @@ public class ExamService(AppDbContext dbContext)
         return attempts.Select(a => new AttemptSummary(
             a.Id,
             a.StudentId!.Value,
-            a.Student.FullName,
+            a.Student?.FullName ?? "",
             a.AttemptNumber,
             a.StartedAt,
             a.SubmittedAt,
@@ -333,10 +333,10 @@ public class ExamService(AppDbContext dbContext)
         var sb = new StringBuilder();
         sb.AppendLine("Student Email,Student Name,Attempt Number,Started At,Submitted At,Score,Is Passed");
 
-        foreach (var attempt in exam.Attempts)
-        {
-            sb.AppendLine($"{attempt.Student.Email},{attempt.Student.FullName},{attempt.AttemptNumber},{attempt.StartedAt},{attempt.SubmittedAt},{attempt.Score},{attempt.IsPassed}");
-        }
+foreach (var attempt in exam.Attempts)
+         {
+             sb.AppendLine($"{attempt.Student?.Email},{attempt.Student?.FullName},{attempt.AttemptNumber},{attempt.StartedAt},{attempt.SubmittedAt},{attempt.Score},{attempt.IsPassed}");
+         }
 
         return Encoding.UTF8.GetBytes(sb.ToString());
     }

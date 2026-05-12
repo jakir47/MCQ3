@@ -180,7 +180,7 @@ public class AuthService(
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim("Username", user.Username),
-            new Claim("ForeignId", foreignId.ToString()),
+            new Claim("ForeignId", foreignId?.ToString() ?? ""),
             new Claim(ClaimTypes.Name, user.FullName),
             new Claim(ClaimTypes.Role, user.RoleEntity?.Name ?? "Unknown"),
             new Claim(ClaimTypes.Email, user.Email),

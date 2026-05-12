@@ -71,26 +71,26 @@ public class NotificationJob(IServiceProvider serviceProvider, ILogger<Notificat
             .Where(e => !dbContext.Notifications.Any(n => n.UserId == e.StudentId && n.Type == "ExpiryReminder" && n.EntityId == e.Id))
             .ToListAsync();
 
-        foreach (var enrolment in expiringEnrolments)
-        {
-            try
-            {
-                await emailService.SendEmailAsync(
-                    enrolment.Student.Email,
-                    $"Enrolment expiring soon: {enrolment.Chapter.Title}",
-                    $"Dear {enrolment.Student.FullName},\n\nYour enrolment in chapter '{enrolment.Chapter.Title}' will expire on {enrolment.ExpiresAt:yyyy-MM-dd}. Please contact your teacher if you need an extension."
-                );
+foreach (var enrolment in expiringEnrolments)
+         {
+             try
+             {
+                 await emailService.SendEmailAsync(
+                     enrolment.Student?.Email ?? "",
+                     $"Enrolment expiring soon: {enrolment.Chapter?.Title ?? ""}",
+                     $"Dear {enrolment.Student?.FullName ?? ""},\n\nYour enrolment in chapter '{enrolment.Chapter?.Title ?? ""}' will expire on {enrolment.ExpiresAt:yyyy-MM-dd}. Please contact your teacher if you need an extension."
+                 );
 
-                dbContext.Notifications.Add(new Notification
-                {
-                    UserId = enrolment.StudentId!.Value,
-                    Type = "ExpiryReminder",
-                    Title = "Enrolment Expiry Reminder",
-                    Body = $"Your enrolment in '{enrolment.Chapter.Title}' expires on {enrolment.ExpiresAt:yyyy-MM-dd}",
-                    EntityId = enrolment.Id,
-                    CreatedAt = DateTime.UtcNow
-                });
-            }
+                 dbContext.Notifications.Add(new Notification
+                 {
+                     UserId = enrolment.StudentId!.Value,
+                     Type = "ExpiryReminder",
+                     Title = "Enrolment Expiry Reminder",
+                     Body = $"Your enrolment in '{enrolment.Chapter?.Title ?? ""}' expires on {enrolment.ExpiresAt:yyyy-MM-dd}",
+                     EntityId = enrolment.Id,
+                     CreatedAt = DateTime.UtcNow
+                 });
+             }
             catch (Exception ex)
             {
                 logger.LogWarning(ex, "Failed to send expiry reminder for enrolment {EnrolmentId}", enrolment.Id);
@@ -110,33 +110,37 @@ public class NotificationJob(IServiceProvider serviceProvider, ILogger<Notificat
             .Where(e => e.Status == ExamStatus.Published && e.AvailableUntil != null && e.AvailableUntil <= cutoff && e.AvailableUntil > DateTime.UtcNow)
             .ToListAsync();
 
-        foreach (var exam in upcomingExams)
-        {
-            var enrolledStudents = exam.Chapter!.Enrolments.Where(e => e.RemovedAt == null && (e.ExpiresAt == null || e.ExpiresAt > DateTime.UtcNow)).Select(e => e.Student);
+foreach (var exam in upcomingExams)
+         {
+             var enrolledStudents = exam.Chapter?.Enrolments.Where(e => e.RemovedAt == null && (e.ExpiresAt == null || e.ExpiresAt > DateTime.UtcNow)).Select(e => e.Student).Where(s => s != null);
 
-            foreach (var student in enrolledStudents)
-            {
-                var alreadyNotified = await dbContext.Notifications.AnyAsync(n => n.UserId == student.Id && n.Type == "ExamClosing" && n.EntityId == exam.Id);
-                if (alreadyNotified) continue;
+foreach (var student in enrolledStudents ?? Enumerable.Empty<Student>())
+              {
+                  var userId = student.UserId;
+                  if (userId == null) continue;
+                  var studentId = userId.Value;
 
-                try
-                {
-                    await emailService.SendExamAvailableNotificationAsync(student.Email, student.FullName, exam.Title, exam.Chapter.Title);
+                  var alreadyNotified = await dbContext.Notifications.AnyAsync(n => n.UserId == studentId && n.Type == "ExamClosing" && n.EntityId == exam.Id);
+                  if (alreadyNotified) continue;
 
-                    dbContext.Notifications.Add(new Notification
-                    {
-                        UserId = student.Id,
-                        Type = "ExamClosing",
-                        Title = "Exam Closing Soon",
-                        Body = $"Exam '{exam.Title}' will close on {exam.AvailableUntil:yyyy-MM-dd HH:mm}",
-                        EntityId = exam.Id,
-                        CreatedAt = DateTime.UtcNow
-                    });
-                }
-                catch (Exception ex)
-                {
-                    logger.LogWarning(ex, "Failed to send exam closing reminder for exam {ExamId} to student {StudentId}", exam.Id, student.Id);
-                }
+                  try
+                  {
+                      await emailService.SendExamAvailableNotificationAsync(student.Email, student.FullName, exam.Title, exam.Chapter?.Title ?? "");
+
+                      dbContext.Notifications.Add(new Notification
+                      {
+                          UserId = studentId,
+                          Type = "ExamClosing",
+                          Title = "Exam Closing Soon",
+                          Body = $"Exam '{exam.Title}' will close on {exam.AvailableUntil:yyyy-MM-dd HH:mm}",
+                          EntityId = exam.Id,
+                          CreatedAt = DateTime.UtcNow
+                      });
+                  }
+                 catch (Exception ex)
+                 {
+                     logger.LogWarning(ex, "Failed to send exam closing reminder for exam {ExamId} to student {StudentId}", exam.Id, studentId);
+                 }
             }
         }
 
