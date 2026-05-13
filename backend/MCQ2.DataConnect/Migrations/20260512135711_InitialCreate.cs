@@ -627,9 +627,9 @@ namespace MCQ3.DataConnect.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsActive", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("00000001-0000-0000-0000-000000000001"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Admin", new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1081) },
-                    { new Guid("00000002-0000-0000-0000-000000000002"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Teacher", new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1099) },
-                    { new Guid("00000003-0000-0000-0000-000000000003"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Student", new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1103) }
+                    { new Guid("00000001-0000-0000-0000-000000000001"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Admin", new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1538) },
+                    { new Guid("00000002-0000-0000-0000-000000000002"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Teacher", new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1553) },
+                    { new Guid("00000003-0000-0000-0000-000000000003"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Student", new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1570) }
                 });
 
             migrationBuilder.InsertData(
@@ -637,9 +637,9 @@ namespace MCQ3.DataConnect.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedById", "Email", "FullName", "IsActive", "PasswordHash", "RoleId", "TempPassword", "UpdatedAt", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "admin@mcq2.com", "Admin User", true, "$2a$11$hmP0AERvyby1mXRVtmG46u.GAhFfrd1U2r.ixm158GfIooAFXwR6S", new Guid("00000001-0000-0000-0000-000000000001"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin" },
-                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "teacher@mcq2.com", "John Smith", true, "$2a$11$IxI498vBIlInRxEZ8zOd3.bFrp9f4KnusnzvfMJbJgcfnw97vgYTi", new Guid("00000002-0000-0000-0000-000000000002"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "teacher" },
-                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "student@mcq2.com", "Alice Johnson", true, "$2a$11$nqLhFSZaBEF9Si4Qqm10E.l2sRFQJ6Lb1IBcxvQmUgXdX3EV3Q9Sa", new Guid("00000003-0000-0000-0000-000000000003"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "student" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "admin@mcq2.com", "Admin User", true, "$2a$11$aPLP9TOhnmSYSGExJ/.J3eK64tRy.SiWycTBa6SUcyiaS35Ze9iJe", new Guid("00000001-0000-0000-0000-000000000001"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin" },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "teacher@mcq2.com", "John Smith", true, "$2a$11$p8UznMfqsY6KgKjuGkQnlORYjYw3CrGHf8/xiZujpbxck/rjntIpy", new Guid("00000002-0000-0000-0000-000000000002"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "teacher" },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "student@mcq2.com", "Alice Johnson", true, "$2a$11$XFMlJNUb4HBzU5av5q8UBOM1v3mDJzsWQwzdoZZvRQiBe0WUNZDkq", new Guid("00000003-0000-0000-0000-000000000003"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "student" }
                 });
 
             migrationBuilder.InsertData(

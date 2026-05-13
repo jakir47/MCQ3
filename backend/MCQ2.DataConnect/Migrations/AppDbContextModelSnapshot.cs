@@ -721,7 +721,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1081)
+                            UpdatedAt = new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1538)
                         },
                         new
                         {
@@ -729,7 +729,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Teacher",
-                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1099)
+                            UpdatedAt = new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1553)
                         },
                         new
                         {
@@ -737,7 +737,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Student",
-                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1103)
+                            UpdatedAt = new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1570)
                         });
                 });
 
@@ -1066,7 +1066,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "admin@mcq2.com",
                             FullName = "Admin User",
                             IsActive = true,
-                            PasswordHash = "$2a$11$hmP0AERvyby1mXRVtmG46u.GAhFfrd1U2r.ixm158GfIooAFXwR6S",
+                            PasswordHash = "$2a$11$aPLP9TOhnmSYSGExJ/.J3eK64tRy.SiWycTBa6SUcyiaS35Ze9iJe",
                             RoleId = new Guid("00000001-0000-0000-0000-000000000001"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1079,7 +1079,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "teacher@mcq2.com",
                             FullName = "John Smith",
                             IsActive = true,
-                            PasswordHash = "$2a$11$IxI498vBIlInRxEZ8zOd3.bFrp9f4KnusnzvfMJbJgcfnw97vgYTi",
+                            PasswordHash = "$2a$11$p8UznMfqsY6KgKjuGkQnlORYjYw3CrGHf8/xiZujpbxck/rjntIpy",
                             RoleId = new Guid("00000002-0000-0000-0000-000000000002"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1092,7 +1092,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "student@mcq2.com",
                             FullName = "Alice Johnson",
                             IsActive = true,
-                            PasswordHash = "$2a$11$nqLhFSZaBEF9Si4Qqm10E.l2sRFQJ6Lb1IBcxvQmUgXdX3EV3Q9Sa",
+                            PasswordHash = "$2a$11$XFMlJNUb4HBzU5av5q8UBOM1v3mDJzsWQwzdoZZvRQiBe0WUNZDkq",
                             RoleId = new Guid("00000003-0000-0000-0000-000000000003"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
