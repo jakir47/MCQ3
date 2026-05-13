@@ -5,6 +5,7 @@ public record ExamReviewViewModel(
     string ExamTitle,
     string SubjectName,
     decimal Score,
+    decimal TotalMarks,
     bool IsPassed,
     int TotalQuestions,
     int CorrectCount,

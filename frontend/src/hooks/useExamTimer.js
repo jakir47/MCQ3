@@ -1,29 +1,34 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function useExamTimer(initialSeconds, onExpire) {
   const [remaining, setRemaining] = useState(initialSeconds)
-  const intervalRef = useRef(null)
+  const onExpireRef = useRef(onExpire)
 
   useEffect(() => {
-    if (remaining <= 0) { onExpire?.(); return }
-    intervalRef.current = setInterval(() => {
+    onExpireRef.current = onExpire
+  })
+
+  useEffect(() => {
+    setRemaining(initialSeconds)
+  }, [initialSeconds])
+
+  useEffect(() => {
+    if (remaining <= 0) return
+
+    const id = setInterval(() => {
       setRemaining(s => {
         if (s <= 1) {
-          clearInterval(intervalRef.current)
-          onExpire?.()
+          clearInterval(id)
+          onExpireRef.current?.()
           return 0
         }
         return s - 1
       })
     }, 1000)
-    return () => clearInterval(intervalRef.current)
-  }, [onExpire])
-
-  const format = useCallback(() => {
-    const m = Math.floor(remaining / 60).toString().padStart(2, '0')
-    const s = (remaining % 60).toString().padStart(2, '0')
-    return `${m}:${s}`
+    return () => clearInterval(id)
   }, [remaining])
 
-  return { remaining, formatted: format(), isWarning: remaining <= 300 }
+  const formatted = `${Math.floor(remaining / 60).toString().padStart(2, '0')}:${(remaining % 60).toString().padStart(2, '0')}`
+
+  return { remaining, formatted, isWarning: remaining <= 300 }
 }

@@ -39,9 +39,9 @@ export default function ExamReview() {
     if (!review) return []
     const questions = review.QuestionReviews || review.questionReviews || []
     if (filter === 'all') return questions
-    if (filter === 'correct') return questions.filter(q => q.IsCorrect)
-    if (filter === 'incorrect') return questions.filter(q => !q.IsCorrect && q.SelectedOptionId)
-    if (filter === 'skipped') return questions.filter(q => !q.SelectedOptionId)
+    if (filter === 'correct') return questions.filter(q => q.IsCorrect ?? q.isCorrect)
+    if (filter === 'incorrect') return questions.filter(q => !(q.IsCorrect ?? q.isCorrect) && (q.SelectedOptionId ?? q.selectedOptionId))
+    if (filter === 'skipped') return questions.filter(q => !(q.SelectedOptionId ?? q.selectedOptionId))
     return questions
   }
 
@@ -75,6 +75,8 @@ export default function ExamReview() {
   const subjectName = review.SubjectName || review.subjectName
   const isPassed = review.IsPassed ?? review.isPassed
   const score = review.Score ?? review.score
+  const totalMarks = review.TotalMarks ?? review.totalMarks
+  const scorePercent = totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0
   const correctCount = review.CorrectCount ?? review.correctCount
   const incorrectCount = review.IncorrectCount ?? review.incorrectCount
   const skippedCount = review.SkippedCount ?? review.skippedCount
@@ -103,7 +105,7 @@ export default function ExamReview() {
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
           <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-2xl font-bold text-gray-900">{score}%</p>
+            <p className="text-2xl font-bold text-gray-900">{scorePercent}%</p>
             <p className="text-sm text-gray-500">Score</p>
           </div>
           <div className="bg-green-50 rounded-lg p-3">

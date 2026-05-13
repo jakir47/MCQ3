@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { startExam, saveAttempt, submitAttempt } from '../../api/attempts'
+import { startExam, submitAttempt } from '../../api/attempts'
 import Layout from '../../components/Layout'
+import { useExamTimer } from '../../hooks/useExamTimer'
+import { useAutosave } from '../../hooks/useAutosave'
 
 export default function ExamPage() {
   const { id } = useParams()
@@ -11,10 +13,11 @@ export default function ExamPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState({})
   const [loading, setLoading] = useState(true)
-  const [remainingSecs, setRemainingSecs] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
+  const [initialRemaining, setInitialRemaining] = useState(0)
   const initialized = useRef(false)
+  const submittingRef = useRef(false)
 
   const initExam = async () => {
     try {
@@ -25,10 +28,12 @@ export default function ExamPage() {
         setExam(attempt)
         const resumeData = attempt.resumeData ? JSON.parse(attempt.resumeData) : {}
         setAnswers(resumeData.answers || {})
-        if (attempt.timeSpentSecs) {
-          setRemainingSecs(attempt.timeSpentSecs)
-        } else if (attempt.exam?.timeLimitSeconds) {
-          setRemainingSecs(attempt.exam.timeLimitSeconds)
+
+        if (attempt.exam?.timeLimitSeconds) {
+          const timeSpent = attempt.timeSpentSecs || 0
+          setInitialRemaining(attempt.exam.timeLimitSeconds - timeSpent)
+        } else {
+          setInitialRemaining(0)
         }
       } else if (data.error) {
         setError(data.error.message || 'Cannot start exam')
@@ -46,62 +51,47 @@ export default function ExamPage() {
     initExam()
   }, [id])
 
-  const handleSubmit = useCallback(async () => {
-    if (submitting) return
+  const handleSubmitRef = useRef()
+
+  const { remaining, formatted, isWarning } = useExamTimer(
+    initialRemaining,
+    () => handleSubmitRef.current?.()
+  )
+
+  const handleSubmit = () => {
+    if (submittingRef.current) return
+    submittingRef.current = true
     setSubmitting(true)
-    try {
-      const timeSpent = exam.exam?.timeLimitSeconds 
-        ? exam.exam.timeLimitSeconds - remainingSecs 
-        : 0
-      
-      const payload = {
-        Answers: answers,
-        TimeSpentSecs: timeSpent
-      }
-      
-      const { data } = await submitAttempt(attemptId, payload)
-      if (data.success) {
-        navigate(`/student/results`)
-      }
-    } catch (err) {
-      console.error(err)
-      alert('Error submitting exam')
-      setSubmitting(false)
-    }
-  }, [submitting, exam, remainingSecs, attemptId, answers, navigate])
 
-  useEffect(() => {
-    if (!exam?.exam?.timeLimitSeconds || remainingSecs <= 0) return
-    const timer = setInterval(() => {
-      setRemainingSecs(prev => {
-        if (prev <= 1) {
-          handleSubmit()
-          return 0
-        }
-        return prev - 1
+    const timeSpent = exam?.exam?.timeLimitSeconds
+      ? exam.exam.timeLimitSeconds - remaining
+      : 0
+
+    const payload = { answers, timeSpentSecs: timeSpent }
+
+    submitAttempt(attemptId, payload)
+      .then(({ data }) => {
+        if (data.success) navigate('/student/results')
       })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [exam, handleSubmit])
+      .catch(err => {
+        console.error(err)
+        alert('Error submitting exam')
+        submittingRef.current = false
+        setSubmitting(false)
+      })
+  }
 
   useEffect(() => {
-    if (!attemptId || submitting) return
-    const interval = setInterval(async () => {
-      try {
-        await saveAttempt(attemptId, { answers, timeSpentSecs: remainingSecs })
-      } catch { console.error('Autosave failed') }
-    }, 30000)
-    return () => clearInterval(interval)
-  }, [attemptId, answers, remainingSecs, submitting])
+    handleSubmitRef.current = handleSubmit
+  })
+
+  useAutosave(
+    submitting ? null : attemptId,
+    () => ({ answers, remainingSecs: remaining })
+  )
 
   const handleAnswer = (questionId, optionId) => {
     setAnswers(prev => ({ ...prev, [questionId]: optionId }))
-  }
-
-  const formatTime = (secs) => {
-    const m = Math.floor(secs / 60)
-    const s = secs % 60
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
   }
 
   if (loading) return <Layout title="Exam"><div className="p-8 text-center">Loading exam...</div></Layout>
@@ -111,7 +101,7 @@ export default function ExamPage() {
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
           <div className="text-red-600 text-lg font-medium mb-2">Cannot Start Exam</div>
           <div className="text-red-500">{error}</div>
-          <button 
+          <button
             onClick={() => navigate('/student/exams')}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
           >
@@ -133,9 +123,11 @@ export default function ExamPage() {
           <h1 className="font-semibold text-gray-900">{exam.examTitle}</h1>
           <p className="text-sm text-gray-500">Question {currentIndex + 1} of {questions.length}</p>
         </div>
-        <div className={`text-xl font-mono font-bold ${remainingSecs < 60 ? 'text-red-600' : 'text-gray-700'}`}>
-          {formatTime(remainingSecs)}
-        </div>
+        {exam.exam?.timeLimitSeconds ? (
+          <div className={`text-xl font-mono font-bold ${isWarning ? 'text-red-600' : 'text-gray-700'}`}>
+            {formatted}
+          </div>
+        ) : null}
       </div>
 
       <div className="p-6 max-w-3xl mx-auto">
@@ -147,11 +139,11 @@ export default function ExamPage() {
 
           <div className="space-y-3">
             {currentQ?.options?.map((opt) => (
-              <label 
-                key={opt.id} 
+              <label
+                key={opt.id}
                 className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                  answers[currentQ.id] === opt.id 
-                    ? 'border-indigo-600 bg-indigo-50' 
+                  answers[currentQ.id] === opt.id
+                    ? 'border-indigo-600 bg-indigo-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -175,7 +167,7 @@ export default function ExamPage() {
             >
               Previous
             </button>
-            
+
             {currentIndex < questions.length - 1 ? (
               <button
                 onClick={() => setCurrentIndex(currentIndex + 1)}

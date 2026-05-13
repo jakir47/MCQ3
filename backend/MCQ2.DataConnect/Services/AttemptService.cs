@@ -55,10 +55,11 @@ public class AttemptService(AppDbContext dbContext)
             startedAt = a.StartedAt,
             submittedAt = a.SubmittedAt,
             score = a.Score,
+            totalMarks = a.Exam?.TotalMarks ?? 0,
             isPassed = a.IsPassed,
             totalQuestions = a.Exam?.ExamQuestions?.Count ?? 0,
-            correctAnswers = a.Score > 0 && a.Exam?.PassingScore > 0 
-                ? (int)((a.Score / 100) * (a.Exam.ExamQuestions?.Count ?? 0)) 
+            correctAnswers = a.Score > 0 && a.Exam?.TotalMarks > 0 
+                ? (int)((a.Score / a.Exam.TotalMarks) * (a.Exam.ExamQuestions?.Count ?? 0)) 
                 : 0,
             timeTakenMinutes = a.TimeSpentSecs.HasValue ? (int)(a.TimeSpentSecs.Value / 60) : 0
         });
@@ -220,30 +221,22 @@ public class AttemptService(AppDbContext dbContext)
     public async Task<AttemptResultResponse?> SubmitAsync(Guid attemptId, SubmitAttemptRequest request)
     {
         var attempt = await dbContext.Attempts
+            .AsNoTracking()
             .Include(a => a.Exam)
                 .ThenInclude(e => e.ExamQuestions)
                     .ThenInclude(eq => eq.Question)
                         .ThenInclude(q => q.AnswerOptions)
             .FirstOrDefaultAsync(a => a.Id == attemptId);
 
-
         if (attempt == null || attempt.SubmittedAt != null) return null;
-
-        attempt.SubmittedAt = DateTime.UtcNow;
-        attempt.TimeSpentSecs = request.TimeSpentSecs;
 
         var correctAnswers = attempt.Exam.ExamQuestions
             .SelectMany(eq => eq.Question.AnswerOptions.Where(o => o.IsCorrect))
             .ToDictionary(o => o.QuestionId, o => o.Id);
 
-        Console.WriteLine($"DEBUG: ExamQuestions count: {attempt.Exam.ExamQuestions.Count}");
-        Console.WriteLine($"DEBUG: Request answers count: {request.Answers.Count}");
-        Console.WriteLine($"DEBUG: Request answers: {System.Text.Json.JsonSerializer.Serialize(request.Answers)}");
-
         decimal score = 0;
         int correctCount = 0, incorrectCount = 0, skippedCount = 0;
-
-      
+        var attemptAnswers = new List<AttemptAnswer>();
 
         foreach (var eq in attempt.Exam.ExamQuestions)
         {
@@ -260,8 +253,9 @@ public class AttemptService(AppDbContext dbContext)
             if (isCorrect) score += eq.Question.PositiveMarks;
             else if (hasSelected && attempt.Exam.NegativeMarking) score -= eq.Question.NegativeMarks;
 
-            attempt.AttemptAnswers.Add(new AttemptAnswer
+            attemptAnswers.Add(new AttemptAnswer
             {
+                AttemptId = attemptId,
                 QuestionId = eq.QuestionId,
                 SelectedOptionId = hasSelected ? selectedOptionId : null,
                 IsCorrect = isCorrect,
@@ -270,12 +264,10 @@ public class AttemptService(AppDbContext dbContext)
         }
 
         score = Math.Max(0, score);
-        attempt.Score = score;
-        attempt.IsPassed = score >= attempt.Exam.PassingScore;
+        var isPassed = score >= attempt.Exam.PassingScore;
+        var isReleased = attempt.Exam.AutoReleaseResults;
 
-        if (attempt.Exam.AutoReleaseResults) attempt.IsReleased = true;
-
-        attempt.ResumeData = JsonSerializer.Serialize(new
+        var resumeData = JsonSerializer.Serialize(new
         {
             answers = request.Answers,
             remainingSecs = 0,
@@ -283,18 +275,21 @@ public class AttemptService(AppDbContext dbContext)
             optionOrders = new Dictionary<Guid, List<Guid>>()
         });
 
-        try
+        var rowsAffected = await dbContext.Database.ExecuteSqlRawAsync(
+            @"UPDATE Attempt SET SubmittedAt = {0}, TimeSpentSecs = {1}, Score = {2}, IsPassed = {3}, IsReleased = {4}, ResumeData = {5}
+              WHERE Id = {6} AND SubmittedAt IS NULL",
+            DateTime.UtcNow, request.TimeSpentSecs, score, isPassed, isReleased, resumeData, attemptId);
+
+        if (rowsAffected == 0) return null;
+
+        if (attemptAnswers.Count > 0)
         {
+            dbContext.AttemptAnswers.AddRange(attemptAnswers);
             await dbContext.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
         }
 
         return new AttemptResultResponse(
-            attempt.Id, score, attempt.IsPassed.Value, attempt.IsReleased,
+            attemptId, score, isPassed, isReleased,
             attempt.Exam.ExamQuestions.Count, correctCount, incorrectCount, skippedCount, new List<QuestionResultViewModel>()
         );
     }
@@ -388,6 +383,7 @@ public class AttemptService(AppDbContext dbContext)
             attempt.Exam?.Title ?? "",
             attempt.Exam?.Chapter?.Subject?.Title ?? "",
             attempt.Score ?? 0,
+            attempt.Exam?.TotalMarks ?? 0,
             attempt.IsPassed ?? false,
             attempt.AttemptAnswers.Count,
             attempt.AttemptAnswers.Count(aa => aa.IsCorrect == true),

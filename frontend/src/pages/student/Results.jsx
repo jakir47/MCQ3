@@ -91,10 +91,10 @@ export default function StudentResults() {
                       <span className={`text-lg font-bold ${
                         result.isPassed ? 'text-green-600' : 'text-red-600'
                       }`}>
-                        {result.score}%
+                        {result.totalMarks > 0 ? Math.round((result.score / result.totalMarks) * 100) : 0}%
                       </span>
                       <span className="text-sm text-gray-500">
-                        ({result.correctAnswers}/{result.totalQuestions})
+                        ({result.score}/{result.totalMarks})
                       </span>
                     </div>
                   </td>
