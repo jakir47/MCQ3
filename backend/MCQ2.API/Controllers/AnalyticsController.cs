@@ -2,6 +2,7 @@ using MCQ3.DataConnect.Responses;
 using MCQ3.DataConnect.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using ExamSummaryViewModel = MCQ3.DataConnect.Services.ExamSummaryResponse;
 using QuestionAnalyticsViewModel = MCQ3.DataConnect.Services.QuestionAnalyticsResponse;
 using ScoreDistributionViewModel = MCQ3.DataConnect.Services.ScoreDistributionResponse;
@@ -16,6 +17,23 @@ namespace MCQ3.API.Controllers;
 [Authorize(Roles = "Teacher,Admin")]
 public class AnalyticsController([FromServices] AnalyticsService analyticsService) : ControllerBase
 {
+    private Guid GetUserId() => Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+    [HttpGet("teacher-stats")]
+    public async Task<IActionResult> GetTeacherStats()
+    {
+        var teacherUserId = GetUserId();
+        var stats = await analyticsService.GetTeacherStatsAsync(teacherUserId);
+        return Ok(new ApiResponse<TeacherStatsResponse>(true, stats));
+    }
+
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var stats = await analyticsService.GetStatsAsync();
+        return Ok(new ApiResponse<StatsResponse>(true, stats));
+    }
+
     [HttpGet("exams/{examId}/summary")]
     public async Task<IActionResult> GetExamSummary(Guid examId)
     {

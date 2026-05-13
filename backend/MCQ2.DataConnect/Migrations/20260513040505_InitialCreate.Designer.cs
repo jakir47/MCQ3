@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MCQ3.DataConnect.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260512113932_InitialCreate")]
+    [Migration("20260513040505_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -317,6 +317,9 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<Guid>("EnrolledById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("ExpiresAt")
                         .HasColumnType("datetime2");
 
@@ -340,6 +343,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("ChapterId");
 
                     b.HasIndex("EnrolledById");
+
+                    b.HasIndex("ExamId");
 
                     b.HasIndex("UserAccountId");
 
@@ -572,38 +577,6 @@ namespace MCQ3.DataConnect.Migrations
                     b.ToTable("PasswordReset", (string)null);
                 });
 
-            modelBuilder.Entity("MCQ3.DataConnect.Entities.PlatformSetting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PlatformSetting", (string)null);
-                });
-
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -724,7 +697,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1081)
+                            UpdatedAt = new DateTime(2026, 5, 13, 4, 5, 3, 904, DateTimeKind.Utc).AddTicks(2786)
                         },
                         new
                         {
@@ -732,7 +705,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Teacher",
-                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1099)
+                            UpdatedAt = new DateTime(2026, 5, 13, 4, 5, 3, 904, DateTimeKind.Utc).AddTicks(2812)
                         },
                         new
                         {
@@ -740,7 +713,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Student",
-                            UpdatedAt = new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1103)
+                            UpdatedAt = new DateTime(2026, 5, 13, 4, 5, 3, 904, DateTimeKind.Utc).AddTicks(2815)
                         });
                 });
 
@@ -1069,7 +1042,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "admin@mcq2.com",
                             FullName = "Admin User",
                             IsActive = true,
-                            PasswordHash = "$2a$11$hmP0AERvyby1mXRVtmG46u.GAhFfrd1U2r.ixm158GfIooAFXwR6S",
+                            PasswordHash = "$2a$11$YwSpCFoG3NTEPbp4xv9ji.s8tK4eoHgY/isa8o.XgIN43cxq7rhty",
                             RoleId = new Guid("00000001-0000-0000-0000-000000000001"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1082,7 +1055,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "teacher@mcq2.com",
                             FullName = "John Smith",
                             IsActive = true,
-                            PasswordHash = "$2a$11$IxI498vBIlInRxEZ8zOd3.bFrp9f4KnusnzvfMJbJgcfnw97vgYTi",
+                            PasswordHash = "$2a$11$evaE/f9F4MOZQU3uf7BJpOnDP7WDdJxiMB6zE/d8a5v1nqbW9ruaC",
                             RoleId = new Guid("00000002-0000-0000-0000-000000000002"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1095,7 +1068,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "student@mcq2.com",
                             FullName = "Alice Johnson",
                             IsActive = true,
-                            PasswordHash = "$2a$11$nqLhFSZaBEF9Si4Qqm10E.l2sRFQJ6Lb1IBcxvQmUgXdX3EV3Q9Sa",
+                            PasswordHash = "$2a$11$TMyd2wSKcnVJ5CwkqU2tg.6axAuWlBHQwSTw3rcOAgxrZl3Ff1wPS",
                             RoleId = new Guid("00000003-0000-0000-0000-000000000003"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1209,6 +1182,10 @@ namespace MCQ3.DataConnect.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("MCQ3.DataConnect.Entities.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId");
+
                     b.HasOne("MCQ3.DataConnect.Entities.Student", "Student")
                         .WithMany("Enrolments")
                         .HasForeignKey("StudentId")
@@ -1221,6 +1198,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.Navigation("Chapter");
 
                     b.Navigation("EnrolledBy");
+
+                    b.Navigation("Exam");
 
                     b.Navigation("Student");
                 });
@@ -1327,7 +1306,7 @@ namespace MCQ3.DataConnect.Migrations
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Student", b =>
                 {
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", "User")
-                        .WithOne("StudentProfile")
+                        .WithOne("Student")
                         .HasForeignKey("MCQ3.DataConnect.Entities.Student", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1378,7 +1357,7 @@ namespace MCQ3.DataConnect.Migrations
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Teacher", b =>
                 {
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", "User")
-                        .WithOne("TeacherProfile")
+                        .WithOne("Teacher")
                         .HasForeignKey("MCQ3.DataConnect.Entities.Teacher", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1476,11 +1455,11 @@ namespace MCQ3.DataConnect.Migrations
 
                     b.Navigation("RefreshTokens");
 
-                    b.Navigation("StudentProfile");
+                    b.Navigation("Student");
 
                     b.Navigation("Subjects");
 
-                    b.Navigation("TeacherProfile");
+                    b.Navigation("Teacher");
                 });
 #pragma warning restore 612, 618
         }

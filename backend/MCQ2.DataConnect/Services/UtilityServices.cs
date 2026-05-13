@@ -1,6 +1,8 @@
 using System.Text.Json;
 using MCQ3.DataConnect.Data;
 using MCQ3.DataConnect.Entities;
+using MCQ3.DataConnect.Enums;
+using MCQ3.DataConnect.Responses;
 using MCQ3.DataConnect.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +64,55 @@ public class UploadService(IConfiguration configuration, ILogger<UploadService> 
 
 public class AnalyticsService(AppDbContext dbContext)
 {
+    public async Task<StatsResponse> GetStatsAsync()
+    {
+        var totalUsers = await dbContext.Users.CountAsync();
+        var totalSubjects = await dbContext.Subjects.CountAsync();
+        var totalExams = await dbContext.Exams.CountAsync();
+        var totalAttempts = await dbContext.Attempts.CountAsync(a => a.SubmittedAt != null);
+
+        return new StatsResponse(totalUsers, totalSubjects, totalExams, totalAttempts);
+    }
+
+    public async Task<TeacherStatsResponse> GetTeacherStatsAsync(Guid teacherUserId)
+    {
+        var teacher = await dbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == teacherUserId);
+        if (teacher == null) return new TeacherStatsResponse(0, 0, 0, 0, 0, 0);
+
+        var teacherSubjectIds = await dbContext.Subjects
+            .Where(s => s.TeacherId == teacher.Id)
+            .Select(s => s.Id)
+            .ToListAsync();
+
+        var teacherChapterIds = await dbContext.Chapters
+            .Where(c => teacherSubjectIds.Contains(c.SubjectId))
+            .Select(c => c.Id)
+            .ToListAsync();
+
+        var totalSubjects = teacherSubjectIds.Count;
+        var totalChapters = teacherChapterIds.Count;
+
+        var totalStudents = await dbContext.StudentChapters
+            .Where(sc => teacherChapterIds.Contains(sc.ChapterId) && sc.IsActive)
+            .Select(sc => sc.StudentId)
+            .Distinct()
+            .CountAsync();
+
+        var activeExams = await dbContext.Exams
+            .Where(e => teacherChapterIds.Contains(e.ChapterId) && e.Status == ExamStatus.Published)
+            .CountAsync();
+
+        var totalQuestions = await dbContext.Questions
+            .Where(q => teacherChapterIds.Contains(q.ChapterId))
+            .CountAsync();
+
+        var totalAttempts = await dbContext.Attempts
+            .Where(a => teacherChapterIds.Contains(a.Exam.ChapterId) && a.SubmittedAt != null)
+            .CountAsync();
+
+        return new TeacherStatsResponse(totalSubjects, totalChapters, totalStudents, activeExams, totalQuestions, totalAttempts);
+    }
+
     public async Task<ExamSummaryResponse> GetExamSummaryAsync(Guid examId)
     {
         var attempts = await dbContext.Attempts

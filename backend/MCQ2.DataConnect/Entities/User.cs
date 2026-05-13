@@ -13,8 +13,8 @@ public class UserAccount : BaseEntity
     public Guid? RoleId { get; set; }
     public Role? RoleEntity { get; set; }
 
-    public Teacher? TeacherProfile { get; set; }
-    public Student? StudentProfile { get; set; }
+    public Teacher? Teacher { get; set; }
+    public Student? Student { get; set; }
 
     public UserAccount? CreatedBy { get; set; }
     public ICollection<Subject> Subjects { get; set; } = new List<Subject>();

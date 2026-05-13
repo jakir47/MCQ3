@@ -94,25 +94,40 @@ public class EnrolmentService(AppDbContext dbContext, IEmailService emailService
         var enrolledCount = 0;
         foreach (var studentId in studentIds)
         {
-            var existing = await dbContext.Enrolments
+            var existingActive = await dbContext.Enrolments
                 .FirstOrDefaultAsync(e => e.StudentId == studentId && e.ExamId == examId && e.RemovedAt == null);
 
-            if (existing != null) continue;
+            if (existingActive != null) continue;
+
+            var existingRemoved = await dbContext.Enrolments
+                .FirstOrDefaultAsync(e => e.StudentId == studentId && e.ChapterId == exam.ChapterId && e.RemovedAt != null);
 
             var student = await dbContext.Users.FindAsync(studentId);
             if (student == null) continue;
 
-            var enrolment = new Enrolment
+            if (existingRemoved != null)
             {
-                StudentId = studentId,
-                ChapterId = exam.ChapterId,
-                ExamId = examId,
-                EnrolledById = teacherId,
-                ExpiresAt = expiresAt
-            };
+                existingRemoved.ExamId = examId;
+                existingRemoved.RemovedAt = null;
+                existingRemoved.EnrolledById = teacherId;
+                existingRemoved.EnrolledAt = DateTime.UtcNow;
+                existingRemoved.ExpiresAt = expiresAt;
+                enrolledCount++;
+            }
+            else
+            {
+                var enrolment = new Enrolment
+                {
+                    StudentId = studentId,
+                    ChapterId = exam.ChapterId,
+                    ExamId = examId,
+                    EnrolledById = teacherId,
+                    ExpiresAt = expiresAt
+                };
 
-            dbContext.Enrolments.Add(enrolment);
-            enrolledCount++;
+                dbContext.Enrolments.Add(enrolment);
+                enrolledCount++;
+            }
 
             try
             {
@@ -334,5 +349,20 @@ public class EnrolmentService(AppDbContext dbContext, IEmailService emailService
 
         await dbContext.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<int> UnenrollStudentsFromExamAsync(Guid examId, List<Guid> studentIds)
+    {
+        var enrolments = await dbContext.Enrolments
+            .Where(e => e.ExamId == examId && studentIds.Contains(e.StudentId!.Value) && e.RemovedAt == null)
+            .ToListAsync();
+
+        foreach (var enrolment in enrolments)
+        {
+            enrolment.RemovedAt = DateTime.UtcNow;
+        }
+
+        await dbContext.SaveChangesAsync();
+        return enrolments.Count;
     }
 }

@@ -35,10 +35,23 @@ public class EnrolmentsController([FromServices] EnrolmentService enrolmentServi
         var count = await enrolmentService.EnrolStudentsInExamAsync(examId, request.StudentIds, teacherId, request.ExpiresAt);
         return Ok(new ApiResponse<int>(true, count));
     }
+
+    [HttpPost("exam/{examId}/unenrol")]
+    [Authorize(Roles = "Teacher")]
+    public async Task<IActionResult> UnenrollStudentsFromExam(Guid examId, [FromBody] UnenrollStudentsRequest request)
+    {
+        var count = await enrolmentService.UnenrollStudentsFromExamAsync(examId, request.StudentIds);
+        return Ok(new ApiResponse<int>(true, count));
+    }
 }
 
 public class EnrolStudentsRequest
 {
     public List<Guid> StudentIds { get; set; } = new();
     public DateTime? ExpiresAt { get; set; }
+}
+
+public class UnenrollStudentsRequest
+{
+    public List<Guid> StudentIds { get; set; } = new();
 }

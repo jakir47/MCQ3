@@ -14,23 +14,6 @@ namespace MCQ3.DataConnect.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PlatformSetting",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlatformSetting", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
@@ -344,50 +327,6 @@ namespace MCQ3.DataConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enrolment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ChapterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnrolledById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnrolledAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RemovedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TransferredFromChapterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enrolment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Enrolment_Chapter_ChapterId",
-                        column: x => x.ChapterId,
-                        principalTable: "Chapter",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Enrolment_Student_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Student",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Enrolment_UserAccount_EnrolledById",
-                        column: x => x.EnrolledById,
-                        principalTable: "UserAccount",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Enrolment_UserAccount_UserAccountId",
-                        column: x => x.UserAccountId,
-                        principalTable: "UserAccount",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Exam",
                 columns: table => new
                 {
@@ -534,6 +473,56 @@ namespace MCQ3.DataConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Enrolment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ChapterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EnrolledById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EnrolledAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RemovedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TransferredFromChapterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enrolment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Enrolment_Chapter_ChapterId",
+                        column: x => x.ChapterId,
+                        principalTable: "Chapter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Enrolment_Exam_ExamId",
+                        column: x => x.ExamId,
+                        principalTable: "Exam",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Enrolment_Student_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Student",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Enrolment_UserAccount_EnrolledById",
+                        column: x => x.EnrolledById,
+                        principalTable: "UserAccount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Enrolment_UserAccount_UserAccountId",
+                        column: x => x.UserAccountId,
+                        principalTable: "UserAccount",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AnswerOption",
                 columns: table => new
                 {
@@ -627,9 +616,9 @@ namespace MCQ3.DataConnect.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsActive", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("00000001-0000-0000-0000-000000000001"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Admin", new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1081) },
-                    { new Guid("00000002-0000-0000-0000-000000000002"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Teacher", new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1099) },
-                    { new Guid("00000003-0000-0000-0000-000000000003"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Student", new DateTime(2026, 5, 12, 11, 39, 31, 401, DateTimeKind.Utc).AddTicks(1103) }
+                    { new Guid("00000001-0000-0000-0000-000000000001"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Admin", new DateTime(2026, 5, 13, 4, 5, 3, 904, DateTimeKind.Utc).AddTicks(2786) },
+                    { new Guid("00000002-0000-0000-0000-000000000002"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Teacher", new DateTime(2026, 5, 13, 4, 5, 3, 904, DateTimeKind.Utc).AddTicks(2812) },
+                    { new Guid("00000003-0000-0000-0000-000000000003"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), true, "Student", new DateTime(2026, 5, 13, 4, 5, 3, 904, DateTimeKind.Utc).AddTicks(2815) }
                 });
 
             migrationBuilder.InsertData(
@@ -637,9 +626,9 @@ namespace MCQ3.DataConnect.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedById", "Email", "FullName", "IsActive", "PasswordHash", "RoleId", "TempPassword", "UpdatedAt", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "admin@mcq2.com", "Admin User", true, "$2a$11$hmP0AERvyby1mXRVtmG46u.GAhFfrd1U2r.ixm158GfIooAFXwR6S", new Guid("00000001-0000-0000-0000-000000000001"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin" },
-                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "teacher@mcq2.com", "John Smith", true, "$2a$11$IxI498vBIlInRxEZ8zOd3.bFrp9f4KnusnzvfMJbJgcfnw97vgYTi", new Guid("00000002-0000-0000-0000-000000000002"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "teacher" },
-                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "student@mcq2.com", "Alice Johnson", true, "$2a$11$nqLhFSZaBEF9Si4Qqm10E.l2sRFQJ6Lb1IBcxvQmUgXdX3EV3Q9Sa", new Guid("00000003-0000-0000-0000-000000000003"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "student" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "admin@mcq2.com", "Admin User", true, "$2a$11$YwSpCFoG3NTEPbp4xv9ji.s8tK4eoHgY/isa8o.XgIN43cxq7rhty", new Guid("00000001-0000-0000-0000-000000000001"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin" },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "teacher@mcq2.com", "John Smith", true, "$2a$11$evaE/f9F4MOZQU3uf7BJpOnDP7WDdJxiMB6zE/d8a5v1nqbW9ruaC", new Guid("00000002-0000-0000-0000-000000000002"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "teacher" },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "student@mcq2.com", "Alice Johnson", true, "$2a$11$TMyd2wSKcnVJ5CwkqU2tg.6axAuWlBHQwSTw3rcOAgxrZl3Ff1wPS", new Guid("00000003-0000-0000-0000-000000000003"), false, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "student" }
                 });
 
             migrationBuilder.InsertData(
@@ -733,6 +722,11 @@ namespace MCQ3.DataConnect.Migrations
                 name: "IX_Enrolment_EnrolledById",
                 table: "Enrolment",
                 column: "EnrolledById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrolment_ExamId",
+                table: "Enrolment",
+                column: "ExamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enrolment_StudentId_ChapterId",
@@ -908,9 +902,6 @@ namespace MCQ3.DataConnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "PasswordReset");
-
-            migrationBuilder.DropTable(
-                name: "PlatformSetting");
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
