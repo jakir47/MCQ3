@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
 import { getSubjects } from '../../api/subjects'
+import { getSubjectAnalytics } from '../../api/analytics'
 
 export default function TeacherAnalyticsPage() {
   const [subjects, setSubjects] = useState([])
@@ -16,19 +17,20 @@ export default function TeacherAnalyticsPage() {
   }
 
   const loadAnalytics = async () => {
+    if (!selectedSubject) return
     setLoading(true)
     try {
-      setExamStats({
-        totalStudents: 150,
-        totalExams: 12,
-        avgScore: 72.5,
-        passRate: 85,
-        topPerformers: [
-          { name: 'John Doe', score: 95 },
-          { name: 'Jane Smith', score: 92 },
-          { name: 'Bob Wilson', score: 88 }
-        ]
-      })
+      const { data } = await getSubjectAnalytics(selectedSubject)
+      if (data.success) {
+        setExamStats({
+          totalStudents: data.data.totalStudents,
+          totalExams: data.data.totalExams,
+          avgScore: data.data.avgScore,
+          passRate: data.data.passRate,
+          scoreDistribution: data.data.scoreDistribution || [],
+          topPerformers: (data.data.topPerformers || []).map(t => ({ name: t.studentName, score: t.avgScore }))
+        })
+      }
     } catch (err) { console.error(err) }
     finally { setLoading(false) }
   }
@@ -74,21 +76,25 @@ export default function TeacherAnalyticsPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Score Distribution</h3>
           {loading ? <div className="text-gray-500">Loading...</div> : (
             <div className="space-y-3">
-              {[
-                { range: '90-100%', count: 15, color: 'bg-emerald-500' },
-                { range: '80-89%', count: 25, color: 'bg-emerald-400' },
-                { range: '70-79%', count: 35, color: 'bg-emerald-300' },
-                { range: '60-69%', count: 20, color: 'bg-amber-400' },
-                { range: 'Below 60%', count: 5, color: 'bg-red-400' }
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <span className="w-16 text-sm text-gray-600">{item.range}</span>
-                  <div className="flex-1 h-6 bg-gray-100 rounded-full overflow-hidden">
-                    <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.count}%` }}></div>
+              {(examStats?.scoreDistribution?.length > 0 ? examStats.scoreDistribution : [
+                { range: '90-100%', count: 0, color: 'bg-emerald-500' },
+                { range: '80-89%', count: 0, color: 'bg-emerald-400' },
+                { range: '70-79%', count: 0, color: 'bg-emerald-300' },
+                { range: '60-69%', count: 0, color: 'bg-amber-400' },
+                { range: 'Below 60%', count: 0, color: 'bg-red-400' }
+              ]).map((item, idx) => {
+                const maxCount = Math.max(examStats?.scoreDistribution?.reduce((a, b) => Math.max(a, b.count), 1) || 1, 1)
+                const colors = ['bg-emerald-500', 'bg-emerald-400', 'bg-emerald-300', 'bg-amber-400', 'bg-red-400']
+                return (
+                  <div key={idx} className="flex items-center gap-3">
+                    <span className="w-16 text-sm text-gray-600">{item.range}</span>
+                    <div className="flex-1 h-6 bg-gray-100 rounded-full overflow-hidden">
+                      <div className={`h-full ${colors[idx]} rounded-full`} style={{ width: `${(item.count / maxCount) * 100}%` }}></div>
+                    </div>
+                    <span className="w-8 text-sm text-gray-500 text-right">{item.count}</span>
                   </div>
-                  <span className="w-8 text-sm text-gray-500 text-right">{item.count}</span>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>

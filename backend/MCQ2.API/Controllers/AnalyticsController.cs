@@ -27,6 +27,14 @@ public class AnalyticsController([FromServices] AnalyticsService analyticsServic
         return Ok(new ApiResponse<TeacherStatsResponse>(true, stats));
     }
 
+    [HttpGet("subjects/{subjectId}/analytics")]
+    public async Task<IActionResult> GetSubjectAnalytics(Guid subjectId)
+    {
+        var teacherUserId = GetUserId();
+        var stats = await analyticsService.GetSubjectAnalyticsAsync(subjectId, teacherUserId);
+        return Ok(new ApiResponse<SubjectAnalyticsResponse>(true, stats));
+    }
+
     [HttpGet("stats")]
     public async Task<IActionResult> GetStats()
     {

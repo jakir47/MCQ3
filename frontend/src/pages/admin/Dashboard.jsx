@@ -11,17 +11,20 @@ export default function AdminDashboard() {
 
   const loadData = async () => {
     try {
-      const [usersRes] = await Promise.all([
+      const [statsRes, usersRes] = await Promise.all([
+        get('/v1/analytics/stats'),
         get('/v1/users')
       ])
+      if (statsRes.data.success) {
+        setStats({
+          users: statsRes.data.data.totalUsers,
+          subjects: statsRes.data.data.totalSubjects,
+          exams: statsRes.data.data.totalExams,
+          attempts: statsRes.data.data.totalAttempts
+        })
+      }
       if (usersRes.data.success) {
         setRecentUsers(usersRes.data.data.slice(0, 5))
-        setStats({
-          users: usersRes.data.data.length,
-          subjects: 12,
-          exams: 45,
-          attempts: 2500
-        })
       }
     } catch (err) {
       console.error(err)

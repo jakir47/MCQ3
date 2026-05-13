@@ -226,6 +226,7 @@ public class AttemptService(AppDbContext dbContext)
                         .ThenInclude(q => q.AnswerOptions)
             .FirstOrDefaultAsync(a => a.Id == attemptId);
 
+
         if (attempt == null || attempt.SubmittedAt != null) return null;
 
         attempt.SubmittedAt = DateTime.UtcNow;
@@ -241,6 +242,8 @@ public class AttemptService(AppDbContext dbContext)
 
         decimal score = 0;
         int correctCount = 0, incorrectCount = 0, skippedCount = 0;
+
+      
 
         foreach (var eq in attempt.Exam.ExamQuestions)
         {
@@ -280,7 +283,15 @@ public class AttemptService(AppDbContext dbContext)
             optionOrders = new Dictionary<Guid, List<Guid>>()
         });
 
-        await dbContext.SaveChangesAsync();
+        try
+        {
+            await dbContext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         return new AttemptResultResponse(
             attempt.Id, score, attempt.IsPassed.Value, attempt.IsReleased,
@@ -291,9 +302,10 @@ public class AttemptService(AppDbContext dbContext)
     public async Task<AttemptResultResponse?> GetResultAsync(Guid attemptId)
     {
         var attempt = await dbContext.Attempts
+            .Include(a => a.AttemptAnswers)
             .Include(a => a.Exam)
             .Include(a => a.AttemptAnswers)
-                .ThenInclude(aa => aa.Question)
+            .ThenInclude(aa => aa.Question).ThenInclude(question => question.AnswerOptions)
             .Include(a => a.AttemptAnswers)
                 .ThenInclude(aa => aa.SelectedOption)
             .FirstOrDefaultAsync(a => a.Id == attemptId);
