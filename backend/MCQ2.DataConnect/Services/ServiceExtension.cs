@@ -19,8 +19,6 @@ public static class ServiceExtension
         services.AddScoped<AnalyticsService>();
         services.AddScoped<NotificationService>();
         services.AddScoped<AuditLogService>();
-        services.AddScoped<SettingsService>();
-        services.AddHostedService<NotificationJob>();
         return services;
     }
 }

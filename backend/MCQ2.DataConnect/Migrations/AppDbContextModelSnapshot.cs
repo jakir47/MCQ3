@@ -57,6 +57,1808 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("AnswerOption", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("354db397-7193-44dc-ad5f-85fa487c51c5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3004),
+                            IsCorrect = false,
+                            OptionText = "var",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0001-0001-0001-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3004)
+                        },
+                        new
+                        {
+                            Id = new Guid("030f22d6-5fb6-4abe-8dd2-6443a2d45efc"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3041),
+                            IsCorrect = true,
+                            OptionText = "int",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0001-0001-0001-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3041)
+                        },
+                        new
+                        {
+                            Id = new Guid("b2aceb5a-ceb9-4425-becb-625b3eff8d73"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3045),
+                            IsCorrect = false,
+                            OptionText = "let",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0001-0001-0001-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3046)
+                        },
+                        new
+                        {
+                            Id = new Guid("99b2fdd8-6d01-466b-a28d-7547a01ed475"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3050),
+                            IsCorrect = false,
+                            OptionText = "define",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0001-0001-0001-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3066)
+                        },
+                        new
+                        {
+                            Id = new Guid("80f830e4-79b4-4a34-9b6c-9a780b5c0f94"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3348),
+                            IsCorrect = false,
+                            OptionText = "null",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0002-0002-0002-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3348)
+                        },
+                        new
+                        {
+                            Id = new Guid("4f0a8c0f-97e3-4bee-beda-d12a637f4f55"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3365),
+                            IsCorrect = true,
+                            OptionText = "0",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0002-0002-0002-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3365)
+                        },
+                        new
+                        {
+                            Id = new Guid("a0d673d2-0403-4c16-9ab2-8703bfcca5f0"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3371),
+                            IsCorrect = false,
+                            OptionText = "undefined",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0002-0002-0002-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3372)
+                        },
+                        new
+                        {
+                            Id = new Guid("ad2b250e-ec7e-4f1f-972b-0a44a02df5db"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3375),
+                            IsCorrect = false,
+                            OptionText = "1",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0002-0002-0002-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3375)
+                        },
+                        new
+                        {
+                            Id = new Guid("f371bca9-517b-4658-a377-e6c8e1ef0518"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3501),
+                            IsCorrect = true,
+                            OptionText = "myVariable",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0003-0003-0003-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3502)
+                        },
+                        new
+                        {
+                            Id = new Guid("39f7a4f9-6adc-4fdf-a910-4766efc6f971"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3529),
+                            IsCorrect = false,
+                            OptionText = "2var",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0003-0003-0003-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3529)
+                        },
+                        new
+                        {
+                            Id = new Guid("5e0df42b-063a-4ca1-994f-249fbcacb226"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3533),
+                            IsCorrect = false,
+                            OptionText = "my-variable",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0003-0003-0003-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3534)
+                        },
+                        new
+                        {
+                            Id = new Guid("bcfc0b97-9f4a-4c50-be5d-a134ae89dcb5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3540),
+                            IsCorrect = false,
+                            OptionText = "class",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0003-0003-0003-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3540)
+                        },
+                        new
+                        {
+                            Id = new Guid("9d8c600f-71f9-4c68-b194-1c02434a458e"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3584),
+                            IsCorrect = false,
+                            OptionText = "string",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0004-0004-0004-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3584)
+                        },
+                        new
+                        {
+                            Id = new Guid("8a7b6592-8f6f-4a7b-87e8-9035f0a7c059"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3593),
+                            IsCorrect = true,
+                            OptionText = "Type object",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0004-0004-0004-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3594)
+                        },
+                        new
+                        {
+                            Id = new Guid("333ea003-c8c9-4f46-a26a-47a32448eae5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3599),
+                            IsCorrect = false,
+                            OptionText = "bool",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0004-0004-0004-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3599)
+                        },
+                        new
+                        {
+                            Id = new Guid("5f0f0e17-82a6-4b8e-907f-5152e5b9b971"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3602),
+                            IsCorrect = false,
+                            OptionText = "int",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0004-0004-0004-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3602)
+                        },
+                        new
+                        {
+                            Id = new Guid("aa0086c8-7045-4513-bd45-619b7687b14e"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3886),
+                            IsCorrect = false,
+                            OptionText = "ArrayList",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0005-0005-0005-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3886)
+                        },
+                        new
+                        {
+                            Id = new Guid("3192f2d9-ff3f-4d15-9750-3a922e4ecd32"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3891),
+                            IsCorrect = true,
+                            OptionText = "Array",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0005-0005-0005-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3891)
+                        },
+                        new
+                        {
+                            Id = new Guid("efa2f4c2-3a48-4b25-bc3f-2bc9f5b4276b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3894),
+                            IsCorrect = false,
+                            OptionText = "Dictionary",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0005-0005-0005-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3894)
+                        },
+                        new
+                        {
+                            Id = new Guid("ff1a78dc-d3c4-4983-b455-9e8b7bb785c0"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3903),
+                            IsCorrect = false,
+                            OptionText = "HashSet",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0005-0005-0005-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3904)
+                        },
+                        new
+                        {
+                            Id = new Guid("e89a7edb-ab75-4888-8c52-a431112e47b2"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3939),
+                            IsCorrect = false,
+                            OptionText = "System",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0006-0006-0006-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3939)
+                        },
+                        new
+                        {
+                            Id = new Guid("48f71800-3356-4d12-a486-a45ae366898c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3942),
+                            IsCorrect = true,
+                            OptionText = "object",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0006-0006-0006-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3942)
+                        },
+                        new
+                        {
+                            Id = new Guid("c55f2580-fc96-4909-b6bc-4083ac8f2e75"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3945),
+                            IsCorrect = false,
+                            OptionText = "ValueType",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0006-0006-0006-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3945)
+                        },
+                        new
+                        {
+                            Id = new Guid("a26f3f89-dae3-4e24-8fc1-3431ceabfaff"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3950),
+                            IsCorrect = false,
+                            OptionText = "Base",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0006-0006-0006-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3951)
+                        },
+                        new
+                        {
+                            Id = new Guid("bbc15e6e-a64b-4684-a4f5-108c8e9b2f3b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3986),
+                            IsCorrect = false,
+                            OptionText = "extends",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0007-0007-0007-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3986)
+                        },
+                        new
+                        {
+                            Id = new Guid("574359d1-655f-4fd3-a853-fb8b84afa5ee"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3990),
+                            IsCorrect = true,
+                            OptionText = ":",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0007-0007-0007-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3990)
+                        },
+                        new
+                        {
+                            Id = new Guid("b08aa0f8-6d73-4637-a104-a91103812375"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3995),
+                            IsCorrect = false,
+                            OptionText = "inherits",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0007-0007-0007-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3995)
+                        },
+                        new
+                        {
+                            Id = new Guid("b90d45bf-e437-4b1d-a314-49d0f8948acc"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3998),
+                            IsCorrect = false,
+                            OptionText = "implements",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0007-0007-0007-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(3998)
+                        },
+                        new
+                        {
+                            Id = new Guid("26049420-61eb-4ef1-bfac-5000fd1983b5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4028),
+                            IsCorrect = false,
+                            OptionText = "A data type",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0008-0008-0008-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4028)
+                        },
+                        new
+                        {
+                            Id = new Guid("728bdfde-3350-4dc0-b926-f9c3f79ebf40"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4032),
+                            IsCorrect = true,
+                            OptionText = "A container for organizing types",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0008-0008-0008-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4032)
+                        },
+                        new
+                        {
+                            Id = new Guid("9aace4ae-b9c0-42b0-8f2d-ddfbee9d4be5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4037),
+                            IsCorrect = false,
+                            OptionText = "A loop structure",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0008-0008-0008-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4037)
+                        },
+                        new
+                        {
+                            Id = new Guid("280bc331-a75f-460f-9f1c-1fdfca1c9842"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4040),
+                            IsCorrect = false,
+                            OptionText = "A method",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0008-0008-0008-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4040)
+                        },
+                        new
+                        {
+                            Id = new Guid("3cee4e85-136f-4257-9639-17d0640903d6"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4113),
+                            IsCorrect = false,
+                            OptionText = "public",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0009-0009-0009-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4113)
+                        },
+                        new
+                        {
+                            Id = new Guid("c371d616-a1c3-41c9-99ff-6e9e6d883e56"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4118),
+                            IsCorrect = true,
+                            OptionText = "internal",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0009-0009-0009-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4119)
+                        },
+                        new
+                        {
+                            Id = new Guid("1630cbab-5d50-43df-80d7-f9a7aeaf4d59"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4122),
+                            IsCorrect = false,
+                            OptionText = "private",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0009-0009-0009-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4122)
+                        },
+                        new
+                        {
+                            Id = new Guid("ce1fe9e5-a24e-48b0-881c-f293342e4318"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4125),
+                            IsCorrect = false,
+                            OptionText = "protected",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0009-0009-0009-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4125)
+                        },
+                        new
+                        {
+                            Id = new Guid("d3f2c725-1f49-4883-8d6a-e546821a74b6"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4502),
+                            IsCorrect = false,
+                            OptionText = "To import namespaces",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0010-0010-0010-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4503)
+                        },
+                        new
+                        {
+                            Id = new Guid("b20ed573-dfde-458f-986c-6ef639d2f811"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4517),
+                            IsCorrect = true,
+                            OptionText = "To ensure proper disposal of resources",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0010-0010-0010-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4517)
+                        },
+                        new
+                        {
+                            Id = new Guid("57558fd7-3cf2-42d7-955f-7243b9384ecf"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4520),
+                            IsCorrect = false,
+                            OptionText = "To create threads",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0010-0010-0010-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4521)
+                        },
+                        new
+                        {
+                            Id = new Guid("70f8a717-e460-4d11-8f18-1c11f6f3a8a1"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4523),
+                            IsCorrect = false,
+                            OptionText = "To handle exceptions",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0010-0010-0010-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4524)
+                        },
+                        new
+                        {
+                            Id = new Guid("15f1e6e1-79ac-4962-adaf-e34e8c06e2c9"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4556),
+                            IsCorrect = false,
+                            OptionText = "int",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0011-0011-0011-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4556)
+                        },
+                        new
+                        {
+                            Id = new Guid("f306c8ab-9b1b-4a33-8acc-864ac2257965"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4563),
+                            IsCorrect = false,
+                            OptionText = "bool",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0011-0011-0011-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4564)
+                        },
+                        new
+                        {
+                            Id = new Guid("faef575a-10c5-4b3d-b1da-d21eb0a7714c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4567),
+                            IsCorrect = true,
+                            OptionText = "string",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0011-0011-0011-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4567)
+                        },
+                        new
+                        {
+                            Id = new Guid("376ad599-c8a7-4d70-b80b-bddba08d7c67"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4570),
+                            IsCorrect = false,
+                            OptionText = "struct",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0011-0011-0011-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4570)
+                        },
+                        new
+                        {
+                            Id = new Guid("3f1fae73-ad5f-4e09-8c67-edefda8b95ce"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4591),
+                            IsCorrect = false,
+                            OptionText = "Converting object to value type",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0012-0012-0012-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4591)
+                        },
+                        new
+                        {
+                            Id = new Guid("55a09b24-3bf6-4649-a65f-3a2a684c85e4"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4594),
+                            IsCorrect = true,
+                            OptionText = "Converting value type to object",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0012-0012-0012-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4595)
+                        },
+                        new
+                        {
+                            Id = new Guid("26492e2f-2bba-4805-aeb5-52608d59e160"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4598),
+                            IsCorrect = false,
+                            OptionText = "Converting string to int",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0012-0012-0012-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4598)
+                        },
+                        new
+                        {
+                            Id = new Guid("3cb6c305-5a31-416f-ad38-6ec356c6a9ef"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4601),
+                            IsCorrect = false,
+                            OptionText = "Converting int to string",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0012-0012-0012-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4601)
+                        },
+                        new
+                        {
+                            Id = new Guid("e2452336-e381-411f-88bc-2580d9a62049"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4624),
+                            IsCorrect = false,
+                            OptionText = "struct is a reference type",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0013-0013-0013-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4624)
+                        },
+                        new
+                        {
+                            Id = new Guid("384e4619-3815-44f9-99e1-b81345cfbd06"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4627),
+                            IsCorrect = true,
+                            OptionText = "struct is a value type, class is a reference type",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0013-0013-0013-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4627)
+                        },
+                        new
+                        {
+                            Id = new Guid("ff89580b-9aef-49cf-9bd3-12d093dc5b6d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4630),
+                            IsCorrect = false,
+                            OptionText = "struct supports inheritance",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0013-0013-0013-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4631)
+                        },
+                        new
+                        {
+                            Id = new Guid("95edb769-0c2a-4f4e-98c5-edab552b26db"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4635),
+                            IsCorrect = false,
+                            OptionText = "class cannot have methods",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0013-0013-0013-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4636)
+                        },
+                        new
+                        {
+                            Id = new Guid("ee1084ad-50fc-48d3-a198-e8ea45eb3cb1"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4672),
+                            IsCorrect = false,
+                            OptionText = "Multiple inheritance",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0014-0014-0014-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4672)
+                        },
+                        new
+                        {
+                            Id = new Guid("146d29da-6058-45be-8f80-6cd15c84a702"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4675),
+                            IsCorrect = true,
+                            OptionText = "Same method behaves differently based on object type",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0014-0014-0014-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4676)
+                        },
+                        new
+                        {
+                            Id = new Guid("c3991b48-bbf7-4ff7-b892-bfafd5a9ff5e"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4678),
+                            IsCorrect = false,
+                            OptionText = "Hiding implementation",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0014-0014-0014-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4679)
+                        },
+                        new
+                        {
+                            Id = new Guid("abd60aec-797e-456f-85b8-404d60df9cc2"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4783),
+                            IsCorrect = false,
+                            OptionText = "Creating multiple objects",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0014-0014-0014-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4783)
+                        },
+                        new
+                        {
+                            Id = new Guid("e2730548-4ec9-4075-8434-252a76c2ceb1"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4813),
+                            IsCorrect = false,
+                            OptionText = "A base class",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("11111111-0015-0015-0015-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4813)
+                        },
+                        new
+                        {
+                            Id = new Guid("e249d273-6f03-4ea6-9c87-a3640b508b7d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4817),
+                            IsCorrect = true,
+                            OptionText = "A contract that classes can implement",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("11111111-0015-0015-0015-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4817)
+                        },
+                        new
+                        {
+                            Id = new Guid("b3658d29-1a3f-4320-a696-b8e8417a375b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4826),
+                            IsCorrect = false,
+                            OptionText = "A sealed class",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("11111111-0015-0015-0015-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4826)
+                        },
+                        new
+                        {
+                            Id = new Guid("51174822-bc7d-435b-a73f-a73374d12c05"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4834),
+                            IsCorrect = false,
+                            OptionText = "An abstract method",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("11111111-0015-0015-0015-111111111111"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4834)
+                        },
+                        new
+                        {
+                            Id = new Guid("8e455283-7796-4dcb-ab34-1aa2cb85d0db"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4884),
+                            IsCorrect = true,
+                            OptionText = "O(1)",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0001-0001-0001-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4884)
+                        },
+                        new
+                        {
+                            Id = new Guid("084f461d-0931-4dc7-ab10-100655b857c8"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4913),
+                            IsCorrect = false,
+                            OptionText = "O(n)",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0001-0001-0001-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4913)
+                        },
+                        new
+                        {
+                            Id = new Guid("a9d6df0f-9d21-4227-bad8-e724f59c0622"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4918),
+                            IsCorrect = false,
+                            OptionText = "O(log n)",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0001-0001-0001-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4919)
+                        },
+                        new
+                        {
+                            Id = new Guid("189d868a-08b7-42a8-8550-10935a42bc9a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4921),
+                            IsCorrect = false,
+                            OptionText = "O(n^2)",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0001-0001-0001-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4922)
+                        },
+                        new
+                        {
+                            Id = new Guid("ab831bca-6e4f-4f5c-abd2-1ef955ee01ba"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4953),
+                            IsCorrect = false,
+                            OptionText = "Queue",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0002-0002-0002-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4954)
+                        },
+                        new
+                        {
+                            Id = new Guid("5d1ccd9a-5829-4204-bb06-3ec67aea706b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4959),
+                            IsCorrect = true,
+                            OptionText = "Stack",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0002-0002-0002-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4959)
+                        },
+                        new
+                        {
+                            Id = new Guid("cb21e671-5687-4be6-a4be-90bade36ba2a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4962),
+                            IsCorrect = false,
+                            OptionText = "Array",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0002-0002-0002-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4962)
+                        },
+                        new
+                        {
+                            Id = new Guid("39d89a78-ff94-4d92-a2e8-2387d0a57390"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4965),
+                            IsCorrect = false,
+                            OptionText = "List",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0002-0002-0002-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4965)
+                        },
+                        new
+                        {
+                            Id = new Guid("1a6a9e49-b144-40e9-b5c5-2f22d48e5624"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4988),
+                            IsCorrect = false,
+                            OptionText = "4",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0003-0003-0003-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4988)
+                        },
+                        new
+                        {
+                            Id = new Guid("76a49053-fe26-4a27-a600-72a89a8f7765"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4994),
+                            IsCorrect = true,
+                            OptionText = "0",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0003-0003-0003-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4994)
+                        },
+                        new
+                        {
+                            Id = new Guid("d6fd66d0-530f-4153-ac8f-20a3fa71a206"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4997),
+                            IsCorrect = false,
+                            OptionText = "8",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0003-0003-0003-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(4997)
+                        },
+                        new
+                        {
+                            Id = new Guid("6d5269f0-6d3d-46ea-9d6c-21175be8b48a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5000),
+                            IsCorrect = false,
+                            OptionText = "16",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0003-0003-0003-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5000)
+                        },
+                        new
+                        {
+                            Id = new Guid("8d3628df-7a2c-4170-baab-cfd84792b9c7"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5027),
+                            IsCorrect = false,
+                            OptionText = "List",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0004-0004-0004-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5027)
+                        },
+                        new
+                        {
+                            Id = new Guid("e77f5b85-674b-44fe-952c-f6e49d4f6163"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5030),
+                            IsCorrect = false,
+                            OptionText = "ArrayList",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0004-0004-0004-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5031)
+                        },
+                        new
+                        {
+                            Id = new Guid("4ebd238b-8392-4a2a-9f2e-ababed4b4000"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5033),
+                            IsCorrect = true,
+                            OptionText = "HashSet",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0004-0004-0004-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5034)
+                        },
+                        new
+                        {
+                            Id = new Guid("8415477a-9138-4f20-92f3-ede44e9988bf"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5125),
+                            IsCorrect = false,
+                            OptionText = "Stack",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0004-0004-0004-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5126)
+                        },
+                        new
+                        {
+                            Id = new Guid("98fbfa03-7a81-413e-8b54-c26bceff92ff"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5175),
+                            IsCorrect = false,
+                            OptionText = "O(1)",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0005-0005-0005-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5175)
+                        },
+                        new
+                        {
+                            Id = new Guid("cb21c128-c044-4273-be82-17f037b1fa8c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5178),
+                            IsCorrect = true,
+                            OptionText = "O(n)",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0005-0005-0005-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5178)
+                        },
+                        new
+                        {
+                            Id = new Guid("3fb72d3c-f402-411f-87bf-7ced5559bada"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5181),
+                            IsCorrect = false,
+                            OptionText = "O(log n)",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0005-0005-0005-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5181)
+                        },
+                        new
+                        {
+                            Id = new Guid("43eeb54b-a9d6-4bb6-be9f-2255d6165e67"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5184),
+                            IsCorrect = false,
+                            OptionText = "O(n log n)",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0005-0005-0005-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5184)
+                        },
+                        new
+                        {
+                            Id = new Guid("be552807-a26c-4ec3-8c65-7453d519fc1a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5210),
+                            IsCorrect = false,
+                            OptionText = "int[][] arr",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0006-0006-0006-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5210)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4a1651f-4867-4ba3-96a7-966dda979842"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5213),
+                            IsCorrect = true,
+                            OptionText = "int[,] arr",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0006-0006-0006-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5214)
+                        },
+                        new
+                        {
+                            Id = new Guid("3e79ffe1-5067-4b45-aa7c-a7470e07f897"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5216),
+                            IsCorrect = false,
+                            OptionText = "List<int[]> arr",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0006-0006-0006-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5217)
+                        },
+                        new
+                        {
+                            Id = new Guid("f27572ed-9385-4810-9b2f-97cad360d4f0"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5221),
+                            IsCorrect = false,
+                            OptionText = "Array<int> arr",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0006-0006-0006-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5222)
+                        },
+                        new
+                        {
+                            Id = new Guid("5a491542-8c9f-4e93-924d-0997c5d0d696"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5241),
+                            IsCorrect = false,
+                            OptionText = "Insert()",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0007-0007-0007-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5241)
+                        },
+                        new
+                        {
+                            Id = new Guid("9b079ae3-84bb-439c-8fe2-b5e24ac89b58"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5245),
+                            IsCorrect = true,
+                            OptionText = "Add()",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0007-0007-0007-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5245)
+                        },
+                        new
+                        {
+                            Id = new Guid("394d671e-ee93-411f-8cd8-a18b66b8c98d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5248),
+                            IsCorrect = false,
+                            OptionText = "Push()",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0007-0007-0007-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5248)
+                        },
+                        new
+                        {
+                            Id = new Guid("76e62a64-e862-4b99-97cd-15b32fb128f3"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5254),
+                            IsCorrect = false,
+                            OptionText = "Enqueue()",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0007-0007-0007-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5254)
+                        },
+                        new
+                        {
+                            Id = new Guid("b040c2d7-3c6a-4ef1-b273-7c54865a00be"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5273),
+                            IsCorrect = false,
+                            OptionText = "A sorting algorithm",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0008-0008-0008-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5274)
+                        },
+                        new
+                        {
+                            Id = new Guid("1e0447e6-7d9d-4a95-a08f-5a7e5d317dc6"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5277),
+                            IsCorrect = true,
+                            OptionText = "A data structure that maps keys to values",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0008-0008-0008-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5277)
+                        },
+                        new
+                        {
+                            Id = new Guid("6ca5c2c6-ff9c-45f2-b39d-4f417fb38546"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5282),
+                            IsCorrect = false,
+                            OptionText = "A type of array",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0008-0008-0008-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5282)
+                        },
+                        new
+                        {
+                            Id = new Guid("1040d6da-b50b-4354-b7bf-624855269f17"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5285),
+                            IsCorrect = false,
+                            OptionText = "A search algorithm",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0008-0008-0008-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5285)
+                        },
+                        new
+                        {
+                            Id = new Guid("926bd4d6-de02-4865-afc5-e7a088d5f9a5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5310),
+                            IsCorrect = false,
+                            OptionText = "List<T>",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0009-0009-0009-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5310)
+                        },
+                        new
+                        {
+                            Id = new Guid("1194bca8-e9db-46ce-b284-fc7ebe3f62b2"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5318),
+                            IsCorrect = true,
+                            OptionText = "Dictionary<TKey, TValue>",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0009-0009-0009-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5318)
+                        },
+                        new
+                        {
+                            Id = new Guid("9af84820-ca98-4c22-a419-92970d0fc24f"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5417),
+                            IsCorrect = false,
+                            OptionText = "Queue<T>",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0009-0009-0009-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5417)
+                        },
+                        new
+                        {
+                            Id = new Guid("5273db76-2502-47ee-80bf-3eff1774cacf"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5421),
+                            IsCorrect = false,
+                            OptionText = "Stack<T>",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0009-0009-0009-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5421)
+                        },
+                        new
+                        {
+                            Id = new Guid("682128b4-f728-4399-84bb-cc03ce1131bd"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5452),
+                            IsCorrect = false,
+                            OptionText = "Array is slower",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0010-0010-0010-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5452)
+                        },
+                        new
+                        {
+                            Id = new Guid("86245a81-b214-44e4-9ccc-c15ddd07120d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5460),
+                            IsCorrect = true,
+                            OptionText = "Array is strongly typed, ArrayList can hold any type",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0010-0010-0010-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5460)
+                        },
+                        new
+                        {
+                            Id = new Guid("5437630d-cc7f-4c71-91b0-e5572a52f08d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5463),
+                            IsCorrect = false,
+                            OptionText = "ArrayList uses less memory",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0010-0010-0010-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5464)
+                        },
+                        new
+                        {
+                            Id = new Guid("6840aee8-eeea-4ec2-879d-6eca3cb08073"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5466),
+                            IsCorrect = false,
+                            OptionText = "They are the same",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0010-0010-0010-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5467)
+                        },
+                        new
+                        {
+                            Id = new Guid("f9a44bcf-2169-4697-8553-9bac730b31c5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5491),
+                            IsCorrect = false,
+                            OptionText = "O(1)",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0011-0011-0011-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5491)
+                        },
+                        new
+                        {
+                            Id = new Guid("1fedf8c1-a257-4c99-9766-18a25a5ab1a0"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5496),
+                            IsCorrect = true,
+                            OptionText = "O(n)",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0011-0011-0011-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5497)
+                        },
+                        new
+                        {
+                            Id = new Guid("18ef5b90-aa11-40a2-b26e-f8a60d7e835c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5499),
+                            IsCorrect = false,
+                            OptionText = "O(log n)",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0011-0011-0011-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5500)
+                        },
+                        new
+                        {
+                            Id = new Guid("331dfcd9-6f91-4573-9095-e6178dc33b30"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5502),
+                            IsCorrect = false,
+                            OptionText = "O(n^2)",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0011-0011-0011-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5503)
+                        },
+                        new
+                        {
+                            Id = new Guid("5d3a0816-0484-41bd-ab31-db06bf174891"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5547),
+                            IsCorrect = false,
+                            OptionText = "Last In First Out",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0012-0012-0012-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5547)
+                        },
+                        new
+                        {
+                            Id = new Guid("e71249f3-37e0-4701-a49c-a8b8c4926148"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5553),
+                            IsCorrect = true,
+                            OptionText = "First In First Out",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0012-0012-0012-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5553)
+                        },
+                        new
+                        {
+                            Id = new Guid("7fa8ea6c-073a-4f7d-9beb-8f0d285b1995"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5564),
+                            IsCorrect = false,
+                            OptionText = "Random access",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0012-0012-0012-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5564)
+                        },
+                        new
+                        {
+                            Id = new Guid("e0d7b8e0-cad4-44e2-a5dd-cf2a32d98d6e"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5567),
+                            IsCorrect = false,
+                            OptionText = "No specific order",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0012-0012-0012-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5567)
+                        },
+                        new
+                        {
+                            Id = new Guid("9aa643ab-2065-47c6-b931-48fc01051a20"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5593),
+                            IsCorrect = false,
+                            OptionText = "Stack is FIFO, Queue is LIFO",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0013-0013-0013-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5593)
+                        },
+                        new
+                        {
+                            Id = new Guid("3db1d3e0-5df8-4d14-abcd-5151a962b8fb"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5598),
+                            IsCorrect = true,
+                            OptionText = "Stack is LIFO, Queue is FIFO",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0013-0013-0013-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5599)
+                        },
+                        new
+                        {
+                            Id = new Guid("64937723-f6e0-472e-9f7d-ff95f09993c9"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5601),
+                            IsCorrect = false,
+                            OptionText = "Both are the same",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0013-0013-0013-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5602)
+                        },
+                        new
+                        {
+                            Id = new Guid("3fc1efae-c4e4-41ae-83a7-fb35a192fe6d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5604),
+                            IsCorrect = false,
+                            OptionText = "Stack uses array, Queue uses list",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0013-0013-0013-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5605)
+                        },
+                        new
+                        {
+                            Id = new Guid("2bb54696-098b-4537-892a-0a6f247cb71d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5629),
+                            IsCorrect = false,
+                            OptionText = "A sequential collection with fixed size",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0014-0014-0014-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5630)
+                        },
+                        new
+                        {
+                            Id = new Guid("c7ab6868-f86b-46e6-9b8c-2409469c25ad"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5633),
+                            IsCorrect = true,
+                            OptionText = "A linear collection of nodes where each node points to the next",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0014-0014-0014-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5633)
+                        },
+                        new
+                        {
+                            Id = new Guid("50f0a8d2-1ec6-4dec-8544-b8e3f958d013"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5708),
+                            IsCorrect = false,
+                            OptionText = "A type of tree",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0014-0014-0014-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5708)
+                        },
+                        new
+                        {
+                            Id = new Guid("1339fb31-dbdb-498a-95ef-b2d727a46805"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5719),
+                            IsCorrect = false,
+                            OptionText = "A hash-based structure",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0014-0014-0014-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5719)
+                        },
+                        new
+                        {
+                            Id = new Guid("d50055dc-ce96-443c-89eb-cc03dc6fbc98"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5909),
+                            IsCorrect = false,
+                            OptionText = "O(1)",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("22222222-0015-0015-0015-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5909)
+                        },
+                        new
+                        {
+                            Id = new Guid("2f30dc34-4603-4168-9a9d-065d8f6351b7"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5917),
+                            IsCorrect = true,
+                            OptionText = "O(n)",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("22222222-0015-0015-0015-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5917)
+                        },
+                        new
+                        {
+                            Id = new Guid("de606f16-9c18-4e3d-a1f6-a1e00040957d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5920),
+                            IsCorrect = false,
+                            OptionText = "O(log n)",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("22222222-0015-0015-0015-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5920)
+                        },
+                        new
+                        {
+                            Id = new Guid("84bd46fb-23a1-4abd-ac7e-95a7cb3ec4ed"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5933),
+                            IsCorrect = false,
+                            OptionText = "O(n^2)",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("22222222-0015-0015-0015-222222222222"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(5933)
+                        },
+                        new
+                        {
+                            Id = new Guid("25a115bd-29c7-4dfa-b558-671982252f5c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6021),
+                            IsCorrect = false,
+                            OptionText = "GET",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0001-0001-0001-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6021)
+                        },
+                        new
+                        {
+                            Id = new Guid("23ce454b-7bb7-4daf-8b2b-e7348d58cd2a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6024),
+                            IsCorrect = true,
+                            OptionText = "SELECT",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0001-0001-0001-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6025)
+                        },
+                        new
+                        {
+                            Id = new Guid("46f009d0-f4bb-41ba-aa3e-d82b26f2c361"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6041),
+                            IsCorrect = false,
+                            OptionText = "FETCH",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0001-0001-0001-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6041)
+                        },
+                        new
+                        {
+                            Id = new Guid("4e11576a-ffe1-4337-991c-9c2dabe92889"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6047),
+                            IsCorrect = false,
+                            OptionText = "RETRIEVE",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0001-0001-0001-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6048)
+                        },
+                        new
+                        {
+                            Id = new Guid("15c1c90e-0d50-4dbc-8369-e2115547e69e"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6084),
+                            IsCorrect = false,
+                            OptionText = "WHERE",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0002-0002-0002-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6084)
+                        },
+                        new
+                        {
+                            Id = new Guid("afb1c7ef-49a5-4923-9358-ddd47902ab07"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6088),
+                            IsCorrect = true,
+                            OptionText = "HAVING",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0002-0002-0002-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6088)
+                        },
+                        new
+                        {
+                            Id = new Guid("b12b87b5-a8ec-420a-a3a2-3713efb3c74c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6098),
+                            IsCorrect = false,
+                            OptionText = "FILTER",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0002-0002-0002-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6099)
+                        },
+                        new
+                        {
+                            Id = new Guid("6597f8e8-2560-4bc6-afee-704c24ba12c4"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6101),
+                            IsCorrect = false,
+                            OptionText = "GROUP",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0002-0002-0002-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6102)
+                        },
+                        new
+                        {
+                            Id = new Guid("2c774f87-9bde-469b-9387-acadeaeabfc8"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6136),
+                            IsCorrect = false,
+                            OptionText = "Deletes records",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0003-0003-0003-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6136)
+                        },
+                        new
+                        {
+                            Id = new Guid("b4564182-911a-474e-bf61-ea42df2ed925"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6141),
+                            IsCorrect = true,
+                            OptionText = "Combines rows from two tables",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0003-0003-0003-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6142)
+                        },
+                        new
+                        {
+                            Id = new Guid("1fce8038-4242-4ac5-b4ac-b940e0fc8344"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6144),
+                            IsCorrect = false,
+                            OptionText = "Creates new tables",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0003-0003-0003-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6145)
+                        },
+                        new
+                        {
+                            Id = new Guid("47722b6f-008c-463a-81b3-0c07577f9169"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6147),
+                            IsCorrect = false,
+                            OptionText = "Updates records",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0003-0003-0003-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6148)
+                        },
+                        new
+                        {
+                            Id = new Guid("56483c53-fdca-49f6-8b2b-727886a5166c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6171),
+                            IsCorrect = false,
+                            OptionText = "SUM()",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0004-0004-0004-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6171)
+                        },
+                        new
+                        {
+                            Id = new Guid("b763ed3e-754f-48b9-9f68-4e61c9699b9d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6176),
+                            IsCorrect = true,
+                            OptionText = "COUNT()",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0004-0004-0004-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6177)
+                        },
+                        new
+                        {
+                            Id = new Guid("76f48d90-a7ee-477f-b5ca-898b672cead2"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6294),
+                            IsCorrect = false,
+                            OptionText = "TOTAL()",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0004-0004-0004-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6295)
+                        },
+                        new
+                        {
+                            Id = new Guid("25d8c03a-05f9-44d6-b5a2-0cc6409ac93b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6299),
+                            IsCorrect = false,
+                            OptionText = "MAX()",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0004-0004-0004-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6299)
+                        },
+                        new
+                        {
+                            Id = new Guid("05bebcf2-72d8-4fd6-ad98-3046af3fd4c9"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6359),
+                            IsCorrect = false,
+                            OptionText = "DESC",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0005-0005-0005-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6359)
+                        },
+                        new
+                        {
+                            Id = new Guid("11cfc665-ec54-465a-9005-ae3f776ce006"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6363),
+                            IsCorrect = true,
+                            OptionText = "ASC",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0005-0005-0005-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6363)
+                        },
+                        new
+                        {
+                            Id = new Guid("f34951e6-b055-4d0e-9012-16ac1e506a6a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6366),
+                            IsCorrect = false,
+                            OptionText = "Random",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0005-0005-0005-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6366)
+                        },
+                        new
+                        {
+                            Id = new Guid("f88d5d0a-c2b6-4cd0-9e8a-527cc013b12a"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6369),
+                            IsCorrect = false,
+                            OptionText = "None",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0005-0005-0005-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6369)
+                        },
+                        new
+                        {
+                            Id = new Guid("8423a9c2-ed04-4b49-a42a-2acab4124c45"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6400),
+                            IsCorrect = false,
+                            OptionText = "INNER JOIN",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0006-0006-0006-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6401)
+                        },
+                        new
+                        {
+                            Id = new Guid("fc631216-d0dd-486e-8085-7218813c92e5"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6404),
+                            IsCorrect = false,
+                            OptionText = "LEFT JOIN",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0006-0006-0006-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6404)
+                        },
+                        new
+                        {
+                            Id = new Guid("80fae8bb-0b4a-40f9-abb0-aa4e3e8b8e67"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6407),
+                            IsCorrect = false,
+                            OptionText = "CROSS JOIN",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0006-0006-0006-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6407)
+                        },
+                        new
+                        {
+                            Id = new Guid("0af5dde8-1e0f-4809-ae19-4be7b0be7c57"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6410),
+                            IsCorrect = true,
+                            OptionText = "LOOP JOIN",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0006-0006-0006-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6410)
+                        },
+                        new
+                        {
+                            Id = new Guid("03768a04-84b4-413f-97cd-9f5accf2c068"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6431),
+                            IsCorrect = false,
+                            OptionText = "Sorts data",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0007-0007-0007-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6432)
+                        },
+                        new
+                        {
+                            Id = new Guid("6b548b00-9fe0-4da1-b4f3-efc271222af0"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6435),
+                            IsCorrect = true,
+                            OptionText = "Returns only unique values",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0007-0007-0007-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6435)
+                        },
+                        new
+                        {
+                            Id = new Guid("16681845-ee06-43cb-95a3-f0e2f669e918"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6438),
+                            IsCorrect = false,
+                            OptionText = "Filters data",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0007-0007-0007-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6438)
+                        },
+                        new
+                        {
+                            Id = new Guid("cd1ed1ec-e5cd-43b4-95ee-80623db716a7"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6443),
+                            IsCorrect = false,
+                            OptionText = "Groups data",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0007-0007-0007-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6443)
+                        },
+                        new
+                        {
+                            Id = new Guid("bad1f16d-cbd7-449f-b66b-db768c006e71"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6464),
+                            IsCorrect = false,
+                            OptionText = "INSERT",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0008-0008-0008-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6464)
+                        },
+                        new
+                        {
+                            Id = new Guid("d929d0b5-2925-46c1-bf70-3d581586d05d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6467),
+                            IsCorrect = true,
+                            OptionText = "UPDATE",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0008-0008-0008-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6467)
+                        },
+                        new
+                        {
+                            Id = new Guid("41fc1990-80cf-479d-adbc-c16f4302aef4"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6470),
+                            IsCorrect = false,
+                            OptionText = "MODIFY",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0008-0008-0008-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6471)
+                        },
+                        new
+                        {
+                            Id = new Guid("4752c904-a51d-4f33-aaf3-e4976f242737"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6475),
+                            IsCorrect = false,
+                            OptionText = "CHANGE",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0008-0008-0008-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6476)
+                        },
+                        new
+                        {
+                            Id = new Guid("d53aef42-2c53-4f85-beec-4c9e0701800b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6797),
+                            IsCorrect = false,
+                            OptionText = "A foreign identifier",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0009-0009-0009-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6798)
+                        },
+                        new
+                        {
+                            Id = new Guid("10b7d5f5-5846-4bde-9648-4267414db4ca"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6806),
+                            IsCorrect = true,
+                            OptionText = "Unique identifier for each row",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0009-0009-0009-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6806)
+                        },
+                        new
+                        {
+                            Id = new Guid("f77fc8a5-8eef-4b95-a983-2197dccb3a01"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6825),
+                            IsCorrect = false,
+                            OptionText = "A column name",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0009-0009-0009-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6825)
+                        },
+                        new
+                        {
+                            Id = new Guid("3109fc9d-bcb5-4e78-a261-85ed73621cd6"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6828),
+                            IsCorrect = false,
+                            OptionText = "A table constraint",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0009-0009-0009-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6828)
+                        },
+                        new
+                        {
+                            Id = new Guid("f4c28ab9-33a4-4fe0-b0a5-4e90cfecde12"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6895),
+                            IsCorrect = true,
+                            OptionText = "Links tables together",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0010-0010-0010-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6895)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4d461fb-9153-4253-8374-f79822abd9aa"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6899),
+                            IsCorrect = false,
+                            OptionText = "Creates a new table",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0010-0010-0010-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6899)
+                        },
+                        new
+                        {
+                            Id = new Guid("542a8656-2a93-4684-93c4-c3d6dc1f8913"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6904),
+                            IsCorrect = false,
+                            OptionText = "Deletes records",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0010-0010-0010-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6905)
+                        },
+                        new
+                        {
+                            Id = new Guid("783d2139-b7c8-4e54-a853-e1071d8c1545"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6907),
+                            IsCorrect = false,
+                            OptionText = "Updates data",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0010-0010-0010-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6908)
+                        },
+                        new
+                        {
+                            Id = new Guid("7090f62a-482d-4a0f-ade7-103d06606969"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6979),
+                            IsCorrect = false,
+                            OptionText = "WHERE",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0011-0011-0011-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(6979)
+                        },
+                        new
+                        {
+                            Id = new Guid("14dfdc22-f3d8-4ff2-b11f-a7e86ae71117"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7002),
+                            IsCorrect = true,
+                            OptionText = "GROUP BY",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0011-0011-0011-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7003)
+                        },
+                        new
+                        {
+                            Id = new Guid("dba8a6b2-79cc-4145-8b10-214eab1a1212"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7005),
+                            IsCorrect = false,
+                            OptionText = "ORDER BY",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0011-0011-0011-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7006)
+                        },
+                        new
+                        {
+                            Id = new Guid("eeced187-93a2-4564-8f7c-d51b272caf2b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7009),
+                            IsCorrect = false,
+                            OptionText = "HAVING",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0011-0011-0011-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7009)
+                        },
+                        new
+                        {
+                            Id = new Guid("854bbb36-b4ff-4b12-8308-5bedf94325a6"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7040),
+                            IsCorrect = false,
+                            OptionText = "They are the same",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0012-0012-0012-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7040)
+                        },
+                        new
+                        {
+                            Id = new Guid("13c60989-34f1-48e9-8765-d1fc145f9b54"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7074),
+                            IsCorrect = true,
+                            OptionText = "WHERE filters rows, HAVING filters groups",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0012-0012-0012-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7074)
+                        },
+                        new
+                        {
+                            Id = new Guid("b801f480-8a3b-4cd7-9eea-8701a6725485"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7077),
+                            IsCorrect = false,
+                            OptionText = "HAVING is faster",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0012-0012-0012-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7077)
+                        },
+                        new
+                        {
+                            Id = new Guid("c9c8a67e-fa40-4b14-abdd-a6638ff98ea8"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7080),
+                            IsCorrect = false,
+                            OptionText = "WHERE can use aggregates",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0012-0012-0012-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7080)
+                        },
+                        new
+                        {
+                            Id = new Guid("acf5e285-0319-4911-a35d-08b558127f99"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7118),
+                            IsCorrect = false,
+                            OptionText = "A JOIN operation",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0013-0013-0013-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7118)
+                        },
+                        new
+                        {
+                            Id = new Guid("c0bd1590-986a-4813-8b0b-ff641a939055"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7133),
+                            IsCorrect = true,
+                            OptionText = "A query inside another query",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0013-0013-0013-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7133)
+                        },
+                        new
+                        {
+                            Id = new Guid("47d943bf-98ec-487f-8600-8ee05116861c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7136),
+                            IsCorrect = false,
+                            OptionText = "A view",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0013-0013-0013-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7136)
+                        },
+                        new
+                        {
+                            Id = new Guid("e25aa6ed-fd7e-448d-a08d-9bbdff963b8c"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7139),
+                            IsCorrect = false,
+                            OptionText = "A stored procedure",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0013-0013-0013-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7139)
+                        },
+                        new
+                        {
+                            Id = new Guid("9783d1ee-816b-41d3-86e2-ed545e117260"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7308),
+                            IsCorrect = false,
+                            OptionText = "Combines all rows",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0014-0014-0014-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7308)
+                        },
+                        new
+                        {
+                            Id = new Guid("6485af0f-b753-44e1-a841-ea291dc5c64d"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7319),
+                            IsCorrect = true,
+                            OptionText = "Combines results of two queries, removes duplicates",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0014-0014-0014-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7319)
+                        },
+                        new
+                        {
+                            Id = new Guid("7ab1861d-ecb6-4f45-b387-92841a933bb3"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7322),
+                            IsCorrect = false,
+                            OptionText = "Joins tables",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0014-0014-0014-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7322)
+                        },
+                        new
+                        {
+                            Id = new Guid("a996ed75-b3d0-443d-84dd-0aaeba62d999"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7325),
+                            IsCorrect = false,
+                            OptionText = "Creates a new table",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0014-0014-0014-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7325)
+                        },
+                        new
+                        {
+                            Id = new Guid("1e9e5c9f-9d7c-4e52-99e3-4b36073aec7b"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7387),
+                            IsCorrect = false,
+                            OptionText = "Adding more tables",
+                            OrderIndex = 0,
+                            QuestionId = new Guid("33333333-0015-0015-0015-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7388)
+                        },
+                        new
+                        {
+                            Id = new Guid("ce6e7b9d-4e2a-44ea-8e9c-dc8809f008e1"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7391),
+                            IsCorrect = true,
+                            OptionText = "Organizing data to reduce redundancy",
+                            OrderIndex = 1,
+                            QuestionId = new Guid("33333333-0015-0015-0015-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7391)
+                        },
+                        new
+                        {
+                            Id = new Guid("d47c48f4-4bb3-429d-a32c-825155f1a49e"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7394),
+                            IsCorrect = false,
+                            OptionText = "Encrypting data",
+                            OrderIndex = 2,
+                            QuestionId = new Guid("33333333-0015-0015-0015-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7394)
+                        },
+                        new
+                        {
+                            Id = new Guid("9127ceab-62f6-4497-a0d9-c5ea97ffa970"),
+                            CreatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7399),
+                            IsCorrect = false,
+                            OptionText = "Backing up data",
+                            OrderIndex = 3,
+                            QuestionId = new Guid("33333333-0015-0015-0015-333333333333"),
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 922, DateTimeKind.Utc).AddTicks(7399)
+                        });
                 });
 
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Attempt", b =>
@@ -85,6 +1887,11 @@ namespace MCQ3.DataConnect.Migrations
 
                     b.Property<string>("ResumeData")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<decimal?>("Score")
                         .HasColumnType("decimal(7,2)");
@@ -314,6 +2121,9 @@ namespace MCQ3.DataConnect.Migrations
                     b.Property<Guid>("EnrolledById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("ExpiresAt")
                         .HasColumnType("datetime2");
 
@@ -337,6 +2147,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("ChapterId");
 
                     b.HasIndex("EnrolledById");
+
+                    b.HasIndex("ExamId");
 
                     b.HasIndex("UserAccountId");
 
@@ -569,38 +2381,6 @@ namespace MCQ3.DataConnect.Migrations
                     b.ToTable("PasswordReset", (string)null);
                 });
 
-            modelBuilder.Entity("MCQ3.DataConnect.Entities.PlatformSetting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PlatformSetting", (string)null);
-                });
-
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -654,6 +2434,548 @@ namespace MCQ3.DataConnect.Migrations
                     b.HasIndex("SourceQuestionId");
 
                     b.ToTable("Question", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-0001-0001-0001-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "In C#, variables are declared by specifying a type followed by an identifier.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which keyword is used to declare a variable in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0002-0002-0002-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Value types in C# have default values. int defaults to 0.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the default value of an int in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0003-0003-0003-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "C# identifiers must start with a letter or underscore and can contain letters, digits, and underscores.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which of these is a valid C# identifier?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0004-0004-0004-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "typeof returns a Type object representing the specified type.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What does 'typeof' operator return?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0005-0005-0005-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Arrays in C# are zero-indexed, meaning the first element is at index 0.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which collection is zero-indexed in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0006-0006-0006-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "object is the base class for all types in C#.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the base class of all types in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0007-0007-0007-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "The colon (:) syntax is used for inheritance in C#.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which keyword is used to inherit a class?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0008-0008-0008-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "A namespace is a container for classes and other types to organize code.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is a namespace in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0009-0009-0009-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "If no access modifier is specified, classes are internal by default.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which access modifier is default for a class?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0010-0010-0010-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "using statement ensures proper disposal of resources.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the purpose of 'using' statement?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0011-0011-0011-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "string is a reference type, not a value type.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which of these is NOT a value type?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0012-0012-0012-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Boxing is converting a value type to object type.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is boxing in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0013-0013-0013-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "struct is a value type (stack) while class is a reference type (heap).",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the difference between 'struct' and 'class'?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0014-0014-0014-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Polymorphism allows methods to have different implementations based on the object type.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is polymorphism?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-0015-0015-0015-111111111111"),
+                            ChapterId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "An interface defines a contract that classes can implement.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is an interface in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0001-0001-0001-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Array provides O(1) constant time access by index.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the time complexity of accessing an element in an array by index?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0002-0002-0002-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Stack follows Last In First Out (LIFO) order.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which data structure follows LIFO order?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0003-0003-0003-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "List<T> starts with an empty capacity and grows as needed.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the default capacity of a List<T> in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0004-0004-0004-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "HashSet<T> does not allow duplicate elements.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which collection does not allow duplicate elements?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0005-0005-0005-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Linear search in unsorted array takes O(n) time.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the complexity of searching in an unsorted array?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0006-0006-0006-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "2D arrays in C# are declared as type[,] variableName.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "How do you declare a 2D array in C#?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0007-0007-0007-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Add() method adds an element at the end of the List.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which method is used to add an element at the end of a List?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0008-0008-0008-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "A hash table maps keys to values using a hash function.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is a hash table?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0009-0009-0009-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Dictionary<TKey, TValue> is best for key-value pairs.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which collection is best for key-value pairs?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0010-0010-0010-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Array is strongly typed, ArrayList can hold any type.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the difference between Array and ArrayList?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0011-0011-0011-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Inserting at beginning is O(n) because all elements shift.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the time complexity of inserting at the beginning of a List?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0012-0012-0012-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Queue follows First In First Out (FIFO) order.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is a queue data structure?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0013-0013-0013-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Stack is LIFO, Queue is FIFO.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the difference between Stack and Queue?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0014-0014-0014-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "A linked list is a linear collection of nodes.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is a linked list?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-0015-0015-0015-222222222222"),
+                            ChapterId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Array has O(n) space complexity for n elements.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the space complexity of an array?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0001-0001-0001-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "SELECT is the SQL keyword used to retrieve data.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which SQL keyword is used to retrieve data from a database?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0002-0002-0002-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "HAVING clause filters groups after GROUP BY.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which clause is used to filter groups in SQL?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0003-0003-0003-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "JOIN combines rows from two tables based on a related column.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What does JOIN do in SQL?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0004-0004-0004-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "COUNT() function counts the number of rows.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which function is used to count rows in SQL?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0005-0005-0005-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "ORDER BY defaults to ASC (ascending).",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the default order of ORDER BY?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0006-0006-0006-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "FULL OUTER JOIN, LEFT JOIN, RIGHT JOIN, INNER JOIN are the types.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which is NOT a type of JOIN?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0007-0007-0007-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "DISTINCT returns only unique values.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What does DISTINCT do?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0008-0008-0008-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "UPDATE statement modifies existing data in a table.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which is used to update data in a table?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0009-0009-0009-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Primary key uniquely identifies each row in a table.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is a primary key?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0010-0010-0010-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "FOREIGN KEY creates a relationship between tables.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What does FOREIGN KEY do?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0011-0011-0011-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "GROUP BY is used with aggregate functions.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "Which clause is used with aggregate functions?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0012-0012-0012-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "WHERE filters before grouping, HAVING filters after.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is the difference between WHERE and HAVING?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0013-0013-0013-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "A subquery is a query nested inside another query.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is a subquery?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0014-0014-0014-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "UNION combines results of two SELECT statements.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What does UNION do?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-0015-0015-0015-333333333333"),
+                            ChapterId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Explanation = "Normalization organizes data to reduce redundancy.",
+                            NegativeMarks = 0m,
+                            PositiveMarks = 1m,
+                            StemText = "What is normalization?",
+                            Tags = "[]",
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("MCQ3.DataConnect.Entities.RefreshToken", b =>
@@ -721,7 +3043,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedAt = new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1538)
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 420, DateTimeKind.Utc).AddTicks(4819)
                         },
                         new
                         {
@@ -729,7 +3051,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Teacher",
-                            UpdatedAt = new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1553)
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 420, DateTimeKind.Utc).AddTicks(4842)
                         },
                         new
                         {
@@ -737,7 +3059,7 @@ namespace MCQ3.DataConnect.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Student",
-                            UpdatedAt = new DateTime(2026, 5, 12, 13, 57, 10, 748, DateTimeKind.Utc).AddTicks(1570)
+                            UpdatedAt = new DateTime(2026, 5, 13, 6, 1, 15, 420, DateTimeKind.Utc).AddTicks(4846)
                         });
                 });
 
@@ -1066,7 +3388,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "admin@mcq2.com",
                             FullName = "Admin User",
                             IsActive = true,
-                            PasswordHash = "$2a$11$aPLP9TOhnmSYSGExJ/.J3eK64tRy.SiWycTBa6SUcyiaS35Ze9iJe",
+                            PasswordHash = "$2a$11$3Uma4BWxgq3/w7sUnLi4l.Zwlf5p3yDrIG3aql36Fh83EL2P2O6q2",
                             RoleId = new Guid("00000001-0000-0000-0000-000000000001"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1079,7 +3401,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "teacher@mcq2.com",
                             FullName = "John Smith",
                             IsActive = true,
-                            PasswordHash = "$2a$11$p8UznMfqsY6KgKjuGkQnlORYjYw3CrGHf8/xiZujpbxck/rjntIpy",
+                            PasswordHash = "$2a$11$oWmvdLCeua/6B16XAdN6iOas9Kp52oEv0ArB0gfCEK29nu2kgoQHO",
                             RoleId = new Guid("00000002-0000-0000-0000-000000000002"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1092,7 +3414,7 @@ namespace MCQ3.DataConnect.Migrations
                             Email = "student@mcq2.com",
                             FullName = "Alice Johnson",
                             IsActive = true,
-                            PasswordHash = "$2a$11$XFMlJNUb4HBzU5av5q8UBOM1v3mDJzsWQwzdoZZvRQiBe0WUNZDkq",
+                            PasswordHash = "$2a$11$1hApLXzxgzNYCPKUlbcBw.7GLzpShVwUzDAWAxdWwBuLdUU/bgVWS",
                             RoleId = new Guid("00000003-0000-0000-0000-000000000003"),
                             TempPassword = false,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1206,6 +3528,10 @@ namespace MCQ3.DataConnect.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("MCQ3.DataConnect.Entities.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId");
+
                     b.HasOne("MCQ3.DataConnect.Entities.Student", "Student")
                         .WithMany("Enrolments")
                         .HasForeignKey("StudentId")
@@ -1218,6 +3544,8 @@ namespace MCQ3.DataConnect.Migrations
                     b.Navigation("Chapter");
 
                     b.Navigation("EnrolledBy");
+
+                    b.Navigation("Exam");
 
                     b.Navigation("Student");
                 });
@@ -1324,7 +3652,7 @@ namespace MCQ3.DataConnect.Migrations
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Student", b =>
                 {
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", "User")
-                        .WithOne("StudentProfile")
+                        .WithOne("Student")
                         .HasForeignKey("MCQ3.DataConnect.Entities.Student", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1375,7 +3703,7 @@ namespace MCQ3.DataConnect.Migrations
             modelBuilder.Entity("MCQ3.DataConnect.Entities.Teacher", b =>
                 {
                     b.HasOne("MCQ3.DataConnect.Entities.UserAccount", "User")
-                        .WithOne("TeacherProfile")
+                        .WithOne("Teacher")
                         .HasForeignKey("MCQ3.DataConnect.Entities.Teacher", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1473,11 +3801,11 @@ namespace MCQ3.DataConnect.Migrations
 
                     b.Navigation("RefreshTokens");
 
-                    b.Navigation("StudentProfile");
+                    b.Navigation("Student");
 
                     b.Navigation("Subjects");
 
-                    b.Navigation("TeacherProfile");
+                    b.Navigation("Teacher");
                 });
 #pragma warning restore 612, 618
         }

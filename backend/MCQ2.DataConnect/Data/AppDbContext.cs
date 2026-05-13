@@ -23,7 +23,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<AttemptAnswer> AttemptAnswers => Set<AttemptAnswer>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
-    public DbSet<PlatformSetting> PlatformSettings => Set<PlatformSetting>();
     public DbSet<StudentChapter> StudentChapters => Set<StudentChapter>();
     public DbSet<MediaFile> MediaFile => Set<MediaFile>();
 

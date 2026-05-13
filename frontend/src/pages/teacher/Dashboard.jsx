@@ -1,27 +1,31 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
 import { useAuthStore } from '../../store/authStore'
-import { get } from '../../api'
+import { get, getTeacherStats } from '../../api'
 
 export default function TeacherDashboard() {
   const { user } = useAuthStore()
   const [subjects, setSubjects] = useState([])
-  const [stats, setStats] = useState({ students: 0, exams: 0, questions: 0, attempts: 0 })
+  const [stats, setStats] = useState({ subjects: 0, chapters: 0, students: 0, exams: 0, questions: 0, attempts: 0 })
   const [loading, setLoading] = useState(true)
 
   const loadData = async () => {
     try {
-      const [subjectsRes] = await Promise.all([
-        get('/v1/subjects')
+      const [subjectsRes, statsRes] = await Promise.all([
+        get('/v1/subjects'),
+        getTeacherStats()
       ])
       if (subjectsRes.data.success) {
         setSubjects(subjectsRes.data.data)
-        const totalExams = subjectsRes.data.data.reduce((acc, s) => acc + (s.chapterCount || 0) * 2, 0)
+      }
+      if (statsRes.data.success) {
         setStats({
-          students: 150,
-          exams: totalExams,
-          questions: 450,
-          attempts: 1200
+          subjects: statsRes.data.data.totalSubjects,
+          chapters: statsRes.data.data.totalChapters,
+          students: statsRes.data.data.totalStudents,
+          exams: statsRes.data.data.activeExams,
+          questions: statsRes.data.data.totalQuestions,
+          attempts: statsRes.data.data.totalAttempts
         })
       }
     } catch (err) {
@@ -36,10 +40,12 @@ export default function TeacherDashboard() {
   }, [])
 
   const statCards = [
-    { label: 'Total Students', value: stats.students, icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', color: 'indigo' },
-    { label: 'Active Exams', value: stats.exams, icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4', color: 'emerald' },
-    { label: 'Total Questions', value: stats.questions, icon: 'M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', color: 'violet' },
-    { label: 'Total Attempts', value: stats.attempts, icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', color: 'amber' },
+    { label: 'Subjects', value: stats.subjects, icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', color: 'indigo' },
+    { label: 'Chapters', value: stats.chapters, icon: 'M4 6h16M4 10h16M4 14h16M4 18h16', color: 'emerald' },
+    { label: 'Students', value: stats.students, icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', color: 'violet' },
+    { label: 'Exams', value: stats.exams, icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4', color: 'amber' },
+    { label: 'Questions', value: stats.questions, icon: 'M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', color: 'cyan' },
+    { label: 'Attempts', value: stats.attempts, icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', color: 'rose' },
   ]
 
   const quickActions = [

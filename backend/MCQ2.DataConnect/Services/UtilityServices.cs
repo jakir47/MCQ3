@@ -1,6 +1,8 @@
 using System.Text.Json;
 using MCQ3.DataConnect.Data;
 using MCQ3.DataConnect.Entities;
+using MCQ3.DataConnect.Enums;
+using MCQ3.DataConnect.Responses;
 using MCQ3.DataConnect.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +64,109 @@ public class UploadService(IConfiguration configuration, ILogger<UploadService> 
 
 public class AnalyticsService(AppDbContext dbContext)
 {
+    public async Task<StatsResponse> GetStatsAsync()
+    {
+        var totalUsers = await dbContext.Users.CountAsync();
+        var totalSubjects = await dbContext.Subjects.CountAsync();
+        var totalExams = await dbContext.Exams.CountAsync();
+        var totalAttempts = await dbContext.Attempts.CountAsync(a => a.SubmittedAt != null);
+
+        return new StatsResponse(totalUsers, totalSubjects, totalExams, totalAttempts);
+    }
+
+    public async Task<TeacherStatsResponse> GetTeacherStatsAsync(Guid teacherUserId)
+    {
+        var teacher = await dbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == teacherUserId);
+        if (teacher == null) return new TeacherStatsResponse(0, 0, 0, 0, 0, 0);
+
+        var teacherSubjectIds = await dbContext.Subjects
+            .Where(s => s.TeacherId == teacher.Id)
+            .Select(s => s.Id)
+            .ToListAsync();
+
+        var teacherChapterIds = await dbContext.Chapters
+            .Where(c => teacherSubjectIds.Contains(c.SubjectId))
+            .Select(c => c.Id)
+            .ToListAsync();
+
+        var totalSubjects = teacherSubjectIds.Count;
+        var totalChapters = teacherChapterIds.Count;
+
+        var totalStudents = await dbContext.StudentChapters
+            .Where(sc => teacherChapterIds.Contains(sc.ChapterId) && sc.IsActive)
+            .Select(sc => sc.StudentId)
+            .Distinct()
+            .CountAsync();
+
+        var activeExams = await dbContext.Exams
+            .Where(e => teacherChapterIds.Contains(e.ChapterId) && e.Status == ExamStatus.Published)
+            .CountAsync();
+
+        var totalQuestions = await dbContext.Questions
+            .Where(q => teacherChapterIds.Contains(q.ChapterId))
+            .CountAsync();
+
+        var totalAttempts = await dbContext.Attempts
+            .Where(a => teacherChapterIds.Contains(a.Exam.ChapterId) && a.SubmittedAt != null)
+            .CountAsync();
+
+        return new TeacherStatsResponse(totalSubjects, totalChapters, totalStudents, activeExams, totalQuestions, totalAttempts);
+    }
+
+    public async Task<SubjectAnalyticsResponse> GetSubjectAnalyticsAsync(Guid subjectId, Guid teacherUserId)
+    {
+        var teacher = await dbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == teacherUserId);
+        if (teacher == null) return new SubjectAnalyticsResponse(0, 0, 0, 0, 0, 0, new List<ScoreRangeCount>(), new List<TopPerformer>());
+
+        var subject = await dbContext.Subjects.FirstOrDefaultAsync(s => s.Id == subjectId && s.TeacherId == teacher.Id);
+        if (subject == null) return new SubjectAnalyticsResponse(0, 0, 0, 0, 0, 0, new List<ScoreRangeCount>(), new List<TopPerformer>());
+
+        var chapterIds = await dbContext.Chapters
+            .Where(c => c.SubjectId == subjectId)
+            .Select(c => c.Id)
+            .ToListAsync();
+
+        var studentIds = await dbContext.StudentChapters
+            .Where(sc => chapterIds.Contains(sc.ChapterId) && sc.IsActive)
+            .Select(sc => sc.StudentId)
+            .Distinct()
+            .ToListAsync();
+
+        var totalStudents = studentIds.Count;
+        var totalExams = await dbContext.Exams
+            .Where(e => chapterIds.Contains(e.ChapterId))
+            .CountAsync();
+
+        var attempts = await dbContext.Attempts
+            .Include(a => a.Exam)
+            .Where(a => chapterIds.Contains(a.Exam.ChapterId) && a.SubmittedAt != null)
+            .ToListAsync();
+
+        var totalAttempts = attempts.Count;
+        var avgScore = totalAttempts > 0 ? Math.Round(attempts.Average(a => a.Score ?? 0), 1) : 0;
+        var passCount = attempts.Count(a => a.IsPassed == true);
+        var passRate = totalAttempts > 0 ? Math.Round((decimal)passCount / totalAttempts * 100, 1) : 0;
+
+        var scoreDistribution = new List<ScoreRangeCount>
+        {
+            new("90-100%", attempts.Count(a => a.Score >= 90)),
+            new("80-89%", attempts.Count(a => a.Score >= 80 && a.Score < 90)),
+            new("70-79%", attempts.Count(a => a.Score >= 70 && a.Score < 80)),
+            new("60-69%", attempts.Count(a => a.Score >= 60 && a.Score < 70)),
+            new("Below 60%", attempts.Count(a => a.Score < 60))
+        };
+
+        var topPerformers = attempts
+            .Where(a => a.StudentId.HasValue)
+            .GroupBy(a => new { a.StudentId, StudentName = a.Student?.FullName ?? "Unknown" })
+            .Select(g => new TopPerformer(g.Key.StudentId!.Value.ToString(), g.Key.StudentName, Math.Round(g.Average(a => a.Score ?? 0), 1)))
+            .OrderByDescending(t => t.AvgScore)
+            .Take(5)
+            .ToList();
+
+        return new SubjectAnalyticsResponse(totalStudents, totalExams, avgScore, passCount, totalAttempts, passRate, scoreDistribution, topPerformers);
+    }
+
     public async Task<ExamSummaryResponse> GetExamSummaryAsync(Guid examId)
     {
         var attempts = await dbContext.Attempts

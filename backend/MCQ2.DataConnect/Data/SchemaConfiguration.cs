@@ -18,7 +18,7 @@ public class SchemaConfiguration(ModelBuilder builder)
             e.HasKey(t => t.UserId);
             e.HasIndex(t => t.Email).IsUnique();
             e.HasIndex(t => t.NID).IsUnique();
-            e.HasOne(t => t.User).WithOne(u => u.TeacherProfile)
+            e.HasOne(t => t.User).WithOne(u => u.Teacher)
              .HasForeignKey<Teacher>(t => t.UserId).OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -29,7 +29,7 @@ public class SchemaConfiguration(ModelBuilder builder)
             e.HasIndex(s => s.Code).IsUnique();
             e.HasIndex(s => s.Email).IsUnique();
             e.HasIndex(s => s.NID).IsUnique();
-            e.HasOne(s => s.User).WithOne(u => u.StudentProfile)
+            e.HasOne(s => s.User).WithOne(u => u.Student)
              .HasForeignKey<Student>(s => s.UserId).OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -154,6 +154,5 @@ public class SchemaConfiguration(ModelBuilder builder)
         builder.Entity<EmailVerification>(e => e.ToTable("EmailVerification"));
         builder.Entity<PasswordReset>(e => e.ToTable("PasswordReset"));
         builder.Entity<Notification>(e => e.ToTable("Notification"));
-        builder.Entity<PlatformSetting>(e => e.ToTable("PlatformSetting"));
     }
 }

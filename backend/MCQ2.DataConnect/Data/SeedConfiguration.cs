@@ -129,6 +129,51 @@ public   void Configure( )
             new Chapter { Id = Chapter2Id, SubjectId = Subject2Id, Title = "Data Structures Basics", Description = "Arrays, lists, and stacks", OrderIndex = 1, IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt },
             new Chapter { Id = Chapter3Id, SubjectId = Subject3Id, Title = "SQL Basics", Description = "SELECT, WHERE, and JOIN", OrderIndex = 1, IsArchived = false, CreatedAt = SeededAt, UpdatedAt = SeededAt }
         );
+
+        // C# Questions (Chapter 1) - 15 questions
+        var csharpQuestions = new List<Question>();
+        var csharpOptions = new List<AnswerOption>();
+        for (int i = 1; i <= 15; i++)
+        {
+            var qId = QId(1, i);
+            csharpQuestions.Add(new Question { Id = qId, ChapterId = Chapter1Id, StemText = GetQuestionText(i), Explanation = GetExplanation(i), PositiveMarks = 1, CreatedAt = SeededAt, UpdatedAt = SeededAt });
+            foreach (var opt in CreateOptions(qId, i))
+            {
+                opt.QuestionId = qId;
+                csharpOptions.Add(opt);
+            }
+        }
+
+        // Data Structures Questions (Chapter 2) - 15 questions
+        var dsQuestions = new List<Question>();
+        var dsOptions = new List<AnswerOption>();
+        for (int i = 1; i <= 15; i++)
+        {
+            var qId = QId(2, i);
+            dsQuestions.Add(new Question { Id = qId, ChapterId = Chapter2Id, StemText = GetDsQuestionText(i), Explanation = GetDsExplanation(i), PositiveMarks = 1, CreatedAt = SeededAt, UpdatedAt = SeededAt });
+            foreach (var opt in CreateDsOptions(qId, i))
+            {
+                opt.QuestionId = qId;
+                dsOptions.Add(opt);
+            }
+        }
+
+        // SQL Questions (Chapter 3) - 15 questions
+        var sqlQuestions = new List<Question>();
+        var sqlOptions = new List<AnswerOption>();
+        for (int i = 1; i <= 15; i++)
+        {
+            var qId = QId(3, i);
+            sqlQuestions.Add(new Question { Id = qId, ChapterId = Chapter3Id, StemText = GetSqlQuestionText(i), Explanation = GetSqlExplanation(i), PositiveMarks = 1, CreatedAt = SeededAt, UpdatedAt = SeededAt });
+            foreach (var opt in CreateSqlOptions(qId, i))
+            {
+                opt.QuestionId = qId;
+                sqlOptions.Add(opt);
+            }
+        }
+
+        builder.Entity<Question>().HasData(csharpQuestions.Concat(dsQuestions).Concat(sqlQuestions));
+        builder.Entity<AnswerOption>().HasData(csharpOptions.Concat(dsOptions).Concat(sqlOptions));
     }
 
     // ── Option factories (now accept pre-computed base GUID) ─────────────────

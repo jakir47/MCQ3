@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
-import { getUsers, deleteUser } from '../../api/users'
+import { getUsers, updateUser } from '../../api/users'
 
 export default function UsersPage() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [editUser, setEditUser] = useState(null)
+  const [formData, setFormData] = useState({ password: '', isActive: true })
+  const [saving, setSaving] = useState(false)
 
   const loadData = async () => {
     try {
@@ -22,16 +25,6 @@ export default function UsersPage() {
     loadData()
   }, [])
 
-  const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this user?')) return
-    try {
-      await deleteUser(id)
-      loadData()
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   const filteredUsers = users.filter(u => 
     u.fullName?.toLowerCase().includes(search.toLowerCase()) ||
     u.email?.toLowerCase().includes(search.toLowerCase())
@@ -46,6 +39,27 @@ export default function UsersPage() {
     }
   }
 
+  const handleEditClick = (user) => {
+    setEditUser(user)
+    setFormData({ password: '', isActive: user.isActive })
+  }
+
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      await updateUser(editUser.id, {
+        isActive: formData.isActive,
+        password: formData.password || null
+      })
+      setEditUser(null)
+      loadData()
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
     <Layout title="User Management">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -55,9 +69,6 @@ export default function UsersPage() {
               <h3 className="text-lg font-semibold text-gray-900">All Users</h3>
               <p className="text-sm text-gray-500 mt-1">Manage system users and their roles</p>
             </div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors">
-              Add User
-            </button>
           </div>
           <div className="mt-4">
             <input
@@ -78,6 +89,7 @@ export default function UsersPage() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
@@ -95,6 +107,7 @@ export default function UsersPage() {
                         <span className="font-medium text-gray-900">{u.fullName}</span>
                       </div>
                     </td>
+                    <td className="px-6 py-4 text-gray-600">{u.username}</td>
                     <td className="px-6 py-4 text-gray-600">{u.email}</td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(u.role)}`}>
@@ -107,18 +120,11 @@ export default function UsersPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <button className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                          </svg>
-                        </button>
-                        <button onClick={() => handleDelete(u.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
+                      <button onClick={() => handleEditClick(u)} className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -127,6 +133,70 @@ export default function UsersPage() {
           </div>
         )}
       </div>
+
+      {editUser && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Edit User</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <input
+                  type="text"
+                  value={editUser.fullName}
+                  disabled
+                  className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-gray-50 text-gray-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  value={editUser.email}
+                  disabled
+                  className="w-full px-4 py-2 border border-gray-200 rounded-xl bg-gray-50 text-gray-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                <input
+                  type="password"
+                  placeholder="Leave empty to keep current"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select
+                  value={formData.isActive}
+                  onChange={(e) => setFormData({ ...formData, isActive: e.target.value === 'true' })}
+                  className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500"
+                >
+                  <option value="true">Active</option>
+                  <option value="false">Inactive</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setEditUser(null)}
+                className="px-4 py-2 border border-gray-200 rounded-xl hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 disabled:opacity-50"
+              >
+                {saving ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   )
 }

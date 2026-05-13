@@ -52,6 +52,7 @@ export default function TeacherExamsPage() {
     try {
       const { data } = await getExams(chapterId)
       if (data.success) setExams(data.data)
+      console.log(data.data)
     } catch (err) { console.error(err) }
     finally { setLoading(false) }
   }
@@ -173,7 +174,7 @@ export default function TeacherExamsPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     {exam.status === 'Published' && (
-                      <button onClick={() => setEnrolModalExam(exam)} className="px-3 py-1.5 text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg">
+                      <button onClick={() => setExamToPublish(exam)} className="px-3 py-1.5 text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg">
                         Enroll Students
                       </button>
                     )}
@@ -279,12 +280,21 @@ export default function TeacherExamsPage() {
           examId={examToPublish.id}
           examTitle={examToPublish.title}
           onClose={() => setExamToPublish(null)}
-          onSuccess={async (count) => {
-            try {
-              await publishExam(examToPublish.id)
-              setNotification({ type: 'success', message: `Exam published with ${count} enrolled student(s)` })
-            } catch (err) {
-              setNotification({ type: 'error', message: 'Students enrolled but failed to publish exam' })
+          onSuccess={async (count, action) => {
+            if (action === ' unenrolled') {
+              setNotification({ type: 'success', message: `Student${action}` })
+              setTimeout(() => setNotification(null), 3000)
+              return
+            }
+            if (examToPublish.status !== 'Published') {
+              try {
+                await publishExam(examToPublish.id)
+                setNotification({ type: 'success', message: count > 0 ? `Exam published with ${count} enrolled student(s)` : 'Exam published successfully' })
+              } catch (err) {
+                setNotification({ type: 'error', message: 'Students enrolled but failed to publish exam' })
+              }
+            } else {
+              setNotification({ type: 'success', message: count > 0 ? `${count} student(s) enrolled` : 'Enrollment updated' })
             }
             setTimeout(() => setNotification(null), 3000)
             loadExams(selectedChapter)

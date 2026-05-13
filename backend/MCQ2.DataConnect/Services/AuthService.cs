@@ -25,8 +25,8 @@ public class AuthService(
     {
         var user = await dbContext.Users
             .Include(u => u.RoleEntity)
-            .Include(u => u.TeacherProfile)
-            .Include(u => u.StudentProfile)
+            .Include(u => u.Teacher)
+            .Include(u => u.Student)
             .FirstOrDefaultAsync(u => 
                 (u.Email == request.Email || u.Username == request.Email) && u.IsActive);
         if (user == null || !PasswordHelper.VerifyPassword(request.Password, user.PasswordHash))
@@ -174,7 +174,7 @@ public class AuthService(
     public string GenerateAccessToken(UserAccount user)
     {
         var foreignId = user.RoleEntity?.Name == "Student"
-            ? user.StudentProfile?.UserId
+            ? user.Student?.UserId
             : user.Id;
         var claims = new[]
         {

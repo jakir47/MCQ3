@@ -18,7 +18,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
     {
         return await dbContext.Users
             .Include(u => u.RoleEntity)
-            .Select(u => new UserResponse(u.Id, u.FullName, u.Email, u.RoleEntity!.Name, u.IsActive, u.TempPassword, u.CreatedAt))
+            .Select(u => new UserResponse(u.Id, u.FullName, u.Username, u.Email, u.RoleEntity!.Name, u.IsActive, u.TempPassword, u.CreatedAt))
             .ToListAsync();
     }
 
@@ -26,7 +26,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
     {
         var user = await dbContext.Users.Include(u => u.RoleEntity).FirstOrDefaultAsync(u => u.Id == id);
         if (user == null) return null;
-        return new UserResponse(user.Id, user.FullName, user.Email, user.RoleEntity?.Name ?? "Unknown", user.IsActive, user.TempPassword, user.CreatedAt);
+        return new UserResponse(user.Id, user.FullName, user.Username, user.Email, user.RoleEntity?.Name ?? "Unknown", user.IsActive, user.TempPassword, user.CreatedAt);
     }
 
     public async Task<UserResponse?> CreateAsync(CreateUserRequest request)
@@ -62,7 +62,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
             logger.LogWarning(ex, "Failed to send welcome email to {Email}", user.Email);
         }
 
-        return new UserResponse(user.Id, user.FullName, user.Email, role.Name, user.IsActive, user.TempPassword, user.CreatedAt);
+        return new UserResponse(user.Id, user.FullName, user.Username, user.Email, role.Name, user.IsActive, user.TempPassword, user.CreatedAt);
     }
 
     private static string GenerateTempPassword()
@@ -77,6 +77,11 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
 
         if (request.FullName != null) user.FullName = request.FullName;
         if (request.IsActive.HasValue) user.IsActive = request.IsActive.Value;
+        if (!string.IsNullOrEmpty(request.Password))
+        {
+            user.PasswordHash = PasswordHelper.HashPassword(request.Password);
+            user.TempPassword = false;
+        }
 
         await dbContext.SaveChangesAsync();
         return true;
@@ -101,7 +106,7 @@ public class UserService(AppDbContext dbContext, IEmailService emailService, ILo
     {
 return await dbContext.Users
              .Where(u => u.RoleId == TeacherRoleId)
-             .Include(u => u.TeacherProfile)
+             .Include(u => u.Teacher)
              .Include(u => u.Subjects)
              .Select(u => new TeacherViewModel(
                  u.Id,
@@ -110,10 +115,10 @@ return await dbContext.Users
                  u.IsActive,
                  u.Subjects.Count,
                  u.CreatedAt,
-                 u.TeacherProfile != null ? u.TeacherProfile.Title : null,
-                 u.TeacherProfile != null ? u.TeacherProfile.ContactNo : null,
-                 u.TeacherProfile != null ? u.TeacherProfile.Address : null,
-                 u.TeacherProfile != null ? u.TeacherProfile.NID : null
+                 u.Teacher != null ? u.Teacher.Title : null,
+                 u.Teacher != null ? u.Teacher.ContactNo : null,
+                 u.Teacher != null ? u.Teacher.Address : null,
+                 u.Teacher != null ? u.Teacher.NID : null
              ))
              .ToListAsync();
     }
@@ -139,7 +144,7 @@ return await dbContext.Users
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
 
-var teacherProfile = new Teacher
+var teacher = new Teacher
          {
              Name = request.FullName,
              Email = request.Email,
@@ -151,7 +156,7 @@ var teacherProfile = new Teacher
              IsActive = true
          };
 
-        dbContext.Teachers.Add(teacherProfile);
+        dbContext.Teachers.Add(teacher);
         await dbContext.SaveChangesAsync();
 
         try
@@ -174,14 +179,14 @@ var teacherProfile = new Teacher
         if (request.FullName != null) user.FullName = request.FullName;
         if (request.IsActive.HasValue) user.IsActive = request.IsActive.Value;
 
-        var teacherProfile = await dbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == id);
-        if (teacherProfile != null)
+        var teacher = await dbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == id);
+        if (teacher != null)
         {
-            if (request.Title != null) teacherProfile.Title = request.Title;
-            if (request.Phone != null) teacherProfile.ContactNo = request.Phone;
-            if (request.Address != null) teacherProfile.Address = request.Address;
-            if (request.NID != null) teacherProfile.NID = request.NID;
-            if (request.FullName != null) teacherProfile.Name = request.FullName;
+            if (request.Title != null) teacher.Title = request.Title;
+            if (request.Phone != null) teacher.ContactNo = request.Phone;
+            if (request.Address != null) teacher.Address = request.Address;
+            if (request.NID != null) teacher.NID = request.NID;
+            if (request.FullName != null) teacher.Name = request.FullName;
         }
 
         await dbContext.SaveChangesAsync();
@@ -192,21 +197,21 @@ var teacherProfile = new Teacher
     {
 return await dbContext.Users
              .Where(u => u.RoleId == StudentRoleId)
-             .Include(u => u.StudentProfile)
+             .Include(u => u.Student)
              .Select(u => new StudentViewModel(
                  u.Id,
                  u.FullName,
                  u.Email,
                  u.IsActive,
                  u.CreatedAt,
-                 u.StudentProfile != null ? u.StudentProfile.Code : null,
-                 u.StudentProfile != null ? u.StudentProfile.NID : null,
-                 u.StudentProfile != null ? u.StudentProfile.Address : null,
-                 u.StudentProfile != null ? u.StudentProfile.ContactNo : null,
-                 u.StudentProfile != null ? u.StudentProfile.FatherName : null,
-                 u.StudentProfile != null ? u.StudentProfile.FatherContact : null,
-                 u.StudentProfile != null ? u.StudentProfile.MotherName : null,
-                 u.StudentProfile != null ? u.StudentProfile.MotherContact : null,
+                 u.Student != null ? u.Student.Code : null,
+                 u.Student != null ? u.Student.NID : null,
+                 u.Student != null ? u.Student.Address : null,
+                 u.Student != null ? u.Student.ContactNo : null,
+                 u.Student != null ? u.Student.FatherName : null,
+                 u.Student != null ? u.Student.FatherContact : null,
+                 u.Student != null ? u.Student.MotherName : null,
+                 u.Student != null ? u.Student.MotherContact : null,
                  u.Username
              ))
              .ToListAsync();
@@ -235,7 +240,7 @@ return await dbContext.Users
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
 
-        var studentProfile = new Student
+        var student = new Student
         {
             Name = request.FullName,
             Email = request.Email,
@@ -251,7 +256,7 @@ return await dbContext.Users
             IsActive = true
         };
 
-        dbContext.Students.Add(studentProfile);
+        dbContext.Students.Add(student);
         await dbContext.SaveChangesAsync();
 
         try
@@ -279,18 +284,18 @@ return await dbContext.Users
         if (request.FullName != null) user.FullName = request.FullName;
         if (request.IsActive.HasValue) user.IsActive = request.IsActive.Value;
 
-        var studentProfile = await dbContext.Students.FirstOrDefaultAsync(s => s.UserId == id);
-        if (studentProfile != null)
+        var student = await dbContext.Students.FirstOrDefaultAsync(s => s.UserId == id);
+        if (student != null)
         {
-            if (request.Code != null) studentProfile.Code = request.Code;
-            if (request.NID != null) studentProfile.NID = request.NID;
-            if (request.Address != null) studentProfile.Address = request.Address;
-            if (request.Phone != null) studentProfile.ContactNo = request.Phone;
-            if (request.FatherName != null) studentProfile.FatherName = request.FatherName;
-            if (request.FatherContact != null) studentProfile.FatherContact = request.FatherContact;
-            if (request.MotherName != null) studentProfile.MotherName = request.MotherName;
-            if (request.MotherContact != null) studentProfile.MotherContact = request.MotherContact;
-            if (request.FullName != null) studentProfile.Name = request.FullName;
+            if (request.Code != null) student.Code = request.Code;
+            if (request.NID != null) student.NID = request.NID;
+            if (request.Address != null) student.Address = request.Address;
+            if (request.Phone != null) student.ContactNo = request.Phone;
+            if (request.FatherName != null) student.FatherName = request.FatherName;
+            if (request.FatherContact != null) student.FatherContact = request.FatherContact;
+            if (request.MotherName != null) student.MotherName = request.MotherName;
+            if (request.MotherContact != null) student.MotherContact = request.MotherContact;
+            if (request.FullName != null) student.Name = request.FullName;
         }
 
         await dbContext.SaveChangesAsync();
