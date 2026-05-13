@@ -58,6 +58,139 @@ function getVideoEmbedSrc(url) {
   return null
 }
 
+/* ─── Standalone Audio Player Modal ─── */
+function AudioPlayerModal({ audioFile, onClose }) {
+  const [audioState, setAudioState] = useState({ playing: false, currentTime: 0, duration: 0, volume: 1 })
+  const audioRef = useRef(null)
+  const progressPct = audioState.duration ? Math.round((audioState.currentTime / audioState.duration) * 100) : 0
+
+  useEffect(() => {
+    if (audioFile) {
+      const timer = setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play().catch(() => {})
+          setAudioState(s => ({ ...s, playing: true }))
+        }
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [audioFile])
+
+  const handleAudioTimeUpdate = () => {
+    if (audioRef.current) setAudioState(s => ({ ...s, currentTime: audioRef.current.currentTime, duration: audioRef.current.duration || 0 }))
+  }
+  const handleAudioEnded = () => setAudioState(s => ({ ...s, playing: false, currentTime: 0 }))
+  const togglePlay = () => {
+    if (!audioRef.current) return
+    audioState.playing ? audioRef.current.pause() : audioRef.current.play()
+    setAudioState(s => ({ ...s, playing: !s.playing }))
+  }
+  const seekAudio = (e) => {
+    if (!audioRef.current || !audioState.duration) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    audioRef.current.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * audioState.duration
+  }
+  const setVolume = (v) => {
+    if (!audioRef.current) return
+    audioRef.current.volume = Math.max(0, Math.min(1, v))
+    setAudioState(s => ({ ...s, volume: v }))
+  }
+
+  const handleClose = () => {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = '' }
+    onClose()
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4" onClick={handleClose}>
+      <div className="w-full max-w-xs rounded-xl overflow-hidden" style={{ background: '#fff', boxShadow: '0 25px 60px rgba(0,0,0,0.25)' }} onClick={e => e.stopPropagation()}>
+        <audio ref={audioRef} src={audioFile.url} autoPlay onTimeUpdate={handleAudioTimeUpdate} onLoadedMetadata={handleAudioTimeUpdate} onEnded={handleAudioEnded} className="hidden" />
+
+        {/* Gradient header */}
+        <div className="relative px-5 pt-5 pb-4" style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7, #d946ef)' }}>
+          <div className="flex items-center justify-between">
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-white truncate pr-2">{audioFile.originalFileName}</p>
+              <p className="text-xs mt-0.5 text-white/60">{formatBytes(audioFile.fileSizeBytes)}</p>
+            </div>
+            <button onClick={handleClose}
+              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: 'rgba(255,255,255,0.15)' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+            >
+              <svg className="w-3.5 h-3.5 text-white/70" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Equalizer bars */}
+        <div className="flex items-end justify-center gap-[2px] h-10 px-5 pt-4" style={{ background: '#fafafa' }}>
+          {[4, 8, 6, 14, 20, 24, 18, 12, 8, 16, 22, 20, 10, 6, 12, 18, 14, 8, 4, 6, 10, 16, 20, 14, 8].map((h, i) => (
+            <div key={i}
+              className="w-[3px] rounded-full transition-all duration-200"
+              style={{
+                height: `${h}px`,
+                background: audioState.playing
+                  ? ['#7c3aed', '#8b5cf6', '#a855f7', '#c084fc'][i % 4]
+                  : '#e5e5e5',
+                opacity: audioState.playing ? 0.7 + Math.random() * 0.3 : 0.4,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Progress section */}
+        <div className="px-5 pt-3 pb-1" style={{ background: '#fafafa' }}>
+          <div className="relative h-1 rounded-full cursor-pointer group" style={{ background: '#e5e5e5' }} onClick={seekAudio}>
+            <div className="absolute top-0 left-0 h-full rounded-full transition-all duration-100" style={{ width: `${progressPct}%`, background: '#7c3aed' }} />
+            <div
+              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+              style={{ left: `calc(${progressPct}% - 6px)`, background: '#7c3aed', boxShadow: '0 0 0 2px white' }}
+            />
+          </div>
+          <div className="flex items-center justify-between mt-1.5">
+            <span className="text-[11px] tabular-nums" style={{ color: '#a3a3a3' }}>{formatTime(audioState.currentTime)}</span>
+            <span className="text-[11px] tabular-nums" style={{ color: '#a3a3a3' }}>{formatTime(audioState.duration)}</span>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center justify-between px-5 pt-3 pb-5" style={{ background: '#fafafa' }}>
+          <div className="flex items-center gap-1.5 w-28">
+            <svg className="w-3.5 h-3.5 shrink-0" style={{ color: '#a3a3a3' }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+            </svg>
+            <input type="range" min="0" max="1" step="0.05" value={audioState.volume} onChange={e => setVolume(parseFloat(e.target.value))}
+              className="flex-1 h-0.5 rounded-full cursor-pointer appearance-none"
+              style={{ background: `linear-gradient(to right, #7c3aed ${audioState.volume * 100}%, #e5e5e5 ${audioState.volume * 100}%)` }} />
+          </div>
+          <div className="flex items-center gap-3">
+            <button onClick={() => { if (audioRef.current) audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 10) }}
+              className="p-0.5 transition-colors" style={{ color: '#a3a3a3' }} onMouseEnter={e => e.currentTarget.style.color = '#525252'} onMouseLeave={e => e.currentTarget.style.color = '#a3a3a3'}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
+            </button>
+            <button onClick={togglePlay}
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90"
+              style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)' }}
+            >
+              {audioState.playing ? (
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
+              ) : (
+                <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+              )}
+            </button>
+            <button onClick={() => { if (audioRef.current) audioRef.current.currentTime = Math.min(audioState.duration, audioRef.current.currentTime + 10) }}
+              className="p-0.5 transition-colors" style={{ color: '#a3a3a3' }} onMouseEnter={e => e.currentTarget.style.color = '#525252'} onMouseLeave={e => e.currentTarget.style.color = '#a3a3a3'}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" /></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const FILTER_TABS = [
   { key: 'All', label: 'All', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg> },
   { key: 'Image', label: 'Image', icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zm16.5-13.5h-16.5" /></svg> },
@@ -90,9 +223,7 @@ export default function AdminMediaPage() {
   const [lightboxFile, setLightboxFile] = useState(null)
   const [audioFile, setAudioFile] = useState(null)
   const [videoLinkFile, setVideoLinkFile] = useState(null)
-  const [audioState, setAudioState] = useState({ playing: false, currentTime: 0, duration: 0, volume: 1 })
   const [totalStats, setTotalStats] = useState({ total: 0, images: 0, audio: 0, docs: 0, videoLinks: 0 })
-  const audioRef = useRef()
   const searchRef = useRef()
 
   const typeParam = activeTab === 'All' ? null : activeTab
@@ -227,28 +358,6 @@ export default function AdminMediaPage() {
     } catch (e) { showNotif('error', e.response?.data?.error?.message || 'Failed to add video link') }
     finally { setUploading(false) }
   }
-
-  const handleAudioTimeUpdate = () => {
-    if (audioRef.current) setAudioState(s => ({ ...s, currentTime: audioRef.current.currentTime, duration: audioRef.current.duration || 0 }))
-  }
-  const handleAudioEnded = () => setAudioState(s => ({ ...s, playing: false, currentTime: 0 }))
-  const togglePlay = () => {
-    if (!audioRef.current) return
-    audioState.playing ? audioRef.current.pause() : audioRef.current.play()
-    setAudioState(s => ({ ...s, playing: !s.playing }))
-  }
-  const seekAudio = (e) => {
-    if (!audioRef.current || !audioState.duration) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    audioRef.current.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * audioState.duration
-  }
-  const setVolume = (v) => {
-    if (!audioRef.current) return
-    audioRef.current.volume = Math.max(0, Math.min(1, v))
-    setAudioState(s => ({ ...s, volume: v }))
-  }
-
-  const progressPct = audioState.duration ? Math.round((audioState.currentTime / audioState.duration) * 100) : 0
 
   const filteredFiles = searchQuery
     ? files.filter(f => (f.originalFileName || '').toLowerCase().includes(searchQuery.toLowerCase()))
@@ -419,8 +528,13 @@ export default function AdminMediaPage() {
         .media-grid > *:nth-child(6) { animation-delay: 0.12s; }
         .media-grid > *:nth-child(7) { animation-delay: 0.14s; }
         .media-grid > *:nth-child(8) { animation-delay: 0.16s; }
-        input[type="range"] { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #7c3aed; cursor: pointer; box-shadow: 0 2px 6px rgba(124,58,237,0.3); }
+        input[type="range"] { -webkit-appearance: none; appearance: none; background: transparent; outline: none; cursor: pointer; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.6); border: none; cursor: pointer; }
+        input[type="range"]::-moz-range-thumb { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.6); border: none; cursor: pointer; }
+        input[type="range"]:hover::-webkit-slider-thumb { background: rgba(255,255,255,0.8); }
+        input[type="range"]:hover::-moz-range-thumb { background: rgba(255,255,255,0.8); }
+        @keyframes spotify-bar { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+        .animate-spotify-bar { animation: spotify-bar 0.8s ease-in-out infinite; transform-origin: bottom; }
       `}</style>
 
       {notification && (
@@ -693,97 +807,77 @@ export default function AdminMediaPage() {
         </div>
       )}
 
-      {audioFile && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-scale-in" onClick={() => { setAudioFile(null); if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = '' } }}>
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden" onClick={e => e.stopPropagation()}>
-            <div className="bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 p-6 text-white">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>
-                  </div>
-                  <div>
-                    <p className="font-semibold truncate max-w-[180px]">{audioFile.originalFileName}</p>
-                    <p className="text-xs text-white/70">{formatBytes(audioFile.fileSizeBytes)}</p>
-                  </div>
-                </div>
-                <button onClick={() => { setAudioFile(null); if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = '' } }} className="p-1.5 text-white/70 hover:text-white rounded-xl hover:bg-white/10 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              </div>
-              <audio ref={audioRef} src={audioFile.url} onTimeUpdate={handleAudioTimeUpdate} onLoadedMetadata={handleAudioTimeUpdate} onEnded={handleAudioEnded} className="hidden" />
-              <div className="space-y-2">
-                <div className="relative h-1.5 bg-white/20 rounded-full cursor-pointer group" onClick={seekAudio}>
-                  <div className="absolute top-0 left-0 h-full bg-white rounded-full transition-all duration-150" style={{ width: `${progressPct}%` }} />
-                  <div className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity" style={{ left: `calc(${progressPct}% - 8px)` }} />
-                </div>
-                <div className="flex items-center justify-between text-xs text-white/70">
-                  <span>{formatTime(audioState.currentTime)}</span>
-                  <span>{formatTime(audioState.duration)}</span>
-                </div>
-              </div>
-            </div>
-            <div className="p-6 space-y-4">
-              <div className="flex items-center justify-center gap-8">
-                <button onClick={() => { if (audioRef.current) audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 10) }}
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-all">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
-                </button>
-                <button onClick={togglePlay}
-                  className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95">
-                  {audioState.playing ? (
-                    <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
-                  ) : (
-                    <svg className="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                  )}
-                </button>
-                <button onClick={() => { if (audioRef.current) audioRef.current.currentTime = Math.min(audioState.duration, audioRef.current.currentTime + 10) }}
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-all">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" /></svg>
-                </button>
-              </div>
-              <div className="flex items-center gap-3 px-2">
-                <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>
-                <input type="range" min="0" max="1" step="0.01" value={audioState.volume} onChange={e => setVolume(parseFloat(e.target.value))}
-                  className="flex-1 accent-purple-600" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {audioFile && <AudioPlayerModal audioFile={audioFile} onClose={() => setAudioFile(null)} />}
 
       {videoLinkFile && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-scale-in" onClick={() => setVideoLinkFile(null)}>
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-5 border-b border-gray-100">
-              <div className="min-w-0">
-                <p className="font-semibold text-gray-900 truncate">{videoLinkFile.title || 'Untitled Video'}</p>
-                <p className="text-xs text-gray-400 truncate max-w-[350px] mt-0.5 font-mono">{videoLinkFile.videoLinkUrl}</p>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <a href={videoLinkFile.videoLinkUrl} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-indigo-600 rounded-xl hover:bg-gray-100 transition-all" title="Open in new tab">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
-                </a>
-                <button onClick={() => setVideoLinkFile(null)} className="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-all">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4" onClick={() => setVideoLinkFile(null)}>
+          <div className="w-full max-w-lg rounded-xl overflow-hidden" style={{ background: '#fff', boxShadow: '0 25px 60px rgba(0,0,0,0.25)' }} onClick={e => e.stopPropagation()}>
+            {/* Gradient header */}
+            <div className="px-5 pt-5 pb-4" style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7, #d946ef)' }}>
+              <div className="flex items-center justify-between">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-white truncate pr-2">{videoLinkFile.title || videoLinkFile.originalFileName || 'Untitled Video'}</p>
+                  <p className="text-xs mt-0.5 text-white/60 truncate max-w-[300px]">{videoLinkFile.videoLinkUrl}</p>
+                </div>
+                <button onClick={() => setVideoLinkFile(null)}
+                  className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: 'rgba(255,255,255,0.15)' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+                >
+                  <svg className="w-3.5 h-3.5 text-white/70" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
             </div>
-            <div className="aspect-video bg-black">
+
+            {/* Video area */}
+            <div className="aspect-video bg-black relative group">
               {(() => {
                 const src = getVideoEmbedSrc(videoLinkFile.videoLinkUrl)
                 return src ? (
                   <iframe src={src} className="w-full h-full" frameBorder="0" allow="autoplay; encrypted-media; fullscreen" allowFullScreen title={videoLinkFile.title || 'Video'} />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white/60">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <p className="text-sm mb-3">This video platform is not supported for embedding</p>
-                      <a href={videoLinkFile.videoLinkUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm text-white transition-all">Open in new tab <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg></a>
+                  <div className="w-full h-full flex items-center justify-center" style={{ background: '#fafafa' }}>
+                    <div className="text-center px-6">
+                      <div className="w-14 h-14 mx-auto rounded-full flex items-center justify-center mb-3" style={{ background: '#f3e8ff' }}>
+                        <svg className="w-6 h-6" style={{ color: '#7c3aed' }} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-medium mb-3" style={{ color: '#525252' }}>This platform is not supported for embedding</p>
+                      <a href={videoLinkFile.videoLinkUrl} target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors"
+                        style={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', color: '#fff' }}>
+                        Open in new tab
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+                      </a>
                     </div>
                   </div>
                 )
               })()}
+
+              {/* Play button overlay */}
+              {!getVideoEmbedSrc(videoLinkFile.videoLinkUrl) && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: 'rgba(124,58,237,0.15)', backdropFilter: 'blur(4px)' }}>
+                    <svg className="w-7 h-7 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between px-5 py-3" style={{ background: '#fafafa' }}>
+              <a href={videoLinkFile.videoLinkUrl} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
+                style={{ color: '#7c3aed' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#6d28d9'}
+                onMouseLeave={e => e.currentTarget.style.color = '#7c3aed'}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+                Open original
+              </a>
+              <span className="text-xs" style={{ color: '#a3a3a3' }}>{videoLinkFile.mediaType === 'VideoLink' ? 'Video Link' : 'Media'}</span>
             </div>
           </div>
         </div>

@@ -34,164 +34,188 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl"></div>
-        </div>
-        
+    <div className="min-h-screen flex" style={{ background: '#f8f9fa' }}>
+      {/* Left — Geographic brand panel */}
+      <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 overflow-hidden" style={{ background: '#0f172a' }}>
+        {/* Topographic contour lines background */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 200 Q100 150 200 220 T400 180 T600 240 T800 200" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 280 Q120 220 240 300 T480 260 T720 320 T800 280" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 360 Q140 290 280 380 T520 340 T760 400 T800 360" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 440 Q160 360 320 460 T560 420 T800 480 T800 440" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 520 Q180 430 360 540 T600 500 T800 560 T800 520" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 600 Q200 500 400 620 T640 580 T800 640 T800 600" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 680 Q220 570 440 700 T680 660 T800 720 T800 680" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 760 Q240 640 480 780 T720 740 T800 800 T800 760" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d="M0 840 Q260 710 520 860 T760 820 T800 880 T800 840" fill="none" stroke="white" strokeWidth="1.5" />
+          {/* Grid lines */}
+          <line x1="200" y1="0" x2="200" y2="900" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <line x1="400" y1="0" x2="400" y2="900" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <line x1="600" y1="0" x2="600" y2="900" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <line x1="0" y1="100" x2="800" y2="100" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <line x1="0" y1="300" x2="800" y2="300" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <line x1="0" y1="500" x2="800" y2="500" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <line x1="0" y1="700" x2="800" y2="700" stroke="white" strokeWidth="0.5" opacity="0.3" />
+          <circle cx="400" cy="450" r="120" fill="none" stroke="white" strokeWidth="0.8" opacity="0.15" />
+          <circle cx="400" cy="450" r="200" fill="none" stroke="white" strokeWidth="0.8" opacity="0.1" />
+          <circle cx="400" cy="450" r="280" fill="none" stroke="white" strokeWidth="0.8" opacity="0.07" />
+        </svg>
+
+        {/* Gradient overlays */}
+        <div className="absolute top-0 left-0 w-full h-40" style={{ background: 'linear-gradient(180deg, #0f172a, transparent)' }} />
+        <div className="absolute bottom-0 left-0 w-full h-40" style={{ background: 'linear-gradient(0deg, #0f172a, transparent)' }} />
+
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
-              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <span className="text-2xl font-bold text-white">MCQ Platform</span>
+          <div className="flex items-center gap-3">
+            <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="15" stroke="#3b82f6" strokeWidth="1.5" />
+              <circle cx="16" cy="16" r="3" fill="#3b82f6" />
+              <path d="M16 1v8M16 23v8M1 16h8M23 16h8" stroke="#3b82f6" strokeWidth="1.5" />
+              <path d="M5 5l5.66 5.66M21.34 21.34L27 27M27 5l-5.66 5.66M10.34 21.34L5 27" stroke="#3b82f6" strokeWidth="1" opacity="0.5" />
+            </svg>
+            <span className="text-lg font-bold tracking-tight text-white">MCQ3</span>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">Welcome Back</h1>
-          <p className="text-indigo-100 text-lg max-w-md">
-            Your complete assessment and examination management solution
-          </p>
         </div>
 
-        <div className="relative z-10 grid grid-cols-3 gap-6">
-          <div className="bg-white/10 backdrop-blur rounded-2xl p-4">
-            <div className="text-3xl font-bold text-white">10K+</div>
-            <div className="text-indigo-200 text-sm">Active Students</div>
+        <div className="relative z-10 max-w-md">
+          <h1 className="text-3xl font-bold text-white leading-tight tracking-tight">
+            Navigate your<br />
+            <span style={{ color: '#60a5fa' }}>assessment journey</span>
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            Create, manage, and take exams with precision analytics. Map your students' progress across subjects and chapters.
+          </p>
+
+          <div className="mt-10 flex gap-4">
+            {[
+              { value: '10K+', label: 'Students' },
+              { value: '500+', label: 'Exams' },
+              { value: '98%', label: 'Uptime' },
+            ].map((s, i) => (
+              <div key={i} className="flex-1 p-4 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="text-lg font-bold text-white">{s.value}</div>
+                <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{s.label}</div>
+              </div>
+            ))}
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-2xl p-4">
-            <div className="text-3xl font-bold text-white">500+</div>
-            <div className="text-indigo-200 text-sm">Questions</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur rounded-2xl p-4">
-            <div className="text-3xl font-bold text-white">50+</div>
-            <div className="text-indigo-200 text-sm">Exams</div>
-          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-4 text-xs" style={{ color: 'rgba(255,255,255,0.15)' }}>
+          <span>&copy; 2026 MCQ3</span>
+          <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+          <span>All rights reserved</span>
         </div>
       </div>
 
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
-        <div className="w-full max-w-md">
-          <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <span className="text-xl font-bold text-gray-900">MCQ Platform</span>
+      {/* Right — Login form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-10">
+        <div className="w-full max-w-sm">
+          <div className="lg:hidden flex items-center gap-2.5 mb-8">
+            <svg className="w-7 h-7" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="15" stroke="#3b82f6" strokeWidth="1.5" />
+              <circle cx="16" cy="16" r="3" fill="#3b82f6" />
+              <path d="M16 1v8M16 23v8M1 16h8M23 16h8" stroke="#3b82f6" strokeWidth="1.5" />
+            </svg>
+            <span className="text-lg font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>MCQ3</span>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">Sign in to your account</h2>
-              <p className="text-gray-500 mt-2">Enter your credentials to access the platform</p>
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>Sign in</h1>
+            <p className="mt-1 text-sm" style={{ color: '#64748b' }}>Enter your credentials to continue</p>
+          </div>
+
+          {error && (
+            <div className="mb-5 p-3 rounded-lg flex items-center gap-2.5" style={{ background: '#fef2f2', border: '1px solid #fecaca' }}>
+              <svg className="w-4 h-4 shrink-0" style={{ color: '#dc2626' }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+              <span className="text-sm" style={{ color: '#991b1b' }}>{error}</span>
             </div>
+          )}
 
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3">
-                <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="text-sm text-red-600">{error}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                    </svg>
-                  </div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all duration-200"
-                    placeholder="you@example.com"
-                    required
-                  />
-                </div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: '#334155' }}>Email address</label>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-lg outline-none transition-all"
+                  style={{
+                    color: '#0f172a',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                  }}
+                  placeholder="you@example.com"
+                  required autoFocus
+                  onFocus={e => { e.target.style.borderColor = '#3b82f6'; e.target.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.1)' }}
+                  onBlur={e => { e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none' }} />
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all duration-200"
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: '#334155' }}>Password</label>
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm rounded-lg outline-none transition-all"
+                  style={{
+                    color: '#0f172a',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                  }}
+                  placeholder="Enter your password"
+                  required
+                  onFocus={e => { e.target.style.borderColor = '#3b82f6'; e.target.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.1)' }}
+                  onBlur={e => { e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none' }} />
               </div>
 
-              <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input type="checkbox" className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              <div className="flex items-center justify-between pt-1">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" defaultChecked className="w-4 h-4 rounded" style={{ accentColor: '#3b82f6' }} />
+                  <span className="text-sm" style={{ color: '#64748b' }}>Remember me</span>
                 </label>
-                <a href="/forgot-password" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
-                  Forgot password?
-                </a>
+                <button type="button" className="text-sm font-medium transition-colors" style={{ color: '#2563eb' }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#b45309'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#2563eb'}
+                >Forgot password?</button>
               </div>
 
-              <button 
-                type="submit" 
-                disabled={loading}
-                className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              <button type="submit" disabled={loading}
+                className="w-full py-2.5 text-sm font-semibold text-white rounded-lg transition-all disabled:opacity-50"
+                style={{ background: '#3b82f6' }}
+                onMouseEnter={e => { if (!loading) e.currentTarget.style.background = '#2563eb' }}
+                onMouseLeave={e => { if (!loading) e.currentTarget.style.background = '#3b82f6' }}
               >
                 {loading ? (
-                  <>
-                    <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
                     Signing in...
-                  </>
-                ) : (
-                  'Sign In'
-                )}
+                  </span>
+                ) : 'Sign in'}
               </button>
-            </form>
+            </div>
+          </form>
 
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <p className="text-center text-sm text-gray-500">
-                Demo Credentials:
-              </p>
-              <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
-                <button 
-                  onClick={() => { setEmail('admin@mcq2.com'); setPassword('admin123'); }}
-                  className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-center transition-colors"
+          <div className="mt-8 pt-6" style={{ borderTop: '1px solid #e2e8f0' }}>
+            <p className="text-center text-[11px] font-medium uppercase tracking-widest mb-3" style={{ color: '#94a3b8' }}>Demo access</p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { role: 'Admin', email: 'admin@mcq2.com', pass: 'admin123' },
+                { role: 'Teacher', email: 'teacher@mcq2.com', pass: 'teacher123' },
+                { role: 'Student', email: 'student@mcq2.com', pass: 'student123' },
+              ].map(d => (
+                <button key={d.role}
+                  onClick={() => { setEmail(d.email); setPassword(d.pass) }}
+                  className="py-2 rounded-lg text-center transition-all text-xs font-medium"
+                  style={{
+                    background: '#f1f5f9',
+                    border: '1px solid #e2e8f0',
+                    color: '#475569',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.borderColor = '#cbd5e1' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.borderColor = '#e2e8f0' }}
                 >
-                  <span className="block font-medium text-gray-700">Admin</span>
+                  {d.role}
                 </button>
-                <button 
-                  onClick={() => { setEmail('teacher@mcq2.com'); setPassword('teacher123'); }}
-                  className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-center transition-colors"
-                >
-                  <span className="block font-medium text-gray-700">Teacher</span>
-                </button>
-                <button 
-                  onClick={() => { setEmail('student@mcq2.com'); setPassword('student123'); }}
-                  className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-center transition-colors"
-                >
-                  <span className="block font-medium text-gray-700">Student</span>
-                </button>
-              </div>
+              ))}
             </div>
           </div>
         </div>
